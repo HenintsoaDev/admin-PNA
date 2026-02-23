@@ -1,0 +1,35 @@
+@import "../assets/scss/core/variables/_colors.scss";
+
+cdk-overlay-container {
+    z-index: 1050;
+}
+
+.nav-link {
+    display: flex !important;
+    padding: 0.5rem 1rem;
+    font-weight: 600 !important;
+}
+
+.swal-button--confirm-custom {
+    background-color: $primary !important; // Utilisez votre variable $primary
+    color: $white !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici (bordure, etc.)
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($primary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}
+
+.swal-button--cancel-custom {
+    background-color: $secondary !important; // Utilisez votre variable $secondary
+    color: red !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($secondary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0.9em 0 !important;
+}

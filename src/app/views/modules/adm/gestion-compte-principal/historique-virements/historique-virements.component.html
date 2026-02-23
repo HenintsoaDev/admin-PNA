@@ -1,0 +1,184 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <button class="btn btn-secondary export-btn excel text-white" (click)="exportExcel()">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white" (click)="exportPdf()">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button>
+                            </div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('GCP_4')" (click)="openModalAddVirement(addVirement)"> {{ __("virement.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- FORM FILTER -->
+                        <div class="bg-white">
+                            <form class="form-inline">
+                                <div class="form-group col-3">
+                                    <label for="account-type-1">{{ __('suivi_compte.type_compte') }}</label>
+                                    <!-- POUR ADMIN -->
+                                    <ng-container >
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>{{ __('suivi_compte.type_compte') }}</mat-label>
+                                            <mat-select [(ngModel)]="typeCompte" name="typeCompte" id="typeCompte" [disabled]="walletCarteProfil != '2'">
+                                                <mat-option value="2">{{ __('suivi_compte.all_compte') }}</mat-option>
+                                                <mat-option value="1">{{ __('global.carte') }}</mat-option>
+                                                <mat-option value="0">{{ __('global.wallet') }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+                                
+                                <div class="form-group col-3">
+                                    <label for="dateFonction">{{ __('suivi_compte.from') }}</label>
+                                    <mat-form-field appearance="fill" style="width: 100%;">
+                                        <input matInput [matDatepicker]="pickerDebut" [(ngModel)]="dateDebut" placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                                        <mat-datepicker #pickerDebut></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="form-group col-3">
+                                    <label for="dateFonction">{{ __('suivi_compte.to') }}</label>
+                                    <mat-form-field appearance="fill" style="width: 100%;">
+                                        <input matInput [matDatepicker]="pickerFin" [(ngModel)]="dateFin" placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                        <mat-datepicker #pickerFin></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+
+                                <div  class="col-3">
+                                    <button class="btn btn-primary w-100" color="primary" (click)="filtreTableau()">{{ __('global.filter') }}</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <!--TABLE DATA-->
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal"
+                                [formSearch] = "false"
+                                [triDescDefault] = "'datevirement'"
+                                >
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #updateVirement>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div id="content-virement-info">
+            <div class="alert alert-custom">
+                <label><b style="font-weight: 800;">{{ __('global.date')}} {{ __('global.of')}} {{ __('global.virement')}}</b></label>
+                <h6><b class="info-virement">{{ dataVirement.date_virement }}</b></h6>
+            </div>
+            
+            <div class="alert alert-custom">
+                <label><b style="font-weight: 800;">{{ __('global.montant')}} ({{ __('global.currency')}})</b></label>
+                <h6><b class="info-virement">{{ dataVirement.montant }}</b></h6>
+            </div>
+            
+            <div class="alert alert-custom">
+                <label><b style="font-weight: 800;">{{ __('global.user_creation')}}</b></label>
+                <h6><b class="info-virement">{{ dataVirement.user_crea }}</b></h6>
+            </div>
+            
+            <div class="alert alert-custom">
+                <label><b style="font-weight: 800;">{{ __('global.user_validation')}}</b></label>
+                <h6><b class="info-virement">{{ dataVirement.user_validation }}</b></h6>
+            </div>
+            
+            <div class="alert alert-custom">
+                <label><b style="font-weight: 800;">{{ __('profil.wallet_carte')}}</b></label>
+                <h6><b class="info-virement">{{ dataVirement.wallet_carte }}</b></h6>
+            </div>
+        </div>
+        <hr>
+        <div class="form-edit-virement">
+            <div class="alert" style="padding: 5px 15px;">
+                <h6>{{ __('virement.update') }}</h6>
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>{{ __('suivi_compte.type_compte') }}</mat-label>
+                            <mat-select [(ngModel)]="typeCompteSelectedUpdate" style="z-index: 2000 !important;">
+                                <mat-option value="1">{{ __('global.carte') }}</mat-option>
+                                <mat-option value="0">{{ __('global.wallet') }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>{{ __('global.montant') }} ({{ __('global.currency')}})</mat-label>
+                            <input matInput type="text" [(ngModel)]="montantCompteUpdate" name="name">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        <button class="btn btn-primary" (click)="sendUpdate()" [disabled]="loadingSendBtn || montantCompteUpdate == '' || montantCompteUpdate == undefined" >{{ __('global.save')}}</button>
+    </div>
+</ng-template>
+
+<ng-template #addVirement>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>{{ __('suivi_compte.type_compte') }}</mat-label>
+                    <mat-select [(ngModel)]="typeCompteSelectedAdd" style="z-index: 2000 !important;">
+                        <mat-option value="1">{{ __('global.carte') }}</mat-option>
+                        <mat-option value="0">{{ __('global.wallet') }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>{{ __('global.montant') }} ({{ __('global.currency')}})</mat-label>
+                    <input matInput type="number" [(ngModel)]="montantCompteAdd" name="name" min="0">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        <button class="btn btn-primary" (click)="sendAdd()" [disabled]="loadingSendBtn || montantCompteAdd == '' || montantCompteAdd == undefined || typeCompteSelectedAdd == undefined" >{{ __('global.save')}}</button>
+    </div>
+</ng-template>

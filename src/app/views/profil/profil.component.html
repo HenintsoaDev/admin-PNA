@@ -1,0 +1,203 @@
+<div class="main-content">
+
+    <div class="container mt-4">
+
+
+
+        <div class="row mt-2 g-2">
+
+            <!-- Informations utilisateur -->
+            <div class="col-md-6 d-flex mb-2">
+                <div class="card shadow-sm rounded h-100 border">
+                    <div class="card-header bg-primary text-white rounded-top">
+                        <h6 class="mb-0 font-weight-bold d-flex justify-content-start">
+                            <i class="material-icons mr-2">badge</i><span class="mt-2">{{ __('profil.profil_user_info')
+                                }}</span>
+                        </h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <label class="align-items-center w-100 mb-2" style="text-align: center; margin-bottom: 10px;">
+                            <img src="assets/img/avatar-placeholder.png" width="200" alt="" />
+                            <!-- <img *ngIf="user.info?.photo" [src]="user.info?.photo" width="200" alt="" /> -->
+                        </label>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">person</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.nom') }}:</strong> {{ user.info?.nom
+                                            }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">person_outline</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.prenom') }}:</strong> {{
+                                            user.info?.prenom }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">email</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.email') }}:</strong> {{
+                                            user.info?.email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">phone</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.telephone') }}:</strong> {{
+                                            user.info?.telephone }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">home</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.adresse') }}:</strong> {{
+                                            user.info?.email }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="material-icons mr-3 text-primary">work_outline</i>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.profil') }}:</strong> {{
+                                            user.info?.profil }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="material-icons mr-3 text-primary">business</i>
+                            <div>
+                                <p class="mb-1"><strong>{{ __('utilisateur.bureau') }}:</strong> {{ user.info?.name }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modification du mot de passe -->
+            <div class="col-md-6 d-flex">
+                <div class="card shadow-sm w-100 h-100">
+                    <div class="card-header bg-primary text-white rounded-top">
+                        <h6 class="mb-0 font-weight-bold d-flex justify-content-start">
+                            <i class="material-icons mr-2">lock</i><span class="mt-2">{{ __('profil.modification_mdp') }}</span>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="passwordForm">
+                            <div class="mb-4"> <!-- Augmentation de l'espacement -->
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>{{ __('utilisateur.password.old_password_placeholder') }}</mat-label>
+                                    <input matInput formControlName="oldPassword"
+                                        [type]="showOldPassword ? 'text' : 'password'">
+                                    <mat-icon matSuffix>
+                                        <i *ngIf="showOldPassword" class="material-icons" style="cursor: pointer;"
+                                            (click)="showOldPassword = !showOldPassword"
+                                            [matTooltip]="__('utilisateur.password.hide_password')">visibility</i>
+                                        <i *ngIf="!showOldPassword" class="material-icons" style="cursor: pointer;"
+                                            (click)="showOldPassword = !showOldPassword"
+                                            [matTooltip]="__('utilisateur.password.show_password')">visibility_off</i>
+                                    </mat-icon>
+                                    <mat-error
+                                        *ngIf="passwordForm.get('oldPassword')?.hasError('required') && passwordForm.get('oldPassword')?.touched">
+                                        <div class="error-message">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.required') }}
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="mb-4"> <!-- Augmentation de l'espacement -->
+                                <mat-form-field class="example-full-width custom-form-field" appearance="outline">
+                                    <mat-label>{{ __('utilisateur.password.new_password_placeholder') }}</mat-label>
+                                    <input matInput formControlName="newPassword"
+                                        [type]="showNewPassword ? 'text' : 'password'">
+                                    <mat-icon matSuffix>
+                                        <i *ngIf="showNewPassword" class="material-icons" style="cursor: pointer;"
+                                            (click)="showNewPassword = !showNewPassword"
+                                            [matTooltip]="__('utilisateur.password.hide_password')">visibility</i>
+                                        <i *ngIf="!showNewPassword" class="material-icons" style="cursor: pointer;"
+                                            (click)="showNewPassword = !showNewPassword"
+                                            [matTooltip]="__('utilisateur.password.show_password')">visibility_off</i>
+                                    </mat-icon>
+                                    <mat-error
+                                        *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                                        <div class="error-message"
+                                            *ngIf="passwordForm.get('newPassword')?.hasError('required')">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.required') }}
+                                        </div>
+                                        <div class="error-message"
+                                            *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.minlength') }}
+                                        </div>
+                                        <div class="error-message"
+                                            *ngIf="passwordForm.get('newPassword')?.hasError('strongPassword')">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.strong_password') }}
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="mb-4"> <!-- Augmentation de l'espacement -->
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>{{ __('utilisateur.password.confirm_password_placeholder') }}</mat-label>
+                                    <input matInput formControlName="confirmNewPassword"
+                                        [type]="showConfirmPassword ? 'text' : 'password'">
+                                    <mat-error
+                                        *ngIf="passwordForm.get('confirmNewPassword')?.invalid && passwordForm.get('confirmNewPassword')?.touched">
+                                        <div class="error-message"
+                                            *ngIf="passwordForm.get('confirmNewPassword')?.hasError('required')">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.required') }}
+                                        </div>
+                                        <div class="error-message" *ngIf="passwordForm.hasError('passwordMismatch')">
+                                            <i class="fa fa-exclamation-circle mr-2"></i>
+                                            {{ __('utilisateur.password.error.mismatch') }}
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="d-flex w-100 mt-4"> <!-- Ajout de marge supérieure -->
+                                <button mat-raised-button type="reset" class="btn btn-secondary w-100 mx-2"
+                                    data-dismiss="modal">
+                                    {{ __('utilisateur.password.cancel_button') }}
+                                </button>
+                                <button mat-raised-button type="submit" class="btn btn-primary w-100 mx-2"
+                                    (click)="onResetPassword()" [disabled]="passwordForm.invalid">
+                                    {{ __('utilisateur.password.change_button') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

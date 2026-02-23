@@ -1,0 +1,160 @@
+<div class="dataTable-top">
+  <div >
+    <span style="color: #666 !important;" > {{ __("table.affiche")}} </span> 
+
+    <select title="select item per page" name="pageSize" [(ngModel)]="filtreSelect" (change)="getFiltreSelect()" class="form-select ng-untouched ng-pristine ng-valid" style="width: auto;">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="500">500</option>
+      <option value="1000">1000</option>
+      <option value="2000">2000</option>
+      <option value="5000">5000</option>
+      <option value="10000">10000</option>
+      
+    </select>
+    <span style="color: #666 !important;" > {{ __("table.element")}}  </span> 
+  </div>
+  
+
+  <div class="dataTable-search d-flex align-items-center">
+    <span style="color: #666 !important;" >  {{ __("table.rechercher")}}  </span>
+    <input class="search-input" type="text" name="searchTerm" placeholder="Recherche..." [(ngModel)]="searchInput" (keyup.enter)="getSearchInput()">
+    </div>
+  </div>
+
+<div class="table-responsive dt-responsive">
+    <table class="table table-hover table-bordered table-striped mb-0 shimmer-table">
+        <thead> 
+        <tr class="th-table">
+          <th *ngFor="let header of headerTable; let i = index" style="white-space: nowrap"
+                [ngStyle]="{
+                  'text-align': i === headerTable.length - 1
+                    ? 'center'
+                    : (header.align === 'right' ? 'right' : 'left')
+                }">
+              <span class="bold-th" *ngIf="header.nomColonne != 'checkbox'"> {{header.nomColonne }}</span>
+              <span class="bold-th" *ngIf="header.nomColonne == 'checkbox'"> {{ __("cip.checkTout")}}</span> <br>
+              <!-- Si on utilise le checkbox sur l'action -->
+              <input #checkAll  *ngIf="header.nomColonne == 'checkbox'" type="checkbox" name="xx" id="xx" (click)="updateAllAction(donneeAfficher, checkAll)" >
+                      
+              &nbsp;
+              <span *ngIf="header.nomColonne != 'Action' && header.nomColonne != 'checkbox'">
+                <i class="fa fa-caret-down icon-tri" (click)="triTable(header.table + '.' + header.colonneTable,'asc')" *ngIf="tri==header.table + '.' + header.colonneTable && order=='desc'" ></i>
+                <i class="fa fa-caret-up icon-tri"  (click)="triTable(header.table + '.' + header.colonneTable,'desc')"  *ngIf="tri==header.table + '.' + header.colonneTable && order=='asc'"  ></i>
+                <i class="fa fa-filter icon-tri" (click)="triTable(header.table + '.' + header.colonneTable,'asc')"  *ngIf="tri!=header.table + '.' + header.colonneTable"></i> <br>
+                <input *ngIf="header.nomColonne != 'Action' && formSearch == true" type="text"  #ref class="inputCol" [name]="header.nomColonne" (keyup.enter)="getUrlDatatable(endpoint+'?page=1', header.colonneTable, ref.value, header.table, this.search)" id="">  
+              </span>
+            </th>
+
+        </tr>
+        </thead>
+        
+        <tbody *ngIf="donneeAfficher.length != 0 && !isLoading">
+          <tr *ngFor="let row of donneeAfficher" class="ng-star-inserted"> 
+            <td *ngFor="let cell of row; let i = index" 
+                [ngStyle]=" i === row.length - 1  
+                ? {'text-align': 'center'} 
+                : verifAlignText(cell)"  
+              >
+
+                <!-- Si cell n'est pas un tableau, afficher le donnée -->
+                <span *ngIf="!isArray(cell)"  [ngStyle]="verifColorText(cell)">  {{ formatCell(cell)   }}</span>
+                <!-- Si cell est un tableau, afficher les éléments du tableau -->
+                <span *ngIf="isArray(cell)">
+                  
+
+                  
+ 
+                  <div *ngIf="verifStatut(cell) == 1 || verifStatut(cell) == 2 ">
+                    <i class="material-icons" mat-raised-button> lock </i>
+                  </div>
+
+                  <div *ngIf="verifStatut(cell) == undefined || verifStatut(cell) == 0">
+                    <ng-container *ngFor="let icon of cell" style="text-align: center;">
+                      <!-- Si on utilise le checkbox sur l'action -->
+                      <input #checkboxList *ngIf="icon.action == 'checkbox'" [checked]="isCheckedAllList"  type="checkbox" name="checkOne" id="checkOne" (click)="updateAction(cell,checkboxList)" >
+                      
+                      <!-- Si on utilise l'icon sur l'action -->
+                      <i *ngIf="autority(icon.autority) && icon.action != 'checkbox'"
+                          class="material-icons"
+                          mat-raised-button
+                          matTooltip="{{ verifTooltipIcon(icon) }}"
+                          [ngStyle]="{ 'color': verifColorIcon(icon) }"
+                          (click)="openModal(icon)"
+                          style="margin-right: 5px !important; font-size: 18px; cursor: pointer;">
+                          {{ verifIcon(icon) }}
+                        </i>
+  
+                    </ng-container>
+                  </div>
+
+                  <!-- Si on utilise font awesome ---
+                    <i *ngFor="let icon of cell" class="fa {{ icon.icon }}"  style="margin-right: 15px !important;" (click)="openModal(icon)" ></i> 
+                    -->
+                </span>
+
+            </tr>
+        </tbody>
+        <tfoot class="tfoot-total" >
+          <tr>
+            <td [attr.colspan]="headerTable.length">
+              <div class="row">
+                <div *ngIf="donneeTotal.DEBIT" class="col-6" style="text-align: center;">{{ __('global.total_debit') }}:<span class="bold-total"> {{donneeTotal.DEBIT }} ({{ __('global.currency') }}) </span></div>
+                <div *ngIf="donneeTotal.CREDIT" class="col-6" style="text-align: center;">{{ __('global.total_credit') }}:<span class="bold-total">  {{donneeTotal.CREDIT }} ({{ __('global.currency') }})</span></div>
+                <div *ngIf="donneeTotal.Carte" class="col-6" style="text-align: center;">{{ __('global.total_carte') }}:<span class="bold-total"> {{donneeTotal.Carte }} ({{ __('global.currency') }}) </span></div>
+                <div *ngIf="donneeTotal.Wallet" class="col-6" style="text-align: center;">{{ __('global.total_wallet') }}: <span class="bold-total">  {{donneeTotal.Wallet }} ({{ __('global.currency') }})</span></div>
+                <div *ngIf="donneeTotal.TotalSolde" class="col-6" style="text-align: center;">{{ __('global.total_wallet') }}:<span class="bold-total"> {{donneeTotal.TotalSolde }} ({{ __('global.currency') }}) </span></div>
+                <div *ngIf="donneeTotal.TotalSoldeCarte" class="col-6" style="text-align: center;">{{ __('global.total_carte') }}: <span class="bold-total">  {{donneeTotal.TotalSoldeCarte }} ({{ __('global.currency') }})</span></div>
+                
+                <div *ngIf="donneeTotal.TotalMontant" class="col-4" style="text-align: center;">{{ __('global.total_montant') }}: <span class="bold-total">  {{ formatNumberMontant(donneeTotal.TotalMontant) }} ({{ __('global.currency') }})</span></div>
+                <div *ngIf="donneeTotal.TotalCommission" class="col-4" style="text-align: center;">{{ __('global.total_commission') }}: <span class="bold-total">  {{ formatNumberMontant(donneeTotal.TotalCommission) }} ({{ __('global.currency') }})</span></div>
+                <div *ngIf="donneeTotal.TotalTTC" class="col-4" style="text-align: center;">{{ __('global.total_ttc') }}: <span class="bold-total">  {{ formatNumberMontant(donneeTotal.TotalTTC) }} ({{ __('global.currency') }})</span></div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+        
+        
+
+        <tbody *ngIf="donneeAfficher.length == 0 && !isLoading">
+            <tr class="ng-star-inserted" >  <td colspan="13"> {{ __("table.aucun_donnee")}}   </td> </tr>
+        </tbody>
+
+        <tbody *ngIf="isLoading">
+            <tr *ngFor="let i of [0,1,2,3,4]">
+                <td *ngFor="let j of headerTable">
+                    <div class="shimmer shimmer-line"></div>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+  
+    <div class="row footer-paginate mt-4" >
+      <div class="col-lg-4">
+        <span class="three-point" style="padding-left: 0px;" >{{ infoData }}</span>
+      </div>
+      <div class="col-lg-8 btn-paginate"  >
+            <button [disabled]="currentPage <= 1"  (click)="getUrlDatatable(firstPage, '', '','', this.search)" class="btn btn-primary mx-2 paginate_button"> {{ __("table.premier")}}  </button>
+            <button [disabled]="currentPage <= 1"  (click)="getUrlDatatable(prevPage, '', '','', this.search)" class="btn btn-primary mx-2 paginate_button" > {{ __("table.precedent")}}  </button>
+            <button *ngIf="currentPage > 3" class="btn btn-primary mx-2 paginate_button"  (click)="getUrlDatatable(firstPage, '', '','', this.search)" > 1 </button>
+            <span *ngIf="currentPage > 3" class="three-point" > ... </span>
+            <button *ngIf="cPage_less_2 > 0 && currentPage < 4" class="btn btn-primary mx-2 paginate_button"  (click)="getUrlDatatable(path_cPage_less_2, '', '','', this.search)" > {{cPage_less_2}} </button>
+            <button *ngIf="cPage_less_1 > 0" class="btn btn-primary mx-2 paginate_button" (click)="getUrlDatatable(path_cPage_less_1, '', '','', this.search)" > {{cPage_less_1}} </button>
+            <button (click)="getUrlDatatable(prevPage, '', '','', this.search)" class="btn btn-primary mx-2 bg-pantone btn-pantone current data-table-pagination-active"  > {{currentPage}} </button>
+            <button *ngIf="cPage_more_1 > 0" class="btn btn-primary mx-2 paginate_button" (click)="getUrlDatatable(path_cPage_more_1, '', '','', this.search)" > {{cPage_more_1}} </button>
+            <button *ngIf="(cPage_more_2 > 0 && cPage_more_2 > lastNumPage && cPage_more_1 > lastNumPage && currentPage > lastNumPage) || cPage_more_2 == lastNumPage" class="btn btn-primary mx-2 paginate_button"  (click)="getUrlDatatable(path_cPage_more_2, '', '','', this.search)" > {{cPage_more_2}} </button>
+            <span *ngIf="cPage_more_2 < lastNumPage && cPage_more_1 < lastNumPage && currentPage < lastNumPage" class="three-point" > ... </span>
+            <button *ngIf="cPage_more_2 < lastNumPage && cPage_more_1 < lastNumPage && currentPage < lastNumPage" class="btn btn-primary mx-2 bg-pantone paginate_button" (click)="getUrlDatatable(lastPage, '', '','', this.search)" > {{lastNumPage}} </button>
+            <button  [disabled]="!path_cPage_more_1 || lastNumPage == currentPage" (click)="getUrlDatatable(nextPage, '', '','', this.search)" class="btn btn-primary mx-2 paginate_button"  > {{ __("table.suivant")}}   </button>
+            <button   [disabled]="!path_cPage_more_1 || lastNumPage == currentPage " (click)="getUrlDatatable(lastPage, '', '','', this.search)"class="btn btn-primary mx-2 paginate_button"  > {{ __("table.dernier")}}  </button>
+      </div>
+    </div>
+
+</div>
+
+
+

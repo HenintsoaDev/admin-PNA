@@ -1,0 +1,30 @@
+<nav aria-label="breadcrumb" style="margin-left: 15px;">
+
+    <div class="button-container">
+        <div class="breadcrumbCustomize flat left-button">
+            <a href="/home">Accueil</a>
+            <ng-container *ngFor="let breadcrumb of breadcrumbService.breadcrumbs; let last = last; let i = index">
+                <a 
+                    *ngIf="!last" 
+                    [routerLink]="breadcrumb.url"
+                    [class.active]="last"
+                >
+                    {{ breadcrumb.label }}
+                </a>
+                <span 
+                    *ngIf="last" 
+                    class="active"
+                    [attr.data-counter]="i + 2"
+                >
+                    {{ breadcrumb.label }}
+                </span>
+            </ng-container>
+        </div>
+
+        <div class="right-button css-solde">
+            <span>{{ __('global.solde_wallet') }} : </span><span style="font-weight: 600;"> {{ __('global.currency') }}  {{ walletSolde }}</span> <b>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</b> <span>{{ __('global.solde_carte') }} : </span><span style="font-weight: 600;"> {{ __('global.currency') }} {{ carteSolde  }}</span>
+        </div>
+    </div>
+    
+
+</nav>

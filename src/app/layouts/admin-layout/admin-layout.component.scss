@@ -1,0 +1,27 @@
+@import "../../../assets/scss/core/variables/_colors.scss";
+
+::ng-deep .cdk-overlay-container,
+::ng-deep .cdk-overlay-pane {
+    z-index: 2000 !important;
+    /* Assure-toi que c'est supérieur à celui du modal Bootstrap (généralement 1050) */
+}
+
+.swal-button--confirm-custom {
+    background-color: $primary !important; // Utilisez votre variable $primary
+    color: $white !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici (bordure, etc.)
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($primary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}
+
+.swal-button--cancel-custom {
+    background-color: $secondary !important; // Utilisez votre variable $secondary
+    color: red !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($secondary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}

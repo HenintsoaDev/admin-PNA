@@ -1,0 +1,32 @@
+<div class="main-content">
+    <div class="container-fluid" style="padding: 5rem 2rem;">
+        <div class="row">
+            <div class="logo-img" style="text-align: center;width: 100%;">
+                <h3 class="text-primary"> <b>{{ __('global.welcome') }} {{ __('app.title') }}</b> </h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div *ngFor="let r of routes" class="col-xl-3 col-lg-6 col-md-6 col-sm-12" (click)="goTo(r.path,r)">
+                <div class="card card-stats bottom-border-card">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div style="display: flex;">
+                            <i class="material-icons text-card " style="font-size: 25px;">{{ r.icon }}</i>
+                            <h3 class="text-card" style="font-weight: 600;font-size: 1rem;margin: 16px 0px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="overlay" *ngIf="loading">
+    <div class="loading-content">
+        {{ __('global.loading') }}
+    </div>
+</div>
+

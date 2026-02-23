@@ -1,0 +1,27 @@
+@import "../../../assets/scss/core/variables/_colors.scss";
+.card {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+.title-page-profil {
+  background: white;
+  padding: 0.4rem;
+  border-left: solid 4px $secondary;
+  padding-top: 20px;
+  font-weight: bold;
+}
+.error-message {
+  margin: 4px 0;
+  padding: 4px 0;
+  line-height: 1.4;
+}
+
+.mat-form-field {
+  margin-bottom: 1rem !important;
+}
+
+.mat-error {
+  display: block;
+  min-height: 20px; /* Réserve l'espace pour les erreurs */
+}

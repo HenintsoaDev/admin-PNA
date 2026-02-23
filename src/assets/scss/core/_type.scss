@@ -1,0 +1,165 @@
+html * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
+  font-family: $font-family-sans-serif;
+  font-weight: 300;
+  line-height: 1.5em;
+}
+
+
+h1, .h1 {
+    font-size: $font-size-h1;
+    line-height: 1.15em;
+}
+h2, .h2{
+    font-size: $font-size-h2;
+}
+h3, .h3{
+    font-size: $font-size-h3;
+    line-height: 1.4em;
+    margin: 20px 0 10px;
+}
+h4, .h4{
+    font-size: $font-size-h4;
+    line-height: 1.4em;
+    font-weight: 300;
+}
+h5, .h5 {
+    font-size: $font-size-h5;
+    line-height: 1.4em;
+    margin-bottom: 15px;
+}
+h6, .h6{
+    font-size: $font-size-h6;
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+}
+
+.title,
+.card-title,
+.info-title,
+.footer-brand,
+.footer-big h5,
+.footer-big h4,
+.media .media-heading{
+    //font-weight: $font-weight-extra-bold;
+    // font-family: $font-family-serif;
+
+    &,
+    a{
+        color: $black-color;
+        text-decoration: none;
+    }
+}
+
+.card-blog .card-title{
+    font-weight: $font-weight-extra-bold;
+}
+
+h2.title{
+    margin-bottom: $margin-base * 2;
+}
+
+.description,
+.card-description,
+.footer-big p{
+    color: $gray-light;
+}
+
+.text-warning {
+  color: $brand-warning !important;
+}
+.text-primary {
+  color: $brand-primary !important;
+}
+.text-danger {
+  color: $brand-danger !important;
+}
+.text-success {
+  color: $brand-success !important;
+}
+.text-info {
+  color: $brand-info !important;
+}
+.text-rose{
+    color: $brand-rose !important;
+}
+.text-gray{
+    color: $gray-color !important;
+}
+
+.mr-3{
+  margin-right: 10px;
+}
+.p-3{
+  padding: 5px 7px !important;
+  font-size: 13px;
+}
+.f-13{
+  font-size: 13px !important;
+}
+
+.alert-custom{
+  background:#f2f2f2;
+  padding: 5px 15px;
+}
+.fw-800{
+  font-weight: 800 !important;
+}
+
+.text-center{
+  text-align: center !important;
+}
+.text-left{
+  text-align: left !important;
+}
+.text-right{
+  text-align: right !important;
+}
+.bold{
+  font-weight: bold;
+  color: #35558d !important;
+}
+
+.titre-search{
+  width: 100%; padding: 20px; color: white !important;
+}
+
+.titre-search h4{
+  font-weight: bold;
+}
+
+.justify-content{
+  justify-content: center !important;
+  width: 100%;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.export-btn img {
+  width: 16px !important;
+  height: 16px !important;
+  margin-left: 5px !important;
+}
+
+.excel {
+  border-color: #0b7238 !important;
+  background-color: #0b7238 !important;
+  font-weight: bold !important;
+}
+
+.pdf {
+  border-color: #b41d01 !important;
+  background-color: #b41d01 !important;
+  font-weight: bold !important;
+}

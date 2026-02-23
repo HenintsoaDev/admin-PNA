@@ -1,0 +1,85 @@
+<nav class="navbar full-main-panel navbar-expand-lg navbar-fixed fixed-top" style="transition: 0.5s;">
+    
+
+    <div class="container-fluid containers">
+        <div *ngIf="showNavbar" class="navbar-wrapper-full-main">
+            <button mat-raised-button class="bars-toggle" type="button" (click)="toggleSidebar()">
+                <a href="javascript:void(0)" ><i class="material-icons">dehaze</i>
+                    <p>
+                        <span class="d-lg-none d-md-block"></span>
+                    </p>
+                </a>
+            </button>
+        </div>
+        <div class="scrolling-container">
+            <div class="scrolling-text" [innerHTML]="messageHeader"></div> 
+        </div>
+
+        <div class="menu-container navbar-wrapper-full-main">
+            <ul class="navbar-nav menu-list">
+                <li class="nav-item dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link" href="javascript:void(0)"><i class="material-icons">apps</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Menu</span>
+                        </p>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <div class="row" style="padding: 1rem;">
+                            <div *ngFor="let m of listTitles" class="col-4" style="text-align: center;cursor:pointer" (click)="goTo(m.path,m)">
+                                <div class="menu-list-responsive">
+                                    <i class="material-icons" style="font-size: 50px;">{{ m.icon }}</i>
+                                </div>
+                                <h6 class="title-menu-responsive" >{{ m.title }}</h6>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" style="cursor:pointer" (click)="goToLogin()" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link" ><i class="material-icons">logout</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Déconnexion</span>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="responsive-bar">
+        <div style="padding-left: 10px;">
+            <a href="javascript:void(0)"  class="m-resp" (click)="toggleSidebarResponsive()"><i class="material-icons">dehaze</i>
+                <p>
+                    <span class="d-lg-none d-md-block"></span>
+                </p>
+            </a>
+        </div>
+
+        <div style="position: absolute;right: 0;">
+            <ul class="list-inline my-list">
+                <li class="list-inline-item dropdown btn-menu-responive" (click)="toggleMenuResponsive($event)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="javascript:void(0)"  class="list-link">
+                        <i class="material-icons">apps</i> Modules 
+                    </a>
+                    
+                    <div class="dropdown-menu dropdown-menu-right menu-dropdown-responsive" #menuDropdownResponsive  [style.display]="isMenuResponsiveOpen ? 'block' : 'none'">
+                        <div class="row" style="padding: 1rem;">
+                            <div *ngFor="let m of listTitles" class="col-4" style="text-align: center;cursor:pointer" (click)="goTo(m.path,m)">
+                                <div class="menu-list-responsive">
+                                    <i class="material-icons" style="font-size: 50px;">{{ m.icon }}</i>
+                                </div>
+                                <h6 class="title-menu-responsive">{{ m.title }}</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+                <li class="list-inline-item" style="cursor:pointer" (click)="goToLogin()">
+                    <a href="#" class="list-link">
+                        <i class="material-icons">logout</i> Déconnexion 
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

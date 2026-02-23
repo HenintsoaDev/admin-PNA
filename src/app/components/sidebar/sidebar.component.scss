@@ -1,0 +1,76 @@
+@import "../../../assets/scss/core/variables/_colors.scss";
+
+.sidebar-wrapper{
+        background: linear-gradient(
+        135deg,
+        lighten($primary, 20%),
+        $primary,
+        darken($primary, 15%)
+        );
+}
+
+.user{
+    background: #0000005c;
+}
+
+.user:after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    height: 1px;
+    width: calc(100% - 30px);
+    //background-color: hsla(0, 0%, 70.6%, .3);
+}
+
+.user > .nav > li :hover{
+    background: $secondary;
+    color: $white !important;
+}
+.user > #collapseExample > .nav > li > a:hover{
+    background: $secondary;
+    color: $white !important;
+
+}
+
+.nav-item{
+    padding: 0.2rem 0px 0.2rem 0px;
+}
+
+.bars-icon-sidebar {
+    z-index: 25;
+    position: absolute;
+    background: rgba(162, 95, 66, 0);;
+    color: $primary;
+    right: 0;
+    padding: 10px;
+}
+
+#collapseExample li.active>a{
+    background-color: $secondary;
+    color: $white !important;
+    text-shadow: none !important;
+
+}
+
+.activeModule{
+    border-left: #ec6a30 solid 5px;
+    background: #0000000d;
+}
+li.active > a > .c-icon{
+    color: $white;
+}
+
+.img-logo img{
+    width: 55px;
+    top: 7px;
+    left: 1.5rem;
+    position: absolute;
+}
+
+.icon-bars{
+    color: $primary;
+    position: absolute;
+    top: 2px;
+    right: 0.3rem;
+    text-shadow: 0 0 #000000;
+}

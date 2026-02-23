@@ -1,0 +1,242 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('PRM_32')" (click)="openModalAdd(addprofil)"> {{ __("profil.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addprofil>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="profilForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('profil.name')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="profil.name" placeholder="{{ __('profil.name')}}" formControlName="name" name="name">
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('profil.code')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="profil.code" placeholder="{{ __('profil.code')}}" formControlName="code" name="code">
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-radio-group  [(ngModel)]="wallet_carte" formControlName="wallet_carte">
+                        <mat-radio-button class="mr-3" value="W">{{ __('global.wallet')}}</mat-radio-button>
+                        <mat-radio-button class="mr-3" value="C">{{ __('global.carte')}}</mat-radio-button>
+                        <mat-radio-button class="mr-3" value="WC">{{ __('global.wallet_carte')}}</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+                
+
+                <div class="form-group"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ __('profil.type')}}</mat-label>
+                        <mat-select [(ngModel)]="profil.type_profil_id" name="type_profil_id" formControlName="type_profil_id" >
+                          <!-- Champ de recherche -->
+                          <mat-option>
+                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                          </mat-option>
+                      
+                          <!-- Affichage des options filtrées -->
+                          <mat-option *ngFor="let type of filteredTypes" [value]="type.id"> {{ type.name }} </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                
+                  
+
+                
+                
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!profil.id" [disabled]="profilForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="profil.id" [disabled]="profilForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #affectationprofil>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        
+
+
+
+        <mat-dialog-title></mat-dialog-title>
+
+                <mat-accordion>
+
+                <!-- Section Administration -->
+                <mat-expansion-panel *ngFor="let item of modules;let i = index">
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>{{item.name}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <!-- Gestion établissements -->
+                    <mat-expansion-panel *ngFor="let s_module of item.sous_modules">
+                        <mat-expansion-panel-header>
+                            <input  #checkAll 
+			    				type="checkbox" name="" 
+			    				[checked]="isCheckedAll(s_module)" 
+			    				(click)="updateActionAll(s_module.actions,checkAll,$event)" 
+			    				style="position: absolute; left: 10px;top:14px">
+                            <mat-panel-title class="section-title">{{s_module.name}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="checkbox-grid">
+
+                            <div  *ngFor="let action of s_module.actions">
+                                <input #check type="checkbox" name="" [checked]="action.state==1"  (click)="updateAction(action,check)"
+                            >
+                            <label class="labelProfilage" >&nbsp;&nbsp;{{action.name}}</label>
+                            </div>
+                            
+                           
+                        </div>
+                    </mat-expansion-panel>
+
+                   
+                </mat-expansion-panel>
+                </mat-accordion>
+
+
+       
+    </div>
+</ng-template>
+
+
+
+<ng-template #detailProfil>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <table style="width: 100%;">
+
+            <tr>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.code")}}</b></label>
+                        <h6><b class="bold">{{  profil.code }}</b></h6>
+                     </div>
+                </td>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.name")}}</b></label>
+                        <h6><b class="bold">{{  profil.name }}</b></h6>
+                     </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.type")}}</b></label>
+                        <h6><b class="bold">{{  profil.type_profil_name }}</b></h6>
+                     </div>
+                </td>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.state")}}</b></label>
+                        <h6><b class="bold">{{  profil.state }}</b></h6>
+                     </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.user_creation")}}</b></label>
+                        <h6><b class="bold">{{  profil.user_creation  }} <span class="bold">{{ __("profil.le")}}</span>   {{  profil.date_creation  }} </b></h6>
+                     </div>
+                </td>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("profil.user_modification")}}</b></label>
+                        <h6><b class="bold">{{  profil.user_modification	 }} <span class="bold">{{ __("profil.le")}}</span>   {{  profil.date_modification	 }}</b></h6>
+                     </div>
+                </td>
+            </tr>
+
+
+            
+        </table>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>
+
+

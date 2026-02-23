@@ -1,0 +1,96 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons"></div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('PRM_63')" (click)="openModal()">
+                                    {{ __("region.add") }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table (dataEmitter)="EventListener($event)" [endpoint]="endpoint"
+                                [headerTable]="header" [body]="objectBody" [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- list for direction regionale -->
+</div>
+
+<!-- Modal pour ajouter/modifier une région -->
+<ng-template #addRegionModal>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b>{{ titleModal }}</b></h5>
+        <button type="button" class="close color-white btn-sm p-4" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="regionForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('region.code') }}</mat-label>
+                        <input matInput type="text" placeholder="{{ __('region.code') }}" formControlName="lib2"
+                            name="lib2" maxlength="10">
+                    </mat-form-field>
+                </div>
+                <!-- Libellé court (lib_region) -->
+
+
+                <!-- Libellé complet (libelle) -->
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('region.name') }}</mat-label>
+                        <input matInput type="text" placeholder="{{ __('region.name') }}" formControlName="lib_region"
+                            name="libelle">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ __('region.direction_regionale')}}</mat-label>
+                        <mat-select name="libelle" formControlName="dr_id">
+                            <!-- Champ de recherche -->
+                            <mat-option>
+                                <input matInput formControlName="searchDr" type="text" placeholder="Rechercher..."
+                                    name="search" id="search" (click)="$event.stopPropagation()" />
+                            </mat-option>
+
+                            <!-- Affichage des options filtrées -->
+                            <mat-option *ngFor="let dr of filteredDr" [value]="dr.id"> {{ dr.libelle }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mx-2" (click)="closeModal()">
+                    {{ __('global.cancel') }}
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="regionForm.invalid">
+                    {{ (idRegion) ? __('global.edit') : __('global.save') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

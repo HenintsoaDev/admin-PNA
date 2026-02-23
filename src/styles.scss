@@ -1,0 +1,205 @@
+@import "assets/scss/core/variables/_colors.scss";
+
+/* You can add global styles to this file, and also import other style files */
+.wrapper {
+    margin-bottom: 20px;
+}
+
+/*****************************************************
+	Custom styling example bellow.
+*****************************************************/
+
+.iti {
+    display: block !important;
+    margin-bottom: 20px;
+}
+
+.iti .dropdown-menu.country-dropdown {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-color: #c7cace;
+    margin-top: -1px;
+}
+
+.iti .iti__country-list {
+    box-shadow: none;
+    font-size: 14px;
+    margin-left: 0;
+    width: 244px;
+    max-height: 170px;
+}
+
+.iti__flag-container.open+input {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.iti .search-container input {
+    font-size: 14px;
+    border-color: #c7cace;
+    border-radius: 0;
+    padding: 5px 10px;
+}
+
+.iti .search-container input:focus {
+    outline: none;
+}
+
+@media screen and (max-width: 479px) {
+    .iti .iti__country-list {
+        width: 88.3vw;
+    }
+}
+
+ngx-intl-tel-input input {
+    height: 44px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c7cace;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+ngx-intl-tel-input.ng-invalid.ng-touched input {
+    border: 1px solid #c0392b;
+}
+
+ngx-intl-tel-input input:hover {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.24);
+}
+
+ngx-intl-tel-input input:focus {
+    outline: none !important;
+    border-color: #3498db;
+    box-shadow: 0 0 0 0 #000;
+}
+
+ngx-intl-tel-input input::-webkit-input-placeholder {
+    color: #bac2c7;
+}
+
+ngx-intl-tel-input input:-ms-input-placeholder {
+    color: #bac2c7;
+}
+
+ngx-intl-tel-input input::-ms-input-placeholder {
+    color: #bac2c7;
+}
+
+ngx-intl-tel-input input::placeholder {
+    color: #bac2c7;
+}
+
+ngx-intl-tel-input input[disabled] {
+    background-color: #e5eaf1;
+}
+
+.swal-button--confirm-custom {
+    background-color: $primary !important; // Utilisez votre variable $primary
+    color: $white !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici (bordure, etc.)
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($primary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}
+
+.swal-button--cancel-custom {
+    background-color: $secondary !important; // Utilisez votre variable $secondary
+    color: $white !important; // Ajustez la couleur du texte si nécessaire
+
+    // Vous pouvez ajouter d'autres styles ici
+    &:focus {
+        box-shadow: 0 0 0 3px rgba($secondary, .5) !important; // Adaptez l'ombre au focus si besoin
+    }
+}
+
+.shimmer-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+.shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e2e2e2 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+  
+.shimmer-line {
+    height: 35px;
+    width: 100%;
+    margin: 8px 0;
+}
+  
+@keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+  
+    100% {
+      background-position: 200% 0;
+    }
+}
+
+
+.mat-form-field-subscript-wrapper {
+    position: inherit !important;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+
+//**********
+
+
+/* Conteneur principal */
+ngb-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Chaque bouton de page */
+  .ngb-pagination .page-item .page-link {
+    background-color: #2f2f9d;         /* violet / bleu */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin: 4px;
+    min-width: 45px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Hover */
+  .ngb-pagination .page-item .page-link:hover {
+    background-color: #4a4ae0;
+    color: #fff;
+  }
+  
+  /* Bouton actif (page courante) */
+  .ngb-pagination .page-item.active .page-link {
+    background-color: #ffeb3b; /* jaune */
+    color: #000;
+    font-weight: 600;
+  }
+  
+  /* Boutons désactivés (précédent/suivant grisés) */
+  .ngb-pagination .page-item.disabled .page-link {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+  
+  /* Supprime le contour focus par défaut */
+  .ngb-pagination .page-link:focus {
+    box-shadow: none;
+  }
+  

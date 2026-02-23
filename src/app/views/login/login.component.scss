@@ -1,0 +1,68 @@
+@import "../../../assets/scss/core/variables/_colors.scss";
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    /* Largeur max pour ne pas être trop grand */
+}
+
+.auth-layout-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    background: rgb(255 255 255 / 20%);
+}
+
+h1.strikearound {
+    margin-top: 15px;
+    position: relative;
+    font-size: 14px;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+    color: $primary;
+}
+
+h1.strikearound:before {
+    margin-left: -50%;
+    text-align: right;
+}
+
+h1.strikearound:before,
+h1.strikearound:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 1px;
+    content: '\a0';
+    background-color: #aeabab;
+}
+
+.icon-primary{
+    font-size: 8rem;
+    color: $primary;
+}
+.title-welcome{
+    font-size: 40px;font-weight: 600;color:$primary;text-shadow: 1px 1px 1px #7d6651
+}
+.titre-espace{
+    font-size: 30px;
+    //text-transform: full-width;
+    margin-top: 20px;
+    font-weight: bold;
+}

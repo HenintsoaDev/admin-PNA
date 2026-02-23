@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<div *ngIf="showLayout" class="wraper">
+    <div *ngIf="showSidebar" class="sidebar" #sidebarAppMenu data-color="secondary" style="transition: 0.5s;z-index: 200;box-shadow: 0px 0px 7px 4px #00000075;" data-text-color="white" data-background-color="primary" data-image="./assets/img/sidebar-1.jpg">
+        <app-sidebar ></app-sidebar>
+        <!--<div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>-->
+    </div>
+    <!--[class]="!showSidebar ? full-main-panel : main-panel"-->
+    <div class="main-panel"[class.full-main-panel]="!showSidebar" [class.main-panel]="showSidebar">
+        <div *ngIf="showSidebar" #navBarAppMenu><app-navbar ></app-navbar></div>
+        <div *ngIf="!showSidebar" class="navbar full-main-panel navbar-expand-lg navbar-fixed fixed-top" style="height: 4rem;background: white;padding-left: 25px;">
+            <img src="/assets/img/logo-pna-trans.png" style="width:4rem;"/>
+            <div style="position: absolute;right: 2rem;cursor:pointer" (click)="goToLogin()">
+                <a class="nav-link" ><i class="material-icons">logout</i>
+                    <p>
+                        <span class="d-lg-none d-md-block">&nbsp;&nbsp;Déconnexion</span>
+                    </p>
+                </a>
+            </div>
+        </div>
+        <app-breadcrumb *ngIf="showBreadcrumb"></app-breadcrumb>
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+</div>
+
+<div *ngIf="!showLayout">
+    <router-outlet></router-outlet>
+</div>
+

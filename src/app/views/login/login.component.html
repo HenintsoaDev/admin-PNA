@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <div class="row" style="height: 100vh;">
+        <div class="col-md-8" style="background-image: url(assets/img/bg.png);
+            background-position: center;
+            position: relative;
+            z-index: 99999;
+            overflow: auto;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 0;">
+                <div class="auth-layout-wrap" style="height:100%">
+
+                    <span  class="text-secondary titre-espace mb-3"> {{ __('app.title-espace-admin') }} </span>
+                    <img alt="" src="assets/img/logo-pna-trans.png" style="width: 15rem;">
+                    <div class="text-center mb-4"></div>
+                    <div class="title-welcome">
+                        {{ __('app.title-welcom') }}.
+                    </div>
+                </div>
+        </div>
+        <div *ngIf="!isResetPasswort" class="col-md-4 centered-container">
+            <form style="width: 30rem;" [formGroup]="loginForm"  (ngSubmit)="onLogin()">
+                <div style="text-align: center;width: 100%;margin-bottom: 2vh;">
+                    <i class="material-icons icon-primary">account_circle</i>
+                </div>
+                <!--login-->
+                <div class="row">
+                    <div class="col-md">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="login" formControlName="login" placeholder="{{ __('auth.login') }}">
+                            <small *ngIf="(loginForm.get('login')?.touched || submitted) && loginForm.get('login')?.errors?.['required']">{{ __('global.champs_obligatoire') }}</small>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--password-->
+                <div class="row">
+                    <div class="col-md">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="password" placeholder="{{ __('auth.password') }}" formControlName="password" [type]="showPassword ? 'text' : 'password'">
+                            <small *ngIf=" (loginForm.get('password')?.touched || submitted) && loginForm.get('password')?.errors?.['required']">{{ __('global.champs_obligatoire') }}</small>
+
+                            <mat-icon matSuffix>
+                                <i *ngIf="showPassword"  class="material-icons" style="cursor: pointer;" (click)="showPassword = !showPassword">visibility</i>
+                                <i *ngIf="!showPassword" class="material-icons" style="cursor: pointer;" (click)="showPassword = !showPassword">visibility_off</i>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--<div style="text-align:end">
+                    <a class="text-muted" routerlink="/reset" style="font-size: 14px;color: #797878 !important;" href="/reset">{{ __('auth.mdp_oublie') }}</a>
+                </div>-->
+                <br>
+
+                <button *ngIf="!loadingLogin" mat-raised-button type="submit" class="btn btn-primary w-100">{{ __('global.login') }}</button>
+                <button *ngIf="loadingLogin" mat-raised-button type="submit" class="btn btn-primary w-100">
+                    <img src="assets/img/loading-spinner-button.gif" width="25px">
+                </button>
+            </form>
+        </div>
+        <div *ngIf="isResetPasswort" class="col-md-4 centered-container">
+            <form style="width: 30rem;">
+                <div style="text-align: center;width: 100%;margin-bottom: 2vh;">
+                    <i class="material-icons icon-primary">account_circle</i>
+                </div>
+                <div class="row">
+                    <!--OLD PASSWORD-->
+                    <div class="col-md">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="oldPassword" placeholder="Votre ancien mot de passe" [type]="showOldPassword ? 'text' : 'password'">
+                            <mat-icon matSuffix>
+                                <i *ngIf="showOldPassword"  class="material-icons" style="cursor: pointer;" (click)="showOldPassword = !showOldPassword">visibility</i>
+                                <i *ngIf="!showOldPassword" class="material-icons" style="cursor: pointer;" (click)="showOldPassword = !showOldPassword">visibility_off</i>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--NEW PASSWORD-->
+                    <div class="col-md">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="newPassword" placeholder="Votre nouveau mot de passe" [type]="showNewPassword ? 'text' : 'password'">
+                            <mat-icon matSuffix>
+                                <i *ngIf="showNewPassword"  class="material-icons" style="cursor: pointer;" (click)="showNewPassword = !showNewPassword">visibility</i>
+                                <i *ngIf="!showNewPassword" class="material-icons" style="cursor: pointer;" (click)="showNewPassword = !showNewPassword">visibility_off</i>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--CONFIRM NEW PASSWORD-->
+                    <div class="col-md">
+                        <mat-form-field class="example-full-width">
+                            <input matInput [(ngModel)]="confirmNewPassword" placeholder="Confirmer votre nouveau mot de passe" [type]="showConfirmPassword ? 'text' : 'password'">
+                            <mat-icon matSuffix>
+                                <i *ngIf="showConfirmPassword"  class="material-icons" style="cursor: pointer;" (click)="showConfirmPassword = !showConfirmPassword">visibility</i>
+                                <i *ngIf="!showConfirmPassword" class="material-icons" style="cursor: pointer;" (click)="showConfirmPassword = !showConfirmPassword">visibility_off</i>
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                    <button mat-raised-button type="submit" class="btn btn-primary w-100" (click)="onResetPassword()">{{ __('global.change_mdp') }}</button>
+                    <button mat-raised-button type="button" class="btn btn-secondary w-100" (click)="backToLogin()" data-dismiss="modal">{{ __('global.cancel') }}</button> 
+               
+            </form>
+        </div>
+    </div>
+</div>
+

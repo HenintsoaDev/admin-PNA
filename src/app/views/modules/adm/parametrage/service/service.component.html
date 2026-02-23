@@ -1,0 +1,279 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('PRM_45')" class="btn btn-secondary" (click)="openModalAdd(addService)"> {{ __("service.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addService>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('service.code')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="service.code" placeholder="{{ __('service.code')}}" formControlName="code" name="code">
+                    </mat-form-field>
+                </div>
+                
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('service.label')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="service.label" placeholder="{{ __('service.label')}}" formControlName="label" name="label">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <label for="distributeur">{{ __('service.type_frais') }}</label><br>
+
+                    <mat-radio-group  [(ngModel)]="type_frais" formControlName="type_frais">
+                        <mat-radio-button class="mr-3" value="F">{{ __('service.fixe')}}</mat-radio-button>
+                        <mat-radio-button class="mr-3" value="P">{{ __('service.palier')}}</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+
+                <div class="form-group" *ngIf="type_frais == 'F'">
+
+                    <mat-form-field>
+                        <mat-label>{{ __('service.montant_frais')}}</mat-label>
+                        <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" [(ngModel)]="service.montant" placeholder="{{ __('service.montant_frais')}}" formControlName="montant_frais" name="montant_frais">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <label for="distributeur">{{ __('service.distributeur') }}</label><br>
+                    <mat-radio-group  [(ngModel)]="distributeur" formControlName="distributeur">
+                        <mat-radio-button class="mr-3" value="O">{{ __('global.oui')}}</mat-radio-button>
+                        <mat-radio-button class="mr-3" value="N">{{ __('global.non')}}</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+               
+                <div class="form-group" *ngIf="distributeur == 'O'">
+                    <mat-form-field>
+                        <mat-label>{{ __('service.taux_distributeur')}}</mat-label>
+                        <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').slice(0,4)" [(ngModel)]="service.taux_distributeur" placeholder="{{ __('service.taux_distributeur')}}" formControlName="taux_distributeur" name="taux_distributeur">
+                    </mat-form-field>
+                </div>
+                
+                
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!service.rowid" [disabled]="serviceForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="service.rowid" [disabled]="serviceForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+
+<ng-template #detailService>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <table style="width: 100%;">
+
+            <tr>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("service.code")}}</b></label>
+                        <h6><b class="bold">{{  service.code }}</b></h6>
+                     </div>
+                </td>
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("service.label")}}</b></label>
+                        <h6><b class="bold">{{  service.label }}</b></h6>
+                     </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("service.user_creation")}}</b></label>
+                        <h6><b class="bold">{{  service.created_by  }} <span class="bold">{{ __("global.le")}}</span>   {{  service.date_creation  }}</b></h6>
+                     </div>
+                </td>
+             
+            </tr>
+
+          
+            
+        </table>
+
+        <div *ngIf="service.type_frais == 1">
+            <hr>
+
+            <div class="row" *ngIf="addFormpalier && service.type_frais == 1">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="text-center" style="width: 100%;"> <h4 class="bold">{{ __("service.add_form_palier")}} </h4> </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+    
+                                <mat-form-field>
+                                    <mat-label>{{ __('service.montant_min')}}</mat-label>
+                                    <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" [(ngModel)]="montant_min" placeholder="{{ __('service.montant_min')}}" name="montant_min">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+    
+                                <mat-form-field>
+                                    <mat-label>{{ __('service.montant_max')}}</mat-label>
+                                    <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" [(ngModel)]="montant_max" placeholder="{{ __('service.montant_max')}}"  name="montant_max">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+    
+                                <mat-form-field>
+                                    <mat-label>{{ __('service.montant')}}</mat-label>
+                                    <input matInput type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" [(ngModel)]="montant" placeholder="{{ __('service.montant')}}"  name="montant">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+    
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{ __('service.tva')}}</mat-label>
+                                    <mat-select [(ngModel)]="tva" name="pageSize">
+                                    <mat-option *ngFor="let n of pageSizes" [value]="n">{{ n }} %</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row justify-content-center">
+                        <button type="button" class="btn btn-secondary" (click)="cacheForm()">{{ __('global.cancel')}}</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="montant == null || montant_min == null || montant_max == null || tva == null" (click)="ajoutPalier()">{{ __('global.save')}}</button>
+                    </div>
+                </div>
+                <div class="col-lg-6"></div>
+            </div>
+           
+    
+    
+            <div class="row" >
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <div>
+                        <div class="text-right" style="width: 100%;">  
+                            <button mat-icon-button color="primary" *ngIf="autority('PRM_50')" (click)="afficheForm()" matTooltip="{{ __('service.add_palier') }}">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
+                        <table class="table table-hover table-bordered table-striped mb-0 shimmer-table">
+                            <thead>
+                                <tr class="th-table">
+                                    <td  class="text-right bold f-13">{{ __("service.montant_min")}}</td>
+                                    <td class="text-right bold f-13">{{ __("service.montant_max")}}</td>
+                                    <td class="text-right bold f-13">{{ __("service.frais_ht")}}</td>
+                                    <td class="text-right bold f-13">{{ __("service.tva")}}</td>
+                                    <td class="text-right bold f-13">{{ __("service.frais_ttc")}}</td>
+                                    <td  class="text-center bold f-13">{{ __("global.action")}}</td>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="service.paliers.length != 0">
+                                <tr class="ng-star-inserted" *ngFor="let palier of service.paliers let last = last">
+                                    <td class="text-right">{{ getFormat(palier.montant_deb | number:'1.2-2':'fr-FR')}}</td>
+                                    <td class="text-right">{{ getFormat(palier.montant_fin | number:'1.2-2':'fr-FR') }}</td>
+                                    <td class="text-right">{{ getFormat(palier.ht | number:'1.2-2':'fr-FR') }}</td>
+                                    <td class="text-right">{{ getFormat(palier.tva | number:'1.2-2':'fr-FR') }}</td>
+                                    <td class="text-right">{{ getFormat(palier.valeur | number:'1.2-2':'fr-FR') }}</td>
+                                    <td class="text-center"><i class="material-icons" style="cursor: pointer;" *ngIf="last && autority('PRM_51') " mat-raised-button (click)="deletePalier(palier.idfrais)" > delete </i></td>
+                                </tr>
+                
+                            </tbody>
+                            <tbody *ngIf="service.paliers.length == 0">
+                                <tr class="ng-star-inserted" >
+                                    <td colspan="5">Pas de données pour le moment.</td>
+                                   
+                                </tr>
+                            </tbody>
+                          
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+        
+
+       
+        <br><br>
+       
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>
+

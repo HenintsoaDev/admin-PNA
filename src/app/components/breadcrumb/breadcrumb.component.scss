@@ -1,0 +1,134 @@
+@import "../../../assets/scss/core/variables/_colors.scss";
+
+.breadcrumbCustomize {
+    display: inline-block;
+    margin-top: 4.5rem;
+    margin-left: 15px;
+    overflow: hidden;
+    border-radius: 5px;
+    counter-reset: flag;
+}
+
+.breadcrumbCustomize a,
+.breadcrumbCustomize span.active {
+    text-decoration: none;
+    outline: none;
+    display: block;
+    float: left;
+    font-size: 12px;
+    line-height: 36px;
+    color: white;
+    padding: 0 10px 0 60px;
+    background: #333;
+    background: linear-gradient(#333, #111);
+    position: relative;
+}
+
+.breadcrumbCustomize a:first-child {
+    padding-left: 46px;
+    border-radius: 5px 0 0 5px;
+}
+
+.breadcrumbCustomize a:first-child:before {
+    left: 14px;
+}
+
+.breadcrumbCustomize a:last-child,
+.breadcrumbCustomize span.active {
+    border-radius: 0 5px 5px 0;
+    padding-right: 20px;
+}
+
+.breadcrumbCustomize a:hover,
+.breadcrumbCustomize a.active,
+.breadcrumbCustomize span.active {
+    background: #111;
+    background: linear-gradient(#333, #111);
+}
+
+.breadcrumbCustomize a:hover:after,
+.breadcrumbCustomize a.active:after {
+    background: #222;
+    background: linear-gradient(145deg, #333, #222);
+}
+
+.breadcrumbCustomize a:after,
+.breadcrumbCustomize span.active:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -18px;
+    width: 36px;
+    height: 36px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    background: #555;
+    background: linear-gradient(135deg, #777, #333);
+    box-shadow:
+        2px -2px 0 2px rgba(0, 0, 0, 0.4),
+        3px -3px 0 2px rgba(255, 255, 255, 0.1);
+    border-radius: 0 5px 0 50px;
+}
+
+.breadcrumbCustomize a:last-child:after,
+.breadcrumbCustomize span.active:after {
+    content: none;
+}
+
+.breadcrumbCustomize a:before,
+.breadcrumbCustomize span.active:before {
+    content: counter(flag);
+    counter-increment: flag;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin: 8px 0;
+    position: absolute;
+    top: 0;
+    left: 30px;
+    padding-left: 0.4rem;
+    background: #333;
+    background: linear-gradient(#333, #300);
+    font-weight: bold;
+}
+
+.breadcrumbCustomize span.active:before {
+    content: attr(data-counter);
+}
+
+.flat a,
+.flat a:after,
+.flat span.active,
+.flat span.active:after {
+    background: $primary;
+    color: #eee;
+    transition: all 0.7s;
+    font-weight: 600;
+}
+
+.flat a:before,
+.flat span.active:before {
+    background: #1111113f;
+    box-shadow: 0 0 0 1px #5b5f666e;
+}
+
+.flat a:hover,
+.flat a.active,
+.flat span.active,
+.flat a:hover:after,
+.flat a.active:after,
+.flat span.active:after {
+    background: $secondary;
+    color: $white-body !important;
+
+}
+
+.css-solde{
+    min-width: 360px!important; 
+    margin-top: 4.5rem;
+    padding: 5px 20px 5px 20px;
+    background: $primary;
+    color:$white-body;
+    border-radius: 5px;font-size: 12px;
+}

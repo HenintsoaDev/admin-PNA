@@ -1,0 +1,139 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                            </div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('PRM_53')" (click)="openNewMessageModal()"> {{ __("header_message.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal"
+                                [formSearch] = "false"
+                                >
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #newHeaderMessage>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>{{ __('header_message.expediteur')}}</mat-label>
+                <input matInput type="text" [(ngModel)]="expediteur" placeholder="{{ __('header_message.expediteur')}}">
+            </mat-form-field>
+        </div>
+        
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>{{ __('header_message.message')}}</mat-label>
+                <input matInput type="text" [(ngModel)]="txt_messenger" placeholder="{{ __('header_message.message')}}">
+            </mat-form-field>
+        </div>
+
+       <div class="form-group"> 
+            <mat-form-field appearance="fill">
+                <mat-label>{{ __('sous_module.module')}}</mat-label>
+                <mat-select [(ngModel)]="sous_module.id" name="module_id">
+                    <!-- Champ de recherche -->
+                    <mat-option>
+                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                    </mat-option>
+                    <!-- Affichage des options filtrées -->
+                    <mat-option *ngFor="let mod of filteredModules" [value]="mod.id"> {{ mod.name }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-radio-group  [(ngModel)]="publie_value">
+                <mat-radio-button class="mr-3" [value]="0">{{ __('global.no_publie')}}</mat-radio-button>
+                <mat-radio-button class="mr-3" [value]="1">{{ __('global.yes_publie')}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" >{{ __('global.cancel')}}</button>
+        <button type="button" class="btn btn-primary" (click)="sendNewHeaderMessage()" [disabled]="expediteur == undefined || txt_messenger == undefined || sous_module == undefined || loadingButton">{{ __('global.save')}}</button>
+    </div>
+</ng-template>
+
+<ng-template #updateHeaderMessage>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>{{ __('header_message.expediteur')}}</mat-label>
+                <input matInput type="text" [(ngModel)]="expediteur" placeholder="{{ __('header_message.expediteur')}}">
+            </mat-form-field>
+        </div>
+        
+        <div class="form-group">
+            <mat-form-field>
+                <mat-label>{{ __('header_message.message')}}</mat-label>
+                <input matInput type="text" [(ngModel)]="txt_messenger" placeholder="{{ __('header_message.message')}}">
+            </mat-form-field>
+        </div>
+
+        <div class="form-group"> 
+            <mat-form-field appearance="fill">
+                <mat-label>{{ __('sous_module.module')}}</mat-label>
+                <mat-select [(ngModel)]="sous_module.id" name="module_id">
+                    <!-- Champ de recherche -->
+                    <mat-option>
+                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                    </mat-option>
+                    <!-- Affichage des options filtrées -->
+                    <mat-option *ngFor="let mod of filteredModules" [value]="mod.id"> {{ mod.name }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="form-group">
+            <mat-radio-group  [(ngModel)]="publie_value">
+                <mat-radio-button class="mr-3" [value]="0">{{ __('global.no_publie')}}</mat-radio-button>
+                <mat-radio-button class="mr-3" [value]="1">{{ __('global.yes_publie')}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        <button type="button" class="btn btn-primary" (click)="sendUpdateHeaderMessage()" [disabled]="expediteur == undefined || txt_messenger == undefined || loadingButton">{{ __('global.save')}}</button>
+    </div>
+</ng-template>

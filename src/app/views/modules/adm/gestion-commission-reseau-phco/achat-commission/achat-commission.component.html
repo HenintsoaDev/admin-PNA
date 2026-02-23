@@ -1,0 +1,198 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+      
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <!-- FORM FILTER -->
+                        <div class="bg-white">
+                            <form class="form-inline">
+                                <div class="text-center" style="width: 100%;"><h4 class="bold">{{ __('achat_commission.achat_commission')}} </h4></div>
+
+                                <div class="form-group col-2">
+                                    <label for="account-type-1">{{ __('achat_commission.partenaire') }}(*)</label>
+                                    <!-- POUR ADMIN -->
+                                    <ng-container >
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>{{ __('achat_commission.partenaire') }}</mat-label>
+                                            <mat-select [(ngModel)]="partenaireId" name="partenaireId"> 
+                                                <mat-option> 
+                                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlPartenaire" (click)="$event.stopPropagation()" />
+                                                </mat-option>
+                                                <mat-option  [value]="-1">{{ __('achat_commission.all_partenaire') }}</mat-option> 
+                                                <mat-option *ngFor="let partenaire of filteredPartenaire" value="partenaire.id">{{ partenaire.nom }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+
+
+                                <div class="form-group col-2">
+                                    <label for="account-type-1">{{ __('achat_commission.mois') }}(*)</label>
+                                    <!-- POUR ADMIN -->
+                                    <ng-container >
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>{{ __('achat_commission.mois') }}</mat-label>
+                                            <mat-select [(ngModel)]="mois" name="mois"> 
+                                                <mat-option>
+                                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlMois" (click)="$event.stopPropagation()" />
+                                                </mat-option>
+                                                <mat-option *ngFor="let mois of filteredMois" value="mois.code">{{ mois.nom }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+
+
+                                <div class="form-group col-2">
+                                    <label for="account-type-1">{{ __('achat_commission.annee') }}(*)</label>
+                                    <!-- POUR ADMIN -->
+                                    <ng-container >
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>{{ __('achat_commission.annee') }}</mat-label>
+                                            <mat-select [(ngModel)]="annee" name="annee"> 
+                                                <mat-option>
+                                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlAnnee" (click)="$event.stopPropagation()" />
+                                                </mat-option>
+                                                <mat-option *ngFor="let annee of filteredAnnee" value="annee">{{ annee }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+
+                                
+                                <div class="form-group col-3">
+                                    <label for="account-type-1">{{ __('achat_commission.type_compte') }}</label>
+                                    <!-- POUR ADMIN -->
+                                    <ng-container >
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>{{ __('achat_commission.type_compte') }}</mat-label>
+                                            <mat-select [(ngModel)]="typeCompte" name="typeCompte" id="typeCompte">
+                                                <mat-option value="C">{{ __('global.carte') }}</mat-option>
+                                                <mat-option value="W">{{ __('global.wallet') }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+
+                                
+
+                             
+                             
+
+                                <div  class="col-3">
+                                    <button *ngIf="!loadingData" class="btn btn-primary w-100" color="primary" (click)="valider()" [disabled]="typeCommission == undefined || typeCompte == undefined">{{ __('global.valider') }}</button>
+                                    <button *ngIf="loadingData" class="btn btn-primary w-100" color="primary">
+                                        <img src="assets/img/loading-spinner-button.gif" width="25px">
+                                    </button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center" style="width: 100%;"><h4 class="bold"> {{  title }} </h4></div>
+
+                        <table style="width: 100%;">
+
+                            <tr>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("achat_commission.partenaire")}}</b></label>
+                                        <h6><b class="bold">NUMHERIT</b></h6>
+                                     </div>
+                                </td>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("achat_commission.mois")}}</b></label>
+                                        <h6><b class="bold">Mais 2025</b></h6>
+                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("achat_commission.statut_commission")}}</b></label>
+                                        <h6><b class="bold">     Comission partenaire creditée </b></h6>
+                                     </div>
+                                </td>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("achat_commission.type_compte")}}</b></label>
+                                        <h6><b class="bold">Type de compte</b></h6>
+                                     </div>
+                                </td>
+                            </tr>
+                
+                            
+                
+                          
+                            
+                        </table>
+
+
+                        <br>
+
+                        <div class="row" >
+                            <div class="col-lg-12">
+                                <div>
+                                    <table class="table table-hover table-bordered table-striped mb-0 shimmer-table">
+                                        <thead>
+                                            <tr class="th-table">
+                                                <td  class="bold f-13">{{ __("achat_commission.num_transac")}}</td>
+                                                <td class=" bold f-13">{{ __("achat_commission.date_enreg")}}</td>
+                                                <td class="text-right bold f-13">{{ __("achat_commission.montant")}}</td>
+                                                <td class="bold f-13">{{ __("achat_commission.type_commission")}}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="ng-star-inserted" >
+                                                <td>6448ddc6ed7e0</td>
+                                                <td>2023-04-26 10:16:06</td>
+                                                <td class="text-right">7 339 560,00 </td>
+                                                <td>Hors Paiement Masse</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right bold">{{ __("achat_commission.total")}}</td>
+                                                <td class="text-right bold"> 0.00</td>
+                                                <td class="text-right bold"> </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                        <tbody *ngIf="commission.length != 0">
+                                            <tr class="ng-star-inserted" >
+                                                <td colspan="5">{{ __("table.aucun_donnee")}}</td>
+                                               
+                                            </tr>
+                                        </tbody>
+                                      
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary" >{{ __('global.back')}}</button>
+                            <button type="submit" class="btn btn-primary" >{{ __('global.initier')}}</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+               
+
+
+             
+            </div>
+        </div>
+    </div>
+</div>

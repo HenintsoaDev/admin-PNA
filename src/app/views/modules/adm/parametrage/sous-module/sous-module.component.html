@@ -1,0 +1,109 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('PRM_8')" (click)="openModalAdd(addSous_module)"> {{ __("sous_module.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addSous_module>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="sous_moduleForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('sous_module.name')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="sous_module.name" placeholder="{{ __('sous_module.name')}}" formControlName="name" name="name">
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('sous_module.code')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="sous_module.code" placeholder="{{ __('sous_module.code')}}" formControlName="code" name="code">
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('sous_module.icon')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="sous_module.icon" placeholder="{{ __('sous_module.icon')}}" formControlName="icon" name="icon">
+                    </mat-form-field>
+                </div>
+                
+
+                <div class="form-group"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ __('sous_module.module')}}</mat-label>
+                        <mat-select [(ngModel)]="sous_module.module_id" name="module_id" formControlName="module_id" >
+                          <!-- Champ de recherche -->
+                          <mat-option>
+                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                          </mat-option>
+                      
+                          <!-- Affichage des options filtrées -->
+                          <mat-option *ngFor="let mod of filteredModules" [value]="mod.id"> {{ mod.name }} </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                
+                  
+
+                
+                
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!sous_module.id" [disabled]="sous_moduleForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="sous_module.id" [disabled]="sous_moduleForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

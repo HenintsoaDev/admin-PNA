@@ -1,0 +1,79 @@
+<div id="right-back-sidebar" class="bars-icon-sidebar">
+    <a href="javascript:void(0)" (click)="toggleSidebar()"><i class="material-icons icon-bars" >dehaze</i>
+        <p>
+            <span class="d-lg-none d-md-block"></span>
+        </p>
+    </a>
+</div>
+<div class="logo">
+    <a href="#" routerLink="home"  class="simple-text">
+        <div class="img-logo">
+            <img src="/assets/img/logo-pna-trans.png"/>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<b>{{ __('app.title') }}</b>
+        <!--{{ __("app.title")}} -->
+    </a>
+</div>
+<div class="sidebar-wrapper">
+    <div class="user">
+        <ul class="nav" style="margin-top: 0px;">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#collapseExample"  aria-expanded="true" style="color: white;">
+                    <i class="material-icons">person</i>
+                    <p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;font-size: 12px;">
+                        <span style="width: 11.5rem;display: inline-flex;text-overflow: ellipsis;white-space: initial;line-height: 15px;">{{ user.info?.nom }} {{ user.info?.prenom }} </span>
+                    <b class="caret"></b></p>
+                    <span style="font-size: 10px;margin-left: 40px;">{{ user.info?.name }}</span>
+                </a>
+            </li>
+        </ul>
+        <div id="collapseExample" [class]="userMenuUserActive ? 'collapse show' : 'collapse'">
+            <ul class="nav">
+                <li [class]="currentRoute == '/my-profil' ? 'nav-item active' : 'nav-item'">
+                    <a routerLink="/my-profil" class="nav-link text-white">
+                        <i class="material-icons c-icon">person</i><span class="sidebar-normal" style="font-size: 12px;" > {{ __("login.my_profile")}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0)" (click)="goToLogin()" class="nav-link text-white">
+                        <i class="material-icons">logout</i><span class="sidebar-normal" style="font-size: 12px;">{{ __("global.logout")}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div  *ngFor="let menuItem of routes; let i = index">
+        <ng-container *ngIf="menuItem.hasOneAction || user.info?.admin == 1">
+            <ul class="nav" style="margin-top: 0px;">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" [href]="'#collapse' + i"  aria-expanded="true" style="color: white;">
+                        <i class="material-icons" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">{{menuItem.icon}}</i>
+                        <p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;font-size:12px">
+                            <span style="width: 11.5rem;display: inline-flex;text-overflow: ellipsis;white-space: initial;line-height: 15px;    text-shadow: 0 1px 1px rgb(0 0 0 / 73%);">{{menuItem.title }}</span>
+                        <b class="caret"></b></p>
+                    </a>
+                </li>
+            </ul>
+            
+            <div *ngIf="menuItem.children.length" [class]="currentRoute == menuItem.path ? 'collapse show' : 'collapse'" [id]="'collapse' + i" >
+                <ul class="nav">
+                    <ng-container *ngFor="let child of menuItem.children">
+                        <li  *ngIf="child.state == 1 || user.info.admin == 1" [class]="currentRoute == child.path ? 'nav-item active' : 'nav-item'">
+                            <a routerLink="{{child.path}}" class="nav-link text-white"  >
+                                <i class="material-icons c-icon" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">chevron_right</i><span class="sidebar-normal" 
+                                [ngStyle]="{
+                                    'text-shadow': currentRoute === child.path ? 'none' : '0 1px 1px rgb(0 0 0 / 73%)'
+                                  }"
+                                style="font-size:12px">{{child.title}}</span>
+                            </a>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </ng-container>
+    </div>
+    
+
+    
+</div>
