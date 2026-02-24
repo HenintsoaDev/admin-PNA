@@ -1,5 +1,5 @@
 import {HttpHeaders} from "@angular/common/http";
-import { environment } from "environments/environment.prod";
+import { environment } from "environments/environment";
 
 export const valuesys = {
     httpOptions : {
@@ -12,6 +12,7 @@ export const valuesys = {
         })
     },
     httpAuthOptions : () => {
+
         return {
             headers: new HttpHeaders({
                 'Authorization' :"Bearer " + localStorage.getItem(environment.authItemName) || '',
@@ -47,6 +48,6 @@ export const valuesys = {
         }
     },
     authRefreshInterval: (5 * 60 * 1000 ),//5 mm,
-    timeTokenName: "_phco_time_token"
+    timeTokenName: "_pna_time_token"
 
 };

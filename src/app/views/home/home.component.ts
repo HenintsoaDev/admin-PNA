@@ -35,9 +35,11 @@ export class HomeComponent extends Translatable implements OnInit {
     async ngOnInit() {
         this.user = <Auth> await  this.auth.getLoginUser();
         this.modules = this.user.modules;
-        this.modules =this.modules.filter(_=>( _.hasOneSubModuleAction && _.state == 1)  || (this.user.info.admin === 1 && _.state == 1) );
+        this.modules =this.modules.filter(_=>( _.hasOneSousModuleAction && _.state == 1)  || (this.user.info.admin === 1 && _.state == 1) );
+        console.log(this.modules, "qqqqqq");
         this.routes = this.menuService.getCurrentMenuItems();
-        this.routes =this.routes.filter(_=>( _.hasOneSubModuleAction && _.state == 1)  || (this.user.info.admin === 1 && _.state == 1) );
+        console.log(this.routes, "aaaaaa");
+        //this.routes =this.routes.filter(_=>( _.hasOneSousModuleAction && _.state == 1)  || (this.user.info.admin === 1 && _.state == 1) );
 
 
     }
@@ -50,7 +52,11 @@ export class HomeComponent extends Translatable implements OnInit {
     goTo(module : string, pathSelected)
     {
         this.loading = true;
-        sessionStorage.removeItem('message-header');
+        this.menuService.updateMenuItems(module);
+        this.menuService.setMenuItemsModule(module);
+        this.router.navigate(['/app-module', module.replace('/','')]);
+
+        /* sessionStorage.removeItem('message-header');
         this.httpService.get(environment.header_message + module + "/display_message").pipe(
             tap(response => {
                 //console.log("response XHR", response);
@@ -72,7 +78,7 @@ export class HomeComponent extends Translatable implements OnInit {
                 this.menuService.setMenuItemsModule(module);
                 this.router.navigate(['/app-module', module.replace('/','')]);
             })
-        ).subscribe();
+        ).subscribe(); */
         
     }
 

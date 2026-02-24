@@ -17,12 +17,10 @@ import { HomeComponent } from 'app/views/home/home.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
-import {NgxMatIntlTelInputComponent} from 'ngx-mat-intl-tel-input';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfilComponent } from 'app/views/profil/profil.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -47,9 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatNativeDateModule,
     NgxIntlTelInputModule,
     BrowserAnimationsModule,
-    NgxMatIntlTelInputComponent,
     HttpClientModule,
-    Ng2TelInputModule
   ],
   declarations: [
     HomeComponent,

@@ -16,13 +16,13 @@ export class AuthService {
 
     constructor(private http: HttpClient, private httpService: HttpService,private  router: Router,private menuService: MenuService) {}
 
-    login(credentials: { login: string, password: string }): Observable<any> {
-        return this.http.post<any>(`${environment.baseUrl}/auth/loginAgence`, $.param(credentials),{
+    login(credentials: { identifiant: string, password: string }): Observable<any> {
+        return this.http.post<any>(`${environment.login}`, $.param(credentials),{
             headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded').set('Accept', 'application/json').set('X-Client-ID', 'app_pf'),
             withCredentials: true
         }).pipe(
             tap(response => {
-                console.log('Login response:', response);
+                console.log('Login response:', response['data']['access_token']);
                 if (response['code'] === 200 || response['code'] === 403) {
                     localStorage.setItem(environment.authItemName, response['data']['access_token']);
                     this.setToken(response['data']['access_token'], response['data']['expires_in']);
@@ -32,7 +32,8 @@ export class AuthService {
     }
 
     me() {
-        return this.httpService.get<any>(`auth/me`).pipe(
+
+        return this.httpService.get<any>(environment.userAuth).pipe(
             tap(async response => {
                 console.log('User info response:', response);
                 if (response['code'] === 200) {
@@ -92,6 +93,7 @@ export class AuthService {
     }
 
     public setToken(token:string,expires_in:number){
+
         localStorage.setItem(environment.authItemName, token);
         const t = new Date();
         t.setSeconds(t.getSeconds() + (expires_in));
@@ -139,24 +141,14 @@ export class AuthService {
     }
 
     async logout() {
-        const res = await this.http.get<any>(environment.baseUrl + '/auth/logout', valuesys.httpAuthOptions()).toPromise() ;
+        const res = await this.http.get<any>(environment.logout, valuesys.httpAuthOptions()).toPromise() ;
         if(res['code'] === 200){
             localStorage.removeItem(environment.menuItemsSelectedStorage);
             localStorage.removeItem(environment.menuItemsStorage);
             localStorage.removeItem(environment.userAuth);
             localStorage.removeItem(environment.authItemName);
             localStorage.removeItem(environment.userItemName);
-            localStorage.removeItem(environment.soldeWelletStorage);
-            localStorage.removeItem(environment.soldeCarteStorage);
             localStorage.removeItem(environment.phcoTimeToken);
-            localStorage.removeItem(environment.soldeSuiviCompte);
-            localStorage.removeItem(environment.soldeCarteSuiviCompte);
-            localStorage.removeItem(environment.soldeVirementCp);
-            localStorage.removeItem(environment.soldeVirementCarteCp);
-            localStorage.removeItem(environment.soldeGlobalTotalSolde);
-            localStorage.removeItem(environment.soldeGlobalTotalSoldeCarte);
-            localStorage.removeItem(environment.soldeCarteParametrable);
-            localStorage.removeItem(environment.soldeWalletCarteParametrable);
             this.router.navigate(['/login']);
         }
         

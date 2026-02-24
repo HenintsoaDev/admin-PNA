@@ -9,7 +9,7 @@ export interface RouteInfo {
     title: string;
     icon: string;
     class: string;
-    hasOneSubModuleAction?: boolean;
+    hasOneSousModuleAction?: boolean;
     showChildrenClass?: string;
     state?: number;
     children?: RouteInfo[];
@@ -78,7 +78,7 @@ export class MenuService {
                 path: '/' + module[i].code,
                 title: module[i].name,
                 state: module[i].state,
-                hasOneSubModuleAction: module[i].hasOneSubModuleAction,
+                hasOneSousModuleAction: module[i].hasOneSousModuleAction,
                 icon: module[i].icon || 'home',
                 class: '',
                 children : sousModule

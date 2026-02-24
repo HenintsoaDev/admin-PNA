@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BreadcrumbService } from 'app/services/breadcrumb.service';
 import { WalletService } from 'app/services/changementSolde.service';
-import { SoldeService } from 'app/services/solde.service';
 import { Translatable } from 'shared/constants/Translatable';
 
 @Component({
@@ -14,7 +13,7 @@ export class BreadcrumbComponent extends Translatable implements OnInit {
     walletSolde: string = "0";
     carteSolde: string = "0";
 
-    constructor(public breadcrumbService: BreadcrumbService,private soldeService: SoldeService, private walletService: WalletService) { 
+    constructor(public breadcrumbService: BreadcrumbService, private walletService: WalletService) { 
         super();
     }
 
@@ -27,8 +26,7 @@ export class BreadcrumbComponent extends Translatable implements OnInit {
           });
 
 
-        this.walletSolde = this.soldeService.getWalletSolde();
-        this.carteSolde = this.soldeService.getCarteSolde();
+    
         
         /*this.soldeService.walletSolde$.subscribe(value => {
             this.walletSolde = value;

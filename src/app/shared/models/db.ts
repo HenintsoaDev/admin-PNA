@@ -52,7 +52,7 @@ export class module_user {
     code: string ;
     icon: string | null ;
     state: number | null ;
-    hasOneSubModuleAction: boolean;
+    hasOneSousModuleAction: boolean;
     sousModules: sous_module [] | null ;
 }
 

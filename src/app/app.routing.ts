@@ -1,3 +1,4 @@
+import { GestionProduitModule } from './views/modules/gestion-boutique/gestion-produit/gestion-produit.module';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
@@ -24,26 +25,15 @@ const routes: Routes =[
     path: 'parametrage', data: { breadcrumb: 'module.title_module_breadcrumb' },
     loadChildren: () => import('./views/modules/adm/parametrage/parametrage.module').then(m => m.ParametrageModule)
   },
+
   {
-    path: 'gestion_bureau', data: { breadcrumb: 'bureau.title' },
-    loadChildren: () => import('./views/modules/adm/gestion-bureau/gestion-bureau.module').then(m => m.GestionBureauModule)
-  },
-  {
-    path: 'gestion_compte_principal', data: { breadcrumb: 'virement.title_sous_module' },
-    loadChildren: () => import('./views/modules/adm/gestion-compte-principal/gestion-compte-principal.module').then(m => m.GestionComptePrincipalModule)
-  },
-  {
-    path: 'gestion_commission_reseau_phco', data: { breadcrumb: 'partenaire.title_sous_module' },
-    loadChildren: () => import('./views/modules/adm/gestion-commission-reseau-phco/gestion-commission-reseau-phco.module').then(m => m.GestionCommissionReseauPhcoModule)
+    path: 'admin/gestion_produits', data: { breadcrumb: 'module.title_module_breadcrumb' },
+    loadChildren: () => import('./views/modules/gestion-boutique/gestion-produit/gestion-produit.module').then(m => m.GestionProduitModule)
   },
 
 
   {
     path: 'ouverture', data: { breadcrumb: 'ouverture.title_breadcrumb' },
-  },
-  {
-    path: 'demande', data: { breadcrumb: 'demande.title_breadcrumb' },
-    loadChildren: () => import('./views/modules/gestion-demande/demande/demande.module').then(m => m.DemandeModule)
   },
   {
     path: 'ordres_virement', data: { breadcrumb: 'ordre_virement.title_breadcrumb' },

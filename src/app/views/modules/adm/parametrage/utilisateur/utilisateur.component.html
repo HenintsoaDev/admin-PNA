@@ -101,32 +101,16 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="dateFonction">{{ __('utilisateur.telephone')}}</label>
-                            <input type="text"
-                                name="phone_client" 
-                                
-                                placeholder="{{formatTelephone}}"
-                                autocomplete="off"
-                                class="form-control form-icon-input"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                ng2TelInput
-                                [ng2TelInputOptions]="{
-                                    allowDropdown: true,
-                                    autoHideDialCode: false,
-                                    autoPlaceholder: 'on',
-                                    formatOnDisplay: true,
-                                    hiddenInput: 'full_number',
-                                    initialCountry: currenCode,
-                                    nationalMode: false,
-                                    preferredCountries: ['sn'],
-                                    separateDialCode: true,
-                                    utilsScript: '../../assets/js/tel-utils.js' 
-                                }"
-                                formControlName="telephone" #phone
-                                (hasError)="onError($event)"
-                                (ng2TelOutput)="getNumber($event)"
-                                (intlTelInputObject)="telInputObject($event)"
-                                (countryChange)="onCountryChange($event)"
-                            >
+
+
+                            <ngx-intl-tel-input
+                            formControlName="telephone"
+                            [preferredCountries]="['mg','sn']"
+            
+                            [enableAutoCountrySelect]="true"
+                            [enablePlaceholder]="true">
+                          </ngx-intl-tel-input>
+
                         </div>
                     </div>
                     <div class="col-lg-6">

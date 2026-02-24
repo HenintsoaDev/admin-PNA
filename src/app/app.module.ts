@@ -19,7 +19,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DataTablesModule } from "angular-datatables";
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { Ng2TelInputModule } from 'ng2-tel-input';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrModule } from 'ngx-toastr';
 import { WelcomeModuleComponent } from './views/welcome-module/welcome-module.component';
@@ -54,7 +53,6 @@ registerLocaleData(localeFr);
     MatNativeDateModule,
     NgxIntlTelInputModule,
     DataTablesModule,
-    Ng2TelInputModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot() // configuration globale
   ],
