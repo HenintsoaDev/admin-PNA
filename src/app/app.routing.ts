@@ -27,7 +27,7 @@ const routes: Routes =[
   },
 
   {
-    path: 'admin/gestion_produits', data: { breadcrumb: 'module.title_module_breadcrumb' },
+    path: 'admin/gestion_produits', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
     loadChildren: () => import('./views/modules/gestion-boutique/gestion-produit/gestion-produit.module').then(m => m.GestionProduitModule)
   },
 

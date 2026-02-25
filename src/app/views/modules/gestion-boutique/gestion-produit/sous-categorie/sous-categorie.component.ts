@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassageService } from 'app/services/table/passage.service';
-import { categorie, famille } from 'app/shared/models/db';
+import { sous_categorie, famille, categorie } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,15 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { CategorieService } from 'app/services/boutique/produits/categorie.service';
+import { SousCategorieService } from 'app/services/boutique/produits/sous_categorie.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
-  selector: 'app-categorie',
-  templateUrl: './categorie.component.html',
-  styleUrls: ['./categorie.component.scss']
+  selector: 'app-sous-categorie',
+  templateUrl: './sous-categorie.component.html',
+  styleUrls: ['./sous-categorie.component.scss']
 })
-export class CategorieComponent extends Translatable implements OnInit {
+export class SousCategorieComponent extends Translatable implements OnInit {
 
   modalRef?: BsModalRef;
   
@@ -25,19 +26,19 @@ export class CategorieComponent extends Translatable implements OnInit {
   header = [
     
     {
-      "nomColonne" : this.__('categorie.code'),
+      "nomColonne" : this.__('sous_categorie.code'),
       "colonneTable" : "code",
-      "table" : "categorie_produit"
+      "table" : "sous_categorie_produit"
     },
     {
-      "nomColonne" : this.__('categorie.nom'),
+      "nomColonne" : this.__('sous_categorie.nom'),
       "colonneTable" : "nom",
-      "table" : "categorie_produit"
+      "table" : "sous_categorie_produit"
     },
     {
-      "nomColonne" : this.__('categorie.famille'),
+      "nomColonne" : this.__('sous_categorie.categorie'),
       "colonneTable" : "nom",
-      "table" : "famille_produit"
+      "table" : "categorie_produit"
     },
     
     {
@@ -58,7 +59,7 @@ export class CategorieComponent extends Translatable implements OnInit {
             'type' : 'text',
           },
           {
-            'name' : 'famille_produit',
+            'name' : 'categorie_produit',
             'type' : 'text',
           },
         
@@ -92,28 +93,29 @@ export class CategorieComponent extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'categorie_produit.code', 'categorie_produit.nom', 'famille_produit.nom']
+    searchGlobal = [ 'sous_categorie_produit.code', 'sous_categorie_produit.nom', 'categorie_produit.nom']
    
     /***************************************** */
   
   
   
-    categorieForm: FormGroup;
-    categorie: categorie = new categorie();
-    listcategories:categorie [] = [];
+    sous_categorieForm: FormGroup;
+    sous_categorie: sous_categorie = new sous_categorie();
+    listsous_categories:sous_categorie [] = [];
   
-    @ViewChild('addcategorie') addcategorie: TemplateRef<any> | undefined;
-    @ViewChild('detailcategorie') detailcategorie: TemplateRef<any> | undefined;
+    @ViewChild('addsous_categorie') addsous_categorie: TemplateRef<any> | undefined;
+    @ViewChild('detailsous_categorie') detailsous_categorie: TemplateRef<any> | undefined;
 
-    idcategorie : number;
+    idsous_categorie : number;
     titleModal: string = "";
 
-    filteredFamilles: famille[] = [];
+    filteredFamilles: any[] = [];
+    filteredCategories: any[] = []; 
     searchControl = new FormControl('');
   
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private categorieService: CategorieService,     
+                private sous_categorieService: SousCategorieService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -130,7 +132,7 @@ export class CategorieComponent extends Translatable implements OnInit {
   
       this.authService.initAutority("GSP","GSB");
   
-      this.titleModal = this.__('categorie.title_add_modal');
+      this.titleModal = this.__('sous_categorie.title_add_modal');
   
           this.passageService.appelURL(null);
   
@@ -139,12 +141,12 @@ export class CategorieComponent extends Translatable implements OnInit {
           this.subscription = this.passageService.getObservable().subscribe(event => {
   
             if(event.data){
-              this.idcategorie = event.data.id;
+              this.idsous_categorie = event.data.id;
   
-              if(event.data.action == 'edit') this.openModalEditCategorie();
-              else if(event.data.action == 'delete') this.openModalDeleteCategorie();
-              else if(event.data.action == 'detail') this.openModalDetailCategorie();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateCategorie();
+              if(event.data.action == 'edit') this.openModalEditsous_categorie();
+              else if(event.data.action == 'delete') this.openModalDeletesous_categorie();
+              else if(event.data.action == 'detail') this.openModalDetailsous_categorie();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStatesous_categorie();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -152,13 +154,14 @@ export class CategorieComponent extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.categorie;
+          this.endpoint = environment.baseUrl + '/' + environment.sous_categorie;
       /***************************************** */
   
-          this.categorieForm = this.fb.group({
+          this.sous_categorieForm = this.fb.group({
             nom: ['', Validators.required],
             code: ['', [Validators.required]],
-            famille_produit_id : ['', [Validators.required]]
+            famille_produit_id : ['', [Validators.required]],
+            categorie_produit_id : ['', [Validators.required]]
         });
     }
   
@@ -170,12 +173,12 @@ export class CategorieComponent extends Translatable implements OnInit {
   
     // Quand on faire l'ajout ou modification
     onSubmit() {
-      if (this.categorieForm.valid) {
+      if (this.sous_categorieForm.valid) {
   
         let msg = "";
         let msg_btn = "";
   
-        if(!this.categorie.id){
+        if(!this.sous_categorie.id){
            msg = this.__("global.enregistrer_donnee_?");
            msg_btn = this.__("global.oui_enregistrer");
         }else{
@@ -198,10 +201,10 @@ export class CategorieComponent extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.categorie.id){
+              if(!this.sous_categorie.id){
                 console.log("add")
   
-                 this.categorieService.ajoutCategorie(this.categorie).subscribe({
+                 this.sous_categorieService.ajoutsous_categorie(this.sous_categorie).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -221,7 +224,7 @@ export class CategorieComponent extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.categorieService.modifierCategorie(this.categorie).subscribe({
+                 this.sous_categorieService.modifiersous_categorie(this.sous_categorie).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -251,27 +254,43 @@ export class CategorieComponent extends Translatable implements OnInit {
     }
   
     // Ouverture de modal pour modification
-    openModalEditCategorie() {
+    openModalEditsous_categorie() {
   
-      this.titleModal = this.__('categorie.title_edit_modal');
+      this.titleModal = this.__('sous_categorie.title_edit_modal');
   
-      if (this.addcategorie) {
+      if (this.addsous_categorie) {
   
         this.recupererDonnee();
-        this.actualisationSelect();
 
+        
+        this.actualisationSelectFamille();
+        this.recupererIdFamille(this.sous_categorie.categorie_produit_id)
+        this.actualisationSelectCategorie()
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addcategorie, { backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.addsous_categorie, { backdrop: 'static',keyboard: false });
       }
     }
+
+
+    async recupererIdFamille(idCat = null) {
+
+      let whereId = "";
+      if (idCat != null) whereId = "?where=categorie_produit.id|e|" + idCat;
   
+      const resCat = await this.authService.getSelectList(environment.liste_categorie_active + whereId, ['nom']);
+
+      this.sous_categorie.famille_produit_id = resCat[0].famille_produit_id;
+      this.actualisationSelectCategorie(this.sous_categorie.famille_produit_id);
+    }
+
+    
     // Detail d'un modal
-    async openModalDetailCategorie() {
+    async openModalDetailsous_categorie() {
   
   
-      this.titleModal = this.__('categorie.title_detail_modal');
+      this.titleModal = this.__('sous_categorie.title_detail_modal');
   
-      if (this.detailcategorie) {
+      if (this.detailsous_categorie) {
   
   
         this.recupererDonnee();
@@ -279,14 +298,14 @@ export class CategorieComponent extends Translatable implements OnInit {
   
   
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.detailcategorie, {
+        this.modalRef = this.modalService.show(this.detailsous_categorie, {
           class: 'modal-xl',backdrop:"static"
         });
       }
   
     }
      // SUppression d'un modal
-     openModalDeleteCategorie() {
+     openModalDeletesous_categorie() {
   
       Swal.fire({
         title: this.__("global.confirmation"),
@@ -303,7 +322,7 @@ export class CategorieComponent extends Translatable implements OnInit {
         }).then((result) => {
         if (result.isConfirmed) {
   
-             this.categorieService.supprimerCategorie(this.idcategorie).subscribe({
+             this.sous_categorieService.supprimersous_categorie(this.idsous_categorie).subscribe({
               next: (res) => {
                   if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
@@ -326,10 +345,10 @@ export class CategorieComponent extends Translatable implements OnInit {
   
     }
   
-    async actualisationSelect() {
+    async actualisationSelectFamille() {
       let familles = await this.authService.getSelectList(environment.liste_famille_active, ['nom']);
       this.filteredFamilles = familles;
-      console.log(this.filteredFamilles);
+
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
         this.filteredFamilles = familles.filter(famille =>
@@ -337,9 +356,38 @@ export class CategorieComponent extends Translatable implements OnInit {
         );
       });
     }
+    recupererCategorie(event: MatSelectChange) {
+      const idFamille = event.value;
+
+      this.actualisationSelectCategorie(idFamille);
+  
+    }
+
+    async actualisationSelectCategorie(idCategorie = null) {
+
+
+      let endpointCategorie = "";
+      console.log("xcvb")
+
+      if (idCategorie != null) endpointCategorie = environment.liste_categorie_active + "?where=famille_produit_id|e|" + idCategorie;
+      else endpointCategorie = environment.liste_categorie_active;
+
+
+      let categories = await this.authService.getSelectList(endpointCategorie, ['nom']);
+      this.filteredCategories = categories;
+      console.log("aaaaaaa",  this.filteredCategories)
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredCategories = categories.filter(cat =>
+          cat.nom.toLowerCase().includes(lower)
+        );
+      });
+
+    }
 
       // Ouverture de modal pour modification
-      openModalToogleStateCategorie() {
+      openModalToogleStatesous_categorie() {
   
        
         this.recupererDonnee();
@@ -359,11 +407,11 @@ export class CategorieComponent extends Translatable implements OnInit {
           }).then((result) => {
           if (result.isConfirmed) {
             let state = 0;
-            if(this.categorie.state == 1) state = 0;
+            if(this.sous_categorie.state == 1) state = 0;
             else state = 1;
   
     
-               this.categorieService.changementStateCategorie(this.categorie, state).subscribe({
+               this.sous_categorieService.changementStatesous_categorie(this.sous_categorie, state).subscribe({
                 next: (res) => {
                     if(res['code'] == 201) {
                       this.toastr.success(res['msg'], this.__("global.success"));
@@ -390,9 +438,9 @@ export class CategorieComponent extends Translatable implements OnInit {
   
     // Ouverture du modal pour l'ajout
     openModalAdd(template: TemplateRef<any>) {
-      this.titleModal = this.__('categorie.title_add_modal');
-      this.categorie = new categorie();
-      this.actualisationSelect();
+      this.titleModal = this.__('sous_categorie.title_add_modal');
+      this.sous_categorie = new sous_categorie();
+      this.actualisationSelectFamille();
 
       this.modalRef = this.modalService.show(template, {
         backdrop: 'static',
@@ -406,11 +454,11 @@ export class CategorieComponent extends Translatable implements OnInit {
       const storedData = localStorage.getItem('data');
       let result : any;
       if (storedData) result = JSON.parse(storedData);
-      this.listcategories = result.data;
-      console.log(this.listcategories);
+      this.listsous_categories = result.data;
+      console.log(this.listsous_categories);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listcategories.filter(_ => _.id == this.idcategorie);
-      this.categorie = res[0];
+      const res = this.listsous_categories.filter(_ => _.id == this.idsous_categorie);
+      this.sous_categorie = res[0];
     }
   
     // Actualisation des données
@@ -422,5 +470,4 @@ export class CategorieComponent extends Translatable implements OnInit {
     closeModal() {
       this.modalRef?.hide();
     }
-
 }
