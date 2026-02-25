@@ -50,6 +50,8 @@ export const environment = {
 
   //** Gestion des produits */
   famille: 'admin/gestion_produits/familles',
+  liste_famille_active: 'admin/gestion_produits/familles/active',
+  categorie: 'admin/gestion_produits/categories',
 
 
 };

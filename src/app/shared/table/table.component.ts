@@ -50,7 +50,7 @@ export class TableComponent extends Translatable {
     searchCol: string = "";
     tri: any = "";
     order: string = "";
-    where: string = "&where=1|e|1";
+    where: string = "";
 
 
     @Input() endpoint : any;
@@ -179,7 +179,7 @@ export class TableComponent extends Translatable {
           //** recherche par colonne */
           if (colonne != "" && refElement ) {
             if (refElement != "" && refElement != "undefined") {
-              this.searchCol = "," + table + "." + colonne + "|l|" + refElement;
+              this.searchCol = table + "." + colonne + "|l|" + refElement;
             } else if (refElement == "") {
               this.searchCol = "";
             }
@@ -218,6 +218,10 @@ export class TableComponent extends Translatable {
         triage = "&__order__=" + this.order + "," + this.tri;
       }
 
+
+      if(this.search || this.searchCol) this.where = "&where=";
+      else this.where = "";
+
       //initialisation 
       this.donneeTotal.Carte = undefined;
       this.donneeTotal.Wallet = undefined;
@@ -228,6 +232,8 @@ export class TableComponent extends Translatable {
       this.donneeTotal.TotalMontant = undefined;
       this.donneeTotal.TotalCommission = undefined;
       this.donneeTotal.TotalTTC = undefined;
+
+      console.log()
 
     // --- Appel endpopint ---->
 

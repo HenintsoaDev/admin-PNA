@@ -63,6 +63,7 @@
         "valider_inscription_?": "Souhaitez-vous vraiment valider cette inscription ? ",
         "refuser_inscription_?": "Souhaitez-vous vraiment refuser cette inscription ? ",
         "enregistrer_donnee_?": "Souhaitez-vous vraiment enregistrer cette donnée  ? ",
+        "supprimer_donnee_?": "Souhaitez-vous vraiment supprimer cette donnée ? ",
         "changer_state_?": "Souhaitez-vous vraiment changer le statut ? ",
         "regenerer_mdp?": "Souhaitez-vous vraiment régénérer le mot de passe ? ",
         "add_action_?": "Souhaitez-vous vraiment ajouter un action ? ",
@@ -147,6 +148,16 @@
     "table_list": {
         "title": "Liste des utilisateurs",
         "add_list": "Ajouter un utilisateur"
+    },
+    "table": {
+        "affiche": "Afficher  :",
+        "element": "éléments",
+        "rechercher": "Rechercher",
+        "aucun_donnee": "Pas de données pour le moment.",
+        "premier": "Premier",
+        "precedent": "Précedent",
+        "suivant": "Suivant",
+        "dernier": "Dernier"
     },
     "profil": {
         "title_breadcrumb": "Lister les profils",
@@ -236,6 +247,29 @@
         "add": "Ajouter un sous module",
         "title_edit_modal": "Modification d'un sous module",
         "title_add_modal": "Ajout d'un sous module"
+    },
+    "famille": {
+        "title_gestion_produit_breadcrumb": "Gestions des produits",
+        "title_breadcrumb": "Lister les familles",
+        "title": "Gestion des familles",
+        "nom": "Nom",
+        "code": "Code",
+        "add": "Ajouter une famille",
+        "title_edit_modal": "Modification d'une famille",
+        "title_add_modal": "Ajout d'un famille",
+        "title_detail_modal" : "Détails"
+    },
+    "categorie": {
+        "title_gestion_produit_breadcrumb": "Gestions des produits",
+        "title_breadcrumb": "Lister les catégories",
+        "title": "Gestion des catégories",
+        "nom": "Nom",
+        "code": "Code",
+        "famille" : "Famille",
+        "add": "Ajouter une catégorie",
+        "title_edit_modal": "Modification d'une catégorie",
+        "title_add_modal": "Ajout d'une catégorie",
+        "title_detail_modal" : "Détails"
     }
 
 }

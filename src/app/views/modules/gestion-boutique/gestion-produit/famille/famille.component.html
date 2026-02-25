@@ -14,7 +14,7 @@
                                 </button> -->
                             </div>
                             <div class="right-button">
-                                <button *ngIf="autority('PRM_2')" class="btn btn-secondary" (click)="openModalAdd(addModule)"> {{ __("module.add")}}</button>
+                                <button *ngIf="autority('GSP_3')" class="btn btn-secondary" (click)="openModalAdd(addFamille)"> {{ __("famille.add")}}</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
 
 <!-- MODAL -->
  <!-- Modal avec Material Design -->
- <ng-template #addModule>
+ <ng-template #addFamille>
     <div class="modal-header btn-primary">
         <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
         <button type="button" class="close" (click)="closeModal()">
@@ -55,37 +55,102 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" [formGroup]="moduleForm" (ngSubmit)="onSubmit()">
+        <form #f="ngForm" [formGroup]="familleForm" (ngSubmit)="onSubmit()">
             <div class="modal-body">
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>{{ __('module.code')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="module.code" placeholder="{{ __('module.code')}}" formControlName="code" name="code">
+                        <mat-label>{{ __('famille.code')}}</mat-label>
+                        <input matInput type="text" maxlength="2" [(ngModel)]="famille.code" placeholder="{{ __('famille.code')}}" formControlName="code" name="code">
                     </mat-form-field>
                 </div>
                 
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>{{ __('module.name')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="module.name" placeholder="{{ __('module.name')}}" formControlName="name" name="name">
+                        <mat-label>{{ __('famille.nom')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="famille.nom" placeholder="{{ __('famille.nom')}}" formControlName="nom" name="nom">
                     </mat-form-field>
                 </div>
                
-                <div class="form-group">
-                    <mat-form-field>
-                        <mat-label>{{ __('module.icon')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="module.icon" placeholder="{{ __('module.icon')}}" formControlName="icon" name="icon">
-                    </mat-form-field>
-                </div>
-                
-                
+               
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="!module.id" [disabled]="moduleForm.invalid">{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="module.id" [disabled]="moduleForm.invalid">{{ __('global.edit')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!famille.id" [disabled]="familleForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="famille.id" [disabled]="familleForm.invalid">{{ __('global.edit')}}</button>
             </div>
         </form>
+    </div>
+</ng-template>
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailFamille>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du famille">
+              <br />
+      
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("famille.code")}}</b></label>
+                                <h6><b class="bold">{{  famille.code }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("famille.nom")}}</b></label>
+                                <h6><b class="bold">{{  famille.nom }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+        
+                
+            
+                </table>
+            </mat-tab>
+
+
+            <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <!-- Sous-catégories -->
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab>
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
     </div>
 </ng-template>

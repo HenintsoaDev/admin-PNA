@@ -1,0 +1,99 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('PRM_2')" class="btn btn-secondary" (click)="openModalAdd(addcategorie)"> {{ __("categorie.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addcategorie>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="categorieForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('categorie.code')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="categorie.code" placeholder="{{ __('categorie.code')}}" formControlName="code" name="code">
+                    </mat-form-field>
+                </div>
+                
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('categorie.name')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="categorie.nom" placeholder="{{ __('categorie.nom')}}" formControlName="nom" name="nom">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ __('categorie.famille')}}</mat-label>
+                        <mat-select [(ngModel)]="categorie.famille_produit_id" name="famille_produit_id" formControlName="famille_produit_id" >
+                          <!-- Champ de recherche -->
+                          <mat-option>
+                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                          </mat-option>
+                      
+                          <!-- Affichage des options filtrées -->
+                          <mat-option *ngFor="let famille of filteredFamille" [value]="famille.id"> {{ famille.nom }} </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!categorie.id" [disabled]="categorieForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="categorie.id" [disabled]="categorieForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

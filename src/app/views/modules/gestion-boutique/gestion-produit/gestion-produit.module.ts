@@ -17,11 +17,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
+import { CategorieComponent } from './categorie/categorie.component';
 
 
 @NgModule({
   declarations: [
-    FamilleComponent
+    FamilleComponent,
+    CategorieComponent
   ],
   imports: [
     CommonModule,

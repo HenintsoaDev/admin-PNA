@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassageService } from 'app/services/table/passage.service';
-import { famille } from 'app/shared/models/db';
+import { categorie, famille } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,14 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { FamilleService } from 'app/services/boutique/produits/famille.service';
+import { CategorieService } from 'app/services/boutique/produits/categorie.service';
 
 @Component({
-  selector: 'app-famille',
-  templateUrl: './famille.component.html',
-  styleUrls: ['./famille.component.scss']
+  selector: 'app-categorie',
+  templateUrl: './categorie.component.html',
+  styleUrls: ['./categorie.component.scss']
 })
-export class FamilleComponent extends Translatable implements OnInit {
+export class CategorieComponent extends Translatable implements OnInit {
 
   modalRef?: BsModalRef;
   
@@ -25,16 +25,21 @@ export class FamilleComponent extends Translatable implements OnInit {
   header = [
     
     {
-      "nomColonne" : this.__('famille.code'),
+      "nomColonne" : this.__('categorie.code'),
       "colonneTable" : "code",
-      "table" : "famille_produit"
+      "table" : "categorie_produit"
     },
     {
-      "nomColonne" : this.__('famille.nom'),
+      "nomColonne" : this.__('categorie.nom'),
+      "colonneTable" : "nom",
+      "table" : "categorie_produit"
+    },
+    {
+      "nomColonne" : this.__('categorie.famille'),
       "colonneTable" : "nom",
       "table" : "famille_produit"
     },
-   
+    
     {
       "nomColonne" : this.__('global.action')
     }
@@ -52,12 +57,15 @@ export class FamilleComponent extends Translatable implements OnInit {
             'name' : 'nom',
             'type' : 'text',
           },
-        
-         
+          {
+            'name' : 'famille_produit',
+            'type' : 'text',
+          },
         
           {'name' :  'state#id'}
   ]
-  
+
+
   listIcon = [
     {
       'icon' : 'info',
@@ -84,26 +92,26 @@ export class FamilleComponent extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'famille_produit.code', 'famille_produit.nom']
+    searchGlobal = [ 'categorie_produit.code', 'categorie_produit.nom', 'famille_produit.nom']
    
     /***************************************** */
   
   
   
-    familleForm: FormGroup;
-    famille: famille = new famille();
-    listFamilles:famille [] = [];
+    categorieForm: FormGroup;
+    categorie: categorie = new categorie();
+    listcategories:categorie [] = [];
   
-    @ViewChild('addFamille') addFamille: TemplateRef<any> | undefined;
-    @ViewChild('detailFamille') detailFamille: TemplateRef<any> | undefined;
-
-    idFamille : number;
+    @ViewChild('addcategorie') addcategorie: TemplateRef<any> | undefined;
+    idcategorie : number;
     titleModal: string = "";
-  
+
+    filteredFamilles: famille[] = [];
+    searchControl = new FormControl('');
   
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private familleService: FamilleService,     
+                private categorieService: CategorieService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -118,9 +126,9 @@ export class FamilleComponent extends Translatable implements OnInit {
   
     async ngOnInit() {
   
-      this.authService.initAutority("GSP","GSB");
+      this.authService.initAutority("PRM","ADM");
   
-      this.titleModal = this.__('famille.title_add_modal');
+      this.titleModal = this.__('categorie.title_add_modal');
   
           this.passageService.appelURL(null);
   
@@ -129,12 +137,11 @@ export class FamilleComponent extends Translatable implements OnInit {
           this.subscription = this.passageService.getObservable().subscribe(event => {
   
             if(event.data){
-              this.idFamille = event.data.id;
+              this.idcategorie = event.data.id;
   
-              if(event.data.action == 'edit') this.openModalEditFamille();
-              else if(event.data.action == 'delete') this.openModalDeleteFamille();
-              else if(event.data.action == 'detail') this.openModalDetailFamille();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateFamille();
+              if(event.data.action == 'edit') this.openModalEditCategorie();
+              else if(event.data.action == 'delete') this.openModalDeleteCategorie();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateCategorie();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -142,12 +149,13 @@ export class FamilleComponent extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.famille;
+          this.endpoint = environment.baseUrl + '/' + environment.categorie;
       /***************************************** */
   
-          this.familleForm = this.fb.group({
+          this.categorieForm = this.fb.group({
             nom: ['', Validators.required],
             code: ['', [Validators.required]],
+            famille_produit_id : ['', [Validators.required]]
         });
     }
   
@@ -159,12 +167,12 @@ export class FamilleComponent extends Translatable implements OnInit {
   
     // Quand on faire l'ajout ou modification
     onSubmit() {
-      if (this.familleForm.valid) {
+      if (this.categorieForm.valid) {
   
         let msg = "";
         let msg_btn = "";
   
-        if(!this.famille.id){
+        if(!this.categorie.id){
            msg = this.__("global.enregistrer_donnee_?");
            msg_btn = this.__("global.oui_enregistrer");
         }else{
@@ -187,10 +195,10 @@ export class FamilleComponent extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.famille.id){
+              if(!this.categorie.id){
                 console.log("add")
   
-                 this.familleService.ajoutFamille(this.famille).subscribe({
+                 this.categorieService.ajoutCategorie(this.categorie).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -210,7 +218,7 @@ export class FamilleComponent extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.familleService.modifierFamille(this.famille).subscribe({
+                 this.categorieService.modifierCategorie(this.categorie).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -240,43 +248,22 @@ export class FamilleComponent extends Translatable implements OnInit {
     }
   
     // Ouverture de modal pour modification
-    openModalEditFamille() {
+    openModalEditCategorie() {
   
-      this.titleModal = this.__('famille.title_edit_modal');
+      this.titleModal = this.__('categorie.title_edit_modal');
   
-      if (this.addFamille) {
+      if (this.addcategorie) {
   
         this.recupererDonnee();
   
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addFamille, { backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.addcategorie, { backdrop: 'static',keyboard: false });
       }
     }
-
-     // Detail d'un modal
-   async openModalDetailFamille() {
-  
-  
-    this.titleModal = this.__('famille.title_detail_modal');
-
-    if (this.detailFamille) {
-
-
-      this.recupererDonnee();
-
-
-
-      // Ouverture de modal
-      this.modalRef = this.modalService.show(this.detailFamille, {
-        class: 'modal-xl',backdrop:"static"
-      });
-    }
-
-  }
   
   
      // SUppression d'un modal
-     openModalDeleteFamille() {
+     openModalDeleteCategorie() {
   
       Swal.fire({
         title: this.__("global.confirmation"),
@@ -293,9 +280,9 @@ export class FamilleComponent extends Translatable implements OnInit {
         }).then((result) => {
         if (result.isConfirmed) {
   
-             this.familleService.supprimerFamille(this.idFamille).subscribe({
+             this.categorieService.supprimerCategorie(this.idcategorie).subscribe({
               next: (res) => {
-                  if(res['code'] == 205) {
+                  if(res['code'] == 204) {
                     this.toastr.success(res['msg'], this.__("global.success"));
                     this.actualisationTableau();
                   }
@@ -316,9 +303,20 @@ export class FamilleComponent extends Translatable implements OnInit {
   
     }
   
+    async actualisationSelect() {
+      let familles = await this.authService.getSelectList(environment.liste_famille_active, ['name']);
+      this.filteredFamilles = familles;
   
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredFamilles = familles.filter(famille =>
+          famille.nom.toLowerCase().includes(lower)
+        );
+      });
+    }
+
       // Ouverture de modal pour modification
-      openModalToogleStateFamille() {
+      openModalToogleStateCategorie() {
   
        
         this.recupererDonnee();
@@ -338,11 +336,11 @@ export class FamilleComponent extends Translatable implements OnInit {
           }).then((result) => {
           if (result.isConfirmed) {
             let state = 0;
-            if(this.famille.state == 1) state = 0;
+            if(this.categorie.state == 1) state = 0;
             else state = 1;
   
     
-               this.familleService.changementStateFamille(this.famille, state).subscribe({
+               this.categorieService.changementStateCategorie(this.categorie, state).subscribe({
                 next: (res) => {
                     if(res['code'] == 201) {
                       this.toastr.success(res['msg'], this.__("global.success"));
@@ -369,8 +367,8 @@ export class FamilleComponent extends Translatable implements OnInit {
   
     // Ouverture du modal pour l'ajout
     openModalAdd(template: TemplateRef<any>) {
-      this.titleModal = this.__('famille.title_add_modal');
-      this.famille = new famille();
+      this.titleModal = this.__('categorie.title_add_modal');
+      this.categorie = new categorie();
   
       this.modalRef = this.modalService.show(template, {
         backdrop: 'static',
@@ -384,11 +382,11 @@ export class FamilleComponent extends Translatable implements OnInit {
       const storedData = localStorage.getItem('data');
       let result : any;
       if (storedData) result = JSON.parse(storedData);
-      this.listFamilles = result.data;
-      console.log(this.listFamilles);
+      this.listcategories = result.data;
+      console.log(this.listcategories);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listFamilles.filter(_ => _.id == this.idFamille);
-      this.famille = res[0];
+      const res = this.listcategories.filter(_ => _.id == this.idcategorie);
+      this.categorie = res[0];
     }
   
     // Actualisation des données
@@ -400,4 +398,5 @@ export class FamilleComponent extends Translatable implements OnInit {
     closeModal() {
       this.modalRef?.hide();
     }
+
 }

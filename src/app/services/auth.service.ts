@@ -141,8 +141,8 @@ export class AuthService {
     }
 
     async logout() {
-        const res = await this.http.get<any>(environment.logout, valuesys.httpAuthOptions()).toPromise() ;
-        if(res['code'] === 200){
+        const res = await this.http.post<any>(environment.logout, '', valuesys.httpAuthOptions()).toPromise() ;
+        if(res['code'] === 200 ||res['code'] === 201 ){
             localStorage.removeItem(environment.menuItemsSelectedStorage);
             localStorage.removeItem(environment.menuItemsStorage);
             localStorage.removeItem(environment.userAuth);
