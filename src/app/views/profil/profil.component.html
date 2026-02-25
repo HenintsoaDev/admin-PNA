@@ -66,10 +66,10 @@
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="d-flex align-items-start mb-3">
-                                    <i class="material-icons mr-3 text-primary">home</i>
+                                    <i class="material-icons mr-3 text-primary">business</i>
                                     <div>
-                                        <p class="mb-1"><strong>{{ __('utilisateur.adresse') }}:</strong> {{
-                                            user.info?.email }}</p>
+                                        <p class="mb-1"><strong>{{ __('utilisateur.direction_regional') }}:</strong> {{ user.info?.direction_regionale }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -84,13 +84,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-start mb-3">
-                            <i class="material-icons mr-3 text-primary">business</i>
-                            <div>
-                                <p class="mb-1"><strong>{{ __('utilisateur.bureau') }}:</strong> {{ user.info?.name }}
-                                </p>
-                            </div>
-                        </div>
+                     
                     </div>
                 </div>
             </div>

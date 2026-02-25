@@ -14,7 +14,7 @@
                                 </button> -->
                             </div>
                             <div class="right-button">
-                                <button *ngIf="autority('GSP_8')" class="btn btn-secondary" (click)="openModalAdd(addcategorie)"> {{ __("categorie.add")}}</button>
+                                <button *ngIf="autority('GSP_8')" class="btn btn-secondary" (click)="openModalAdd(addsous_categorie)"> {{ __("sous_categorie.add")}}</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
 
 <!-- MODAL -->
  <!-- Modal avec Material Design -->
- <ng-template #addcategorie>
+ <ng-template #addsous_categorie>
     <div class="modal-header btn-primary">
         <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
         <button type="button" class="close" (click)="closeModal()">
@@ -55,26 +55,26 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" [formGroup]="categorieForm" (ngSubmit)="onSubmit()">
+        <form #f="ngForm" [formGroup]="sous_categorieForm" (ngSubmit)="onSubmit()">
             <div class="modal-body">
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>{{ __('categorie.code')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="categorie.code" placeholder="{{ __('categorie.code')}}" formControlName="code" name="code">
+                        <mat-label>{{ __('sous_categorie.code')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="sous_categorie.code" placeholder="{{ __('sous_categorie.code')}}" formControlName="code" name="code">
                     </mat-form-field>
                 </div>
                 
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>{{ __('categorie.nom')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="categorie.nom" placeholder="{{ __('categorie.nom')}}" formControlName="nom" name="nom">
+                        <mat-label>{{ __('sous_categorie.nom')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="sous_categorie.nom" placeholder="{{ __('sous_categorie.nom')}}" formControlName="nom" name="nom">
                     </mat-form-field>
                 </div>
 
                 <div class="form-group"> 
                     <mat-form-field appearance="fill">
-                        <mat-label>{{ __('categorie.famille')}}</mat-label>
-                        <mat-select [(ngModel)]="categorie.famille_produit_id" name="famille_produit_id" formControlName="famille_produit_id" >
+                        <mat-label>{{ __('sous_categorie.famille')}}</mat-label>
+                        <mat-select [(ngModel)]="sous_categorie.famille_produit_id" (selectionChange)="recupererCategorie($event)" name="famille_produit_id" formControlName="famille_produit_id" >
                           <!-- Champ de recherche -->
                           <mat-option>
                             <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
@@ -85,14 +85,29 @@
                         </mat-select>
                       </mat-form-field>
                 </div>
+
+                <div class="form-group"> 
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ __('sous_categorie.categorie')}}</mat-label>
+                        <mat-select [(ngModel)]="sous_categorie.categorie_produit_id" name="categorie_produit_id" formControlName="categorie_produit_id" >
+                          <!-- Champ de recherche -->
+                          <mat-option>
+                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                          </mat-option>
+                      
+                          <!-- Affichage des options filtrées -->
+                          <mat-option *ngFor="let categorie of filteredCategories" [value]="categorie.id"> {{ categorie.nom }} </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
                
                
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="!categorie.id" [disabled]="categorieForm.invalid">{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="categorie.id" [disabled]="categorieForm.invalid">{{ __('global.edit')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!sous_categorie.id" [disabled]="sous_categorieForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="sous_categorie.id" [disabled]="sous_categorieForm.invalid">{{ __('global.edit')}}</button>
             </div>
         </form>
     </div>
@@ -103,7 +118,7 @@
 
 <!-- MODAL -->
  <!-- Modal avec Material Design -->
- <ng-template #detailcategorie>
+ <ng-template #detailsous_categorie>
     <div class="modal-header btn-primary">
         <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
         <button type="button" class="close" (click)="closeModal()">
@@ -114,7 +129,7 @@
 
 
         <mat-tab-group>
-            <mat-tab label="Information du categorie">
+            <mat-tab label="Information du sous categorie">
               <br />
       
                 <table style="width: 100%;">
@@ -122,22 +137,22 @@
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("categorie.code")}}</b></label>
-                                <h6><b class="bold">{{  categorie.code }}</b></h6>
+                                <label><b class="fw-800">{{ __("sous_categorie.code")}}</b></label>
+                                <h6><b class="bold">{{  sous_categorie.code }}</b></h6>
                             </div>
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("categorie.nom")}}</b></label>
-                                <h6><b class="bold">{{  categorie.nom }}</b></h6>
+                                <label><b class="fw-800">{{ __("sous_categorie.nom")}}</b></label>
+                                <h6><b class="bold">{{  sous_categorie.nom }}</b></h6>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("categorie.famille")}}</b></label>
-                                <h6><b class="bold">{{  categorie.famille_produit }}</b></h6>
+                                <label><b class="fw-800">{{ __("sous_categorie.categorie")}}</b></label>
+                                <h6><b class="bold">{{  sous_categorie.categorie_produit }}</b></h6>
                             </div>
                         </td>
                        
@@ -149,22 +164,6 @@
             </mat-tab>
 
 
-            <!-- <mat-tab label="Liste des catégories">
-                <br />
-        
-                <div class="categories-container">
-                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
-                      <b class="gras">{{ categorie.code }}</b><br>
-                      {{ categorie.nom }}
-                
-                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
-                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
-                          {{ sous.code }} - {{ sous.nom }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </mat-tab> -->
       
                    
           </mat-tab-group>

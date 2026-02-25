@@ -15,6 +15,7 @@ export class utilisateur {
     id_type_agence: any;
     wallet_carte: number;
     profil: any;
+    direction_regionale: any;
 }
 
 export class VerifiedAccount {
@@ -124,7 +125,7 @@ export class famille {
     nom: string ;
     code: string ;
     state: number | null ;
-    categories: action [] | null | [];
+    categories: categorie [] | null | [];
 }
 
 
@@ -133,5 +134,16 @@ export class categorie {
     nom: string ;
     code: string ;
     state: number | null ;
-    categories: action [] | null | [];
+    famille_produit: famille [] | null | [];
+}
+
+
+export class sous_categorie {
+    id: number ;
+    nom: string ;
+    code: string ;
+    state: number | null ;
+    categories: categorie [] | null | [];
+    famille_produit_id: any;
+    categorie_produit_id: any;
 }

@@ -18,12 +18,14 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
 import { CategorieComponent } from './categorie/categorie.component';
+import { SousCategorieComponent } from './sous-categorie/sous-categorie.component';
 
 
 @NgModule({
   declarations: [
     FamilleComponent,
-    CategorieComponent
+    CategorieComponent,
+    SousCategorieComponent
   ],
   imports: [
     CommonModule,

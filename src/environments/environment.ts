@@ -52,6 +52,8 @@ export const environment = {
   famille: 'admin/gestion_produits/familles',
   liste_famille_active: 'admin/gestion_produits/familles/active',
   categorie: 'admin/gestion_produits/categories',
+  liste_categorie_active: 'admin/gestion_produits/categories/active',
+  sous_categorie: 'admin/gestion_produits/sous_categories',
 
 
 };
