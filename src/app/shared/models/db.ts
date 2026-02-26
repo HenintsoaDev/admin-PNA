@@ -128,6 +128,12 @@ export class famille {
     categories: categorie [] | null | [];
 }
 
+export class forme {
+    id: number ;
+    nom: string ;
+    state: number | null ;
+}
+
 
 export class categorie {
     id: number ;
@@ -143,6 +149,25 @@ export class sous_categorie {
     nom: string ;
     code: string ;
     state: number | null ;
+    categories: categorie [] | null | [];
+    famille_produit_id: any;
+    categorie_produit_id: any;
+}
+
+
+export class produit {
+    id: number ;
+    code: string ;
+    dci: string ;
+    nom_commercial: string ;
+    dosage: string ;
+    conditionnement: string ;
+    description: string ;
+    prix_unitaire: string ;
+    forme_pharmaceutique_id: number | null;
+    sous_categorie_produit_id: number | null;
+    state: number | null ;
+
     categories: categorie [] | null | [];
     famille_produit_id: any;
     categorie_produit_id: any;

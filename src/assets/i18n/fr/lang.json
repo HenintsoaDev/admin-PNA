@@ -273,6 +273,15 @@
         "title_add_modal": "Ajout d'un famille",
         "title_detail_modal" : "Détails"
     },
+    "forme": {
+        "title_breadcrumb": "Lister les formes pharmaceutiques",
+        "title": "Gestion des formes pharmaceutiques",
+        "nom": "Nom",
+        "add": "Ajouter une forme ",
+        "title_edit_modal": "Modification d'une forme pharmaceutique",
+        "title_add_modal": "Ajout d'un forme pharmaceutique",
+        "title_detail_modal" : "Détails"
+    },
     "categorie": {
         "title_gestion_produit_breadcrumb": "Gestions des produits",
         "title_breadcrumb": "Lister les catégories",
@@ -296,6 +305,20 @@
         "add": "Ajouter une sous catégorie",
         "title_edit_modal": "Modification d'une sous catégorie",
         "title_add_modal": "Ajout d'une sous catégorie",
+        "title_detail_modal" : "Détails"
+    },
+    "produit": {
+        "title_breadcrumb": "Lister les produits",
+        "title": "Gestion des produits",
+        "code": "Code",
+        "dci": "Dci",
+        "nom_commercial": "Nom commercial",
+        "dosage": "Dosage",
+        "prix_unitaire": "Prx unitaire",
+        "conditionnement": "Conditionnement",
+        "add": "Ajouter une forme ",
+        "title_edit_modal": "Modification d'une forme pharmaceutique",
+        "title_add_modal": "Ajout d'un forme pharmaceutique",
         "title_detail_modal" : "Détails"
     }
 

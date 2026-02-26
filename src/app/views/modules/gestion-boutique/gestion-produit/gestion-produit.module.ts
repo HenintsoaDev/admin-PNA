@@ -19,13 +19,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
 import { CategorieComponent } from './categorie/categorie.component';
 import { SousCategorieComponent } from './sous-categorie/sous-categorie.component';
+import { FormesComponent } from './formes/formes.component';
+import { ProduitsComponent } from './produits/produits.component';
 
 
 @NgModule({
   declarations: [
     FamilleComponent,
     CategorieComponent,
-    SousCategorieComponent
+    SousCategorieComponent,
+    FormesComponent,
+    ProduitsComponent
   ],
   imports: [
     CommonModule,

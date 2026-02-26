@@ -54,6 +54,8 @@ export const environment = {
   categorie: 'admin/gestion_produits/categories',
   liste_categorie_active: 'admin/gestion_produits/categories/active',
   sous_categorie: 'admin/gestion_produits/sous_categories',
+  forme: 'admin/gestion_produits/formes',
+  produit: 'admin/gestion_produits/produits',
 
 
 };
