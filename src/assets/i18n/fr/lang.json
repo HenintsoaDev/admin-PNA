@@ -250,6 +250,18 @@
         "title_edit_modal": "Modification d'un sous module",
         "title_add_modal": "Ajout d'un sous module"
     },
+    "action": {
+        "title_breadcrumb": "Lister les actions",
+        "title": "Gestion des actons",
+        "code": "Code",
+        "name": "Libelle",
+        "method": "Methode",
+        "type": "Type",
+        "url": "Url",
+        "sous_module": "Sous module",
+        "add": "Ajouter nouvelle action",
+        "generate_route": "Régénérer route"
+    },
     "famille": {
         "title_gestion_produit_breadcrumb": "Gestions des produits",
         "title_breadcrumb": "Lister les familles",

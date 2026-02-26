@@ -72,17 +72,17 @@ listIcon = [
     'icon' : 'edit',
     'action' : 'edit',
     'tooltip' : this.__('global.tooltip_edit'),
-    'autority' : 'PRM_3'
+    'autority' : 'PAC_3'
   },
   {
     'icon' : 'delete',
     'action' : 'delete',
     'tooltip' : this.__('global.tooltip_delete'),
-    'autority' : 'PRM_5'
+    'autority' : 'PAC_5'
   },
   {
     'icon' : 'state',
-    'autority' : 'PRM_6',
+    'autority' : 'PAC_6',
   },
 ]
 
@@ -118,7 +118,7 @@ subscription: Subscription;
 
   async ngOnInit() {
 
-    this.authService.initAutority("PRM","ADM");
+    this.authService.initAutority("PAC","ADM");
 
     this.titleModal = this.__('module.title_add_modal');
 
@@ -274,7 +274,7 @@ subscription: Subscription;
 
            this.moduleService.supprimerModule(this.idModule).subscribe({
             next: (res) => {
-                if(res['code'] == 204) {
+                if(res['code'] == 205) {
                   this.toastr.success(res['msg'], this.__("global.success"));
                   this.actualisationTableau();
                 }

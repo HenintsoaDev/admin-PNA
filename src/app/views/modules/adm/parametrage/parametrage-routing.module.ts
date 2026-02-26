@@ -9,12 +9,12 @@ import { UtilisateurComponent } from './utilisateur/utilisateur.component';
 
 
 const routes: Routes = [
-  { path: 'module', component: ModuleComponent, data: { breadcrumb: 'module.title_breadcrumb' } },
-  { path: 'sousmodule', component: SousModuleComponent, data: { breadcrumb: 'sous_module.title_breadcrumb' } },
+  { path: 'modules', component: ModuleComponent, data: { breadcrumb: 'module.title_breadcrumb' } },
+  { path: 'sous_modules', component: SousModuleComponent, data: { breadcrumb: 'sous_module.title_breadcrumb' } },
   { path: 'profil', component: ProfilsComponent, data: { breadcrumb: 'profil.title_breadcrumb' } },
   { path: 'type_profil', component: TypeProfilComponent, data: { breadcrumb: 'type_profil.title_breadcrumb' } },
   { path: 'user', component: UtilisateurComponent, data: { breadcrumb: 'utilisateur.title_breadcrumb' } },
-  { path: 'action', component: ActionComponent, data: { breadcrumb: 'action.title_breadcrumb' } },
+  { path: 'actions', component: ActionComponent, data: { breadcrumb: 'action.title_breadcrumb' } },
 
 
 ];

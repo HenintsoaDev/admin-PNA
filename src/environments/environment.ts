@@ -23,9 +23,9 @@ export const environment = {
  
 
   //** Parametrage */
-  module: 'parametrage/module',
-  sous_module: 'parametrage/sousmodule',
-  liste_module_active: 'parametrage/consult/module/liste_module_active',
+  module: 'admin/parametrages/modules',
+  sous_module: 'admin/parametrages/sous_modules',
+  liste_module_active: 'admin/parametrages/modules/active',
   type_bureau: 'parametrage/type_bureau',
   type_profil: 'parametrage/type_profil',
   profil: 'parametrage/profil',
@@ -35,9 +35,9 @@ export const environment = {
   liste_type_bureau_active: 'parametrage/consult/type_bureau/type_de_bureaux_active',
   regenerer_mdp: 'parametrage/user/regenerer_password',
   profilage: 'parametrage/profilage',
-  action: 'parametrage/action',
+  action: 'admin/parametrages/actions',
   appendroute: 'parametrage/settings/appendroute',
-  generateroute: 'parametrage/settings/generateroute',
+  generateroute: 'admin/parametrage/generateroute',
   service: 'parametrage/service',
   utilisateur_api_numherit: 'parametrage/user_api_numherit',
   liste_utilisateur_active: 'parametrage/consult/user/allActiveUser',

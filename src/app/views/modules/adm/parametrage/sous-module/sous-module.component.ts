@@ -76,13 +76,13 @@ export class SousModuleComponent extends Translatable implements OnInit {
       'icon': 'edit',
       'action': 'edit',
       'tooltip': 'Modification',
-      'autority': 'PRM_9',
+      'autority': 'PAC_9',
     },
     {
       'icon': 'delete',
       'action': 'delete',
       'tooltip': 'Supression',
-      'autority': 'PRM_11',
+      'autority': 'PAC_11',
     },
   ]
 
@@ -114,8 +114,8 @@ export class SousModuleComponent extends Translatable implements OnInit {
 
   ) {
     super();
-    this.authService.initAutority("PRM", "ADM");
-    //console.log(this.autority('PRM_20'));
+    this.authService.initAutority("PAC", "ADM");
+    //console.log(this.autority('PAC_20'));
   }
 
 
@@ -263,6 +263,8 @@ export class SousModuleComponent extends Translatable implements OnInit {
 
       this.actualisationSelect();
 
+
+      console.log(this.sous_module.module_id);
       // Ouverture de modal
       this.modalRef = this.modalService.show(this.addSousModule, { backdrop: 'static', keyboard: false });
     }
@@ -304,7 +306,7 @@ export class SousModuleComponent extends Translatable implements OnInit {
 
         this.sousModuleService.supprimerSousModule(this.idSousModule).subscribe({
           next: (res) => {
-            if (res['code'] == 204) {
+            if (res['code'] == 205) {
               this.toastr.success(res['msg'], this.__("global.success"));
               this.actualisationTableau();
             }

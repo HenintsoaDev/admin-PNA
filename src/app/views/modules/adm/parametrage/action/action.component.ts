@@ -103,7 +103,7 @@ export class ActionComponent extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'action.code', 'action.name', 'action.url', 'action.method', 'action.type', 'sous_module.name']
+    searchGlobal = [ 'action.code', 'action.name', 'action.url', 'action.method', 'sous_module.name']
    
     /***************************************** */
   
@@ -126,7 +126,7 @@ export class ActionComponent extends Translatable implements OnInit {
                 private authService : AuthService
       ) {
       super();
-      this.authService.initAutority("PRM");
+      this.authService.initAutority("PAC", "ADM");
     }
   
   

@@ -22,7 +22,7 @@ const routes: Routes =[
   //Module Administration : ADM
   //Module Administration : ADM
   {
-    path: 'parametrage', data: { breadcrumb: 'module.title_module_breadcrumb' },
+    path: 'admin/parametrages', data: { breadcrumb: 'module.title_module_breadcrumb' },
     loadChildren: () => import('./views/modules/adm/parametrage/parametrage.module').then(m => m.ParametrageModule)
   },
 
