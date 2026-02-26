@@ -1,0 +1,10 @@
+::ng-deep .cdk-overlay-container,
+::ng-deep .cdk-overlay-pane {
+    z-index: 2000 !important;
+    /* Assure-toi que c'est supérieur à celui du modal Bootstrap (généralement 1050) */
+}
+
+/****/
+.wrapper {
+    margin-bottom: 20px;
+}

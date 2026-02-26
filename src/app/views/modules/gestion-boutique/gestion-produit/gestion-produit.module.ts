@@ -22,6 +22,7 @@ import { SousCategorieComponent } from './sous-categorie/sous-categorie.componen
 import { FormesComponent } from './formes/formes.component';
 import { ProduitsComponent } from './produits/produits.component';
 
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ProduitsComponent } from './produits/produits.component';
     MatRadioModule,
     MatExpansionModule,
     ModalModule.forRoot(),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatStepperModule
   ]
 })
 export class GestionProduitModule { }

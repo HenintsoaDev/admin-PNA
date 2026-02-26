@@ -55,61 +55,202 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" [formGroup]="produitForm" (ngSubmit)="onSubmit()">
-            <div class="modal-body">
-                <div class="form-group">
-                    <mat-form-field>
-                        <mat-label>{{ __('produit.code')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="produit.code" placeholder="{{ __('produit.code')}}" formControlName="code" name="code">
-                    </mat-form-field>
-                </div>
+
+
+        <mat-horizontal-stepper linear>
+
+            <mat-step [stepControl]="firstFormGroup">
+                <ng-template matStepLabel>{{ __('produit.add_produit')}}</ng-template>
+          
+                <form #f="ngForm" [formGroup]="produitForm" >
+
+
+
+
+
+
+                  
+
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.code')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.code" placeholder="{{ __('produit.code')}}" formControlName="code" name="code">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.dci')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.dci" placeholder="{{ __('produit.dci')}}" formControlName="dci" name="dci">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.nom_commercial')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.nom_commercial" placeholder="{{ __('produit.nom_commercial')}}" formControlName="nom_commercial" name="nom_commercial">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.dosage')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.dosage" placeholder="{{ __('produit.dosage')}}" formControlName="dosage" name="dosage">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.prix_unitaire')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.prix_unitaire" placeholder="{{ __('produit.prix_unitaire')}}" formControlName="prix_unitaire" name="prix_unitaire">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.conditionnement')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.conditionnement" placeholder="{{ __('produit.conditionnement')}}" formControlName="conditionnement" name="conditionnement">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>{{ __('produit.description')}}</mat-label>
+                                    <input matInput type="text" [(ngModel)]="produit.prix_unitaire" placeholder="{{ __('produit.description')}}" formControlName="description" name="description">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                     
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{ __('produit.famille')}}</mat-label>
+                                    <mat-select [(ngModel)]="produit.famille_produit_id" (selectionChange)="recupererCategorie($event)" name="famille_produit_id" formControlName="famille_produit_id" >
+                                      <!-- Champ de recherche -->
+                                      <mat-option>
+                                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                      </mat-option>
+                                  
+                                      <!-- Affichage des options filtrées -->
+                                      <mat-option *ngFor="let famille of filteredFamilles" [value]="famille.id"> {{ famille.nom }} </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+            
+                            
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{ __('produit.categorie')}}</mat-label>
+                                    <mat-select [(ngModel)]="produit.categorie_produit_id" (selectionChange)="recupererSousCategorie($event)" name="categorie_produit_id" formControlName="categorie_produit_id" >
+                                      <!-- Champ de recherche -->
+                                      <mat-option>
+                                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                      </mat-option>
+                                  
+                                      <!-- Affichage des options filtrées -->
+                                      <mat-option *ngFor="let categorie of filteredCategories" [value]="categorie.id"> {{ categorie.nom }} </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{ __('produit.sous_categorie')}}</mat-label>
+                                    <mat-select [(ngModel)]="produit.sous_categorie_produit_id" name="sous_categorie_produit_id" formControlName="sous_categorie_produit_id" >
+                                      <!-- Champ de recherche -->
+                                      <mat-option>
+                                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                      </mat-option>
+                                  
+                                      <!-- Affichage des options filtrées -->
+                                      <mat-option *ngFor="let sousCategorie of filteredSousCategories" [value]="sousCategorie.id"> {{ sousCategorie.nom }} </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+            
+                            
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>{{ __('produit.forme')}}</mat-label>
+                                    <mat-select [(ngModel)]="produit.forme_id" name="forme_id" formControlName="forme_id" >
+                                      <!-- Champ de recherche -->
+                                      <mat-option>
+                                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                      </mat-option>
+                                  
+                                      <!-- Affichage des options filtrées -->
+                                      <mat-option *ngFor="let forme of filteredFormes" [value]="forme.id"> {{ forme.nom }} </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    
+                 
+                    
                 
-                <div class="form-group">
-                    <mat-form-field>
-                        <mat-label>{{ __('produit.nom')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="produit.nom" placeholder="{{ __('produit.nom')}}" formControlName="nom" name="nom">
-                    </mat-form-field>
+    
+                
+                   
+                   
+    
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                    <button type="button" class="btn btn-primary" matStepperNext *ngIf="!produit.id" >{{ __('global.save')}}</button>
+                    <button type="submit" class="btn btn-primary" *ngIf="produit.id" [disabled]="produitForm.invalid">{{ __('global.edit')}}</button>
                 </div>
+                </form>
+          
+            </mat-step>
+          
+            <mat-step [stepControl]="secondFormGroup">
+              <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>{{ __('produit.add_image')}}</ng-template>
+          
+                <mat-form-field>
+                  <input matInput formControlName="email" placeholder="Email">
+                </mat-form-field>
+          
+                <button mat-button matStepperPrevious>Retour</button>
+                <button mat-button matStepperNext>Terminer</button>
+              </form>
+            </mat-step>
+          
+          </mat-horizontal-stepper>
 
-                <div class="form-group"> 
-                    <mat-form-field appearance="fill">
-                        <mat-label>{{ __('produit.famille')}}</mat-label>
-                        <mat-select [(ngModel)]="produit.famille_produit_id" (selectionChange)="recupererproduit($event)" name="famille_produit_id" formControlName="famille_produit_id" >
-                          <!-- Champ de recherche -->
-                          <mat-option>
-                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
-                          </mat-option>
-                      
-                          <!-- Affichage des options filtrées -->
-                          <mat-option *ngFor="let famille of filteredFamilles" [value]="famille.id"> {{ famille.nom }} </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                </div>
 
-                <div class="form-group"> 
-                    <mat-form-field appearance="fill">
-                        <mat-label>{{ __('produit.produit')}}</mat-label>
-                        <mat-select [(ngModel)]="produit.produit_produit_id" name="produit_produit_id" formControlName="produit_produit_id" >
-                          <!-- Champ de recherche -->
-                          <mat-option>
-                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
-                          </mat-option>
-                      
-                          <!-- Affichage des options filtrées -->
-                          <mat-option *ngFor="let produit of filteredproduits" [value]="produit.id"> {{ produit.nom }} </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                </div>
-               
-               
-            </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="!produit.id" [disabled]="produitForm.invalid">{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="produit.id" [disabled]="produitForm.invalid">{{ __('global.edit')}}</button>
-            </div>
-        </form>
+
+       
     </div>
 </ng-template>
 
@@ -143,16 +284,62 @@
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.nom")}}</b></label>
-                                <h6><b class="bold">{{  produit.nom }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.dci")}}</b></label>
+                                <h6><b class="bold">{{  produit.dci }}</b></h6>
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.produit")}}</b></label>
-                                <h6><b class="bold">{{  produit.produit_produit }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.nom_commercial")}}</b></label>
+                                <h6><b class="bold">{{  produit.nom_commercial }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
+                                <h6><b class="bold">{{  produit.dosage }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.conditionnement")}}</b></label>
+                                <h6><b class="bold">{{  produit.conditionnement }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.description")}}</b></label>
+                                <h6><b class="bold">{{  produit.description }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
+                                <h6><b class="bold">{{  produit.prix_unitaire }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
+                                <h6><b class="bold">{{  produit.sous_categorie }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
+                                <h6><b class="bold">{{  produit.forme }}</b></h6>
                             </div>
                         </td>
                        
@@ -162,6 +349,49 @@
             
                 </table>
             </mat-tab>
+
+            <mat-tab label="Documents">
+                <br />
+        
+                <div class="row" *ngIf="produit?.images?.length != 0">
+                  <div class="col-lg-2" *ngFor="let document of produit.images">
+                    <img
+                      [src]="document.url"
+                      *ngIf="
+                        document.url.split('.').pop() == 'jpeg' ||
+                        document.url.split('.').pop() == 'png' ||
+                        document.url.split('.').pop() == 'jpg' ||
+                        document.url.split('.').pop() == 'svg'
+                      "
+                      style="width: 100px"
+                    />
+                
+        
+                    <div class="col-lg-4 img-detail">
+                      <button
+                        #btnDownload
+                        class="btn btn-sm btn-success"
+                        type="button"
+                        (click)="downloadDirect(document.url)"
+                        tooltip="{{ __('tooltip.download') }}"
+                      >
+                        <i class="fa fa-download fa-2x colorThemePrimary"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="row" *ngIf="produit?.images?.length == 0">
+                  <div class="col-lg-9">
+                    <div class="alert alert-custom">
+                      <h6>
+                        <b class="bold">{{ __("global.aucun_document") }}</b>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+              </mat-tab>
 
 
       

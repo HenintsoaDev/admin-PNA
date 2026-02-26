@@ -138,7 +138,8 @@
         "envoyer" : "Envoyé",
         "retirer" : "Retiré",
         "btn_envoyer" : "Envoyer",
-        "checkbox" : "checkbox"
+        "checkbox" : "checkbox",
+        "aucun_document": "Aucun document n’est disponible actuellement."
     },
 
     "auth": {
@@ -314,12 +315,19 @@
         "dci": "Dci",
         "nom_commercial": "Nom commercial",
         "dosage": "Dosage",
-        "prix_unitaire": "Prx unitaire",
+        "prix_unitaire": "Prix unitaire",
         "conditionnement": "Conditionnement",
-        "add": "Ajouter une forme ",
-        "title_edit_modal": "Modification d'une forme pharmaceutique",
-        "title_add_modal": "Ajout d'un forme pharmaceutique",
-        "title_detail_modal" : "Détails"
+        "add": "Ajouter un produit ",
+        "title_edit_modal": "Modification d'un produit",
+        "title_add_modal": "Ajout d'un produit",
+        "title_detail_modal" : "Détails",
+        "sous_categorie" : "Sous categorie",
+        "categorie" :"Catégorie",
+        "famille" :"Famille",
+        "forme" : "Forme",
+        "description" : "Description",
+        "add_produit" : "Ajout un produit ",
+        "add_image" : "Ajout des images"
     }
 
 }

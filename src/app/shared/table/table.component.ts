@@ -222,18 +222,7 @@ export class TableComponent extends Translatable {
       if(this.search || this.searchCol) this.where = "&where=";
       else this.where = "";
 
-      //initialisation 
-      this.donneeTotal.Carte = undefined;
-      this.donneeTotal.Wallet = undefined;
-      this.donneeTotal.DEBIT = undefined;
-      this.donneeTotal.CREDIT = undefined;
-      this.donneeTotal.TotalSolde = undefined;
-      this.donneeTotal.TotalSoldeCarte = undefined;
-      this.donneeTotal.TotalMontant = undefined;
-      this.donneeTotal.TotalCommission = undefined;
-      this.donneeTotal.TotalTTC = undefined;
-
-      console.log()
+   
 
     // --- Appel endpopint ---->
 
@@ -250,24 +239,6 @@ export class TableComponent extends Translatable {
       
       await localStorage.setItem('data', JSON.stringify(res));
 
-
-      if(res.totaux){
-        //this.donneeTotal = res.totaux;
-        (res.totaux.Carte) ? this.donneeTotal.Carte = res.totaux.Carte : this.donneeTotal.Carte = undefined;
-        (res.totaux.Wallet) ? this.donneeTotal.Wallet = res.totaux.Wallet : this.donneeTotal.Wallet = undefined;
-
-        (res.totaux.DEBIT) ? this.donneeTotal.DEBIT = res.totaux.DEBIT : this.donneeTotal.DEBIT = undefined;
-        (res.totaux.CREDIT) ? this.donneeTotal.CREDIT = res.totaux.CREDIT : this.donneeTotal.CREDIT = undefined;
-      }
-
-      if(res.solde_global){
-        (res.solde_global.total_solde) ? this.donneeTotal.TotalSolde = res.solde_global.total_solde : this.donneeTotal.TotalSolde = undefined;
-        (res.solde_global.total_solde_carte) ? this.donneeTotal.TotalSoldeCarte = res.solde_global.total_solde_carte : this.donneeTotal.TotalSoldeCarte = undefined;
-      }
-      
-      (res.total_montant) ? this.donneeTotal.TotalMontant = res.total_montant : this.donneeTotal.TotalMontant = undefined;
-      (res.total_commission) ? this.donneeTotal.TotalCommission = res.total_commission : this.donneeTotal.TotalCommission = undefined;
-      (res.total_ttc) ? this.donneeTotal.TotalTTC = res.total_ttc : this.donneeTotal.TotalTTC = undefined;
 
       const tableau = res.data.map((row: any) =>
         this.body.map((col: any) => {
@@ -302,6 +273,9 @@ export class TableComponent extends Translatable {
             // 3. Ajouter un objet via concat, utilisant l'autorité de l'icône "state"
             return icons;
           }
+          
+          // affichage de 1er image
+          if(col.type === "image") return row[col.name];
 
          // Si ce n'est pas "state#id" ni "state#rowid"
           return `${row[col.name]}###${col.type}`;
@@ -309,6 +283,7 @@ export class TableComponent extends Translatable {
       );
     
       this.donneeAfficher = tableau;
+
 
       this.path = this.endpoint;
       this.lastPage = this.path + "?page=" + res.last_page;
@@ -390,6 +365,7 @@ export class TableComponent extends Translatable {
     }
 
     formatCell(data){
+      
       const post = data.split('###');
 
 
@@ -424,6 +400,7 @@ export class TableComponent extends Translatable {
           else if(post[0] == 3) return this.__('global.rejeter');
           else if(post[0] == 4) return this.__('global.traiter');
       }
+     
       else return post[0]
 
     }
@@ -560,11 +537,24 @@ export class TableComponent extends Translatable {
 
     }
 
+
+
+    verifIconOrImage(cell: any){
+      const urlItem = cell.find(item => 'url' in item);
+      if(urlItem != undefined) return true;
+      else false;
+
+    }
+
     verifStatut(cell: any)  {
+
         // Cherche l'objet contenant 'statut'
         const statutItem = cell.find(item => 'statut' in item);
+       
+
         // Récupère la valeur
         const statut = statutItem ? (statutItem as { statut: number }).statut : undefined;
+
         return statut;
             
     }

@@ -26,30 +26,36 @@ export class ProduitsComponent extends Translatable implements OnInit {
   header = [
     
     {
+      "nomColonne" : '',
+      "colonneTable" : "",
+      "table" : ""
+    },
+
+    {
       "nomColonne" : this.__('produit.code'),
       "colonneTable" : "code",
       "table" : "produit"
     },
-    {
+/*     {
       "nomColonne" : this.__('produit.dci'),
       "colonneTable" : "dci",
       "table" : "produit"
-    },
+    }, */
     {
       "nomColonne" : this.__('produit.nom_commercial'),
       "colonneTable" : "nom_commercial",
       "table" : "produit"
     },
-    {
+/*     {
       "nomColonne" : this.__('produit.dosage'),
       "colonneTable" : "dosage",
       "table" : "produit"
-    },
+    }, 
     {
       "nomColonne" : this.__('produit.conditionnement'),
       "colonneTable" : "conditionnement",
       "table" : "produit"
-    },
+    },*/
     {
       "nomColonne" : this.__('produit.prix_unitaire'),
       "colonneTable" : "prix_unitaire",
@@ -57,8 +63,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
     },
     {
       "nomColonne" : this.__('produit.sous_categorie'),
-      "colonneTable" : "sous_categorie_produit_id",
-      "table" : "produit"
+      "colonneTable" : "nom",
+      "table" : "sous_categorie_produit"
     },
     
     {
@@ -71,31 +77,25 @@ export class ProduitsComponent extends Translatable implements OnInit {
   
   objetBody = [
           {
+            'name' : 'images',
+            'type' : 'image',
+          },
+          {
             'name' : 'code',
             'type' : 'text',
           },
-          {
-            'name' : 'dci',
-            'type' : 'text',
-          },
+     
           {
             'name' : 'nom_commercial',
             'type' : 'text',
           },
-          {
-            'name' : 'dosage',
-            'type' : 'text',
-          },
-          {
-            'name' : 'conditionnement',
-            'type' : 'text',
-          },
+      
           {
             'name' : 'prix_unitaire',
-            'type' : 'text',
+            'type' : 'montant',
           },
           {
-            'name' : 'sous_categorie_produit_id',
+            'name' : 'sous_categorie',
             'type' : 'text',
           },
         
@@ -147,6 +147,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
 
     filteredFamilles: any[] = [];
     filteredCategories: any[] = []; 
+    filteredSousCategories: any[] = []; 
+    filteredFormes: any[] = []; 
     searchControl = new FormControl('');
   
     constructor(private fb: FormBuilder,  
@@ -179,7 +181,11 @@ export class ProduitsComponent extends Translatable implements OnInit {
             if(event.data){
               this.idproduit = event.data.id;
   
-           /*  */
+              if(event.data.action == 'edit') this.openModalEditproduit();
+              else if(event.data.action == 'delete') this.openModalDeleteproduit();
+              else if(event.data.action == 'detail') this.openModalDetailproduit();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateproduit();
+      
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
             
@@ -190,10 +196,17 @@ export class ProduitsComponent extends Translatable implements OnInit {
       /***************************************** */
   
           this.produitForm = this.fb.group({
-            nom: ['', Validators.required],
+            dci: ['', Validators.required],
             code: ['', [Validators.required]],
+            nom_commercial: ['', [Validators.required]],
+            dosage: ['', [Validators.required]],
+            conditionnement: ['', [Validators.required]],
+            prix_unitaire: ['', [Validators.required]],
+            description: ['', [Validators.required]],
             famille_produit_id : ['', [Validators.required]],
-            categorie_produit_id : ['', [Validators.required]]
+            categorie_produit_id : ['', [Validators.required]],
+            sous_categorie_produit_id : ['', [Validators.required]],
+            forme_id : ['', [Validators.required]]
         });
     }
   
@@ -368,14 +381,25 @@ export class ProduitsComponent extends Translatable implements OnInit {
                 }
             }); 
   
-        
-  
-  
           
           }
       });
   
     }
+
+
+    downloadDirect(url: string) {
+      const encodedUrl = encodeURI(url);
+      const a = document.createElement('a');
+      a.href = encodedUrl;
+      a.target = '_blank';
+      a.download = ''; // facultatif
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    
   
     async actualisationSelectFamille() {
       let familles = await this.authService.getSelectList(environment.liste_famille_active, ['nom']);
@@ -388,31 +412,67 @@ export class ProduitsComponent extends Translatable implements OnInit {
         );
       });
     }
-    recupererCategorie(event: MatSelectChange) {
-      const idFamille = event.value;
 
-      this.actualisationSelectCategorie(idFamille);
-  
+    async actualisationSelectFormes() {
+      let formes = await this.authService.getSelectList(environment.liste_forme_active, ['nom']);
+      this.filteredFormes = formes;
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredFormes = formes.filter(forme =>
+          forme.nom.toLowerCase().includes(lower)
+        );
+      });
     }
 
-    async actualisationSelectCategorie(idCategorie = null) {
+    recupererCategorie(event: MatSelectChange) {
+      const idFamille = event.value;
+      this.actualisationSelectCategorie(idFamille);
+    }
+
+
+    recupererSousCategorie(event: MatSelectChange) {
+      const idCategorie = event.value;
+      this.actualisationSelectSousCategorie(idCategorie);
+    }
+
+    async actualisationSelectCategorie(idFamille = null) {
 
 
       let endpointCategorie = "";
-      console.log("xcvb")
 
-      if (idCategorie != null) endpointCategorie = environment.liste_categorie_active + "?where=famille_produit_id|e|" + idCategorie;
+      if (idFamille != null) endpointCategorie = environment.liste_categorie_active + "?where=famille_produit_id|e|" + idFamille;
       else endpointCategorie = environment.liste_categorie_active;
-
 
       let categories = await this.authService.getSelectList(endpointCategorie, ['nom']);
       this.filteredCategories = categories;
-      console.log("aaaaaaa",  this.filteredCategories)
 
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
         this.filteredCategories = categories.filter(cat =>
           cat.nom.toLowerCase().includes(lower)
+        );
+      });
+
+    }
+
+
+
+    async actualisationSelectSousCategorie(idCategorie = null) {
+
+
+      let endpointSousCategorie = "";
+
+      if (idCategorie != null) endpointSousCategorie = environment.liste_sous_categorie_active + "?where=categorie_produit_id|e|" + idCategorie;
+      else endpointSousCategorie = environment.liste_sous_categorie_active;
+
+      let sous_categories = await this.authService.getSelectList(endpointSousCategorie, ['nom']);
+      this.filteredSousCategories = sous_categories;
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredSousCategories = sous_categories.filter(sous_cat =>
+          sous_cat.nom.toLowerCase().includes(lower)
         );
       });
 
@@ -473,8 +533,10 @@ export class ProduitsComponent extends Translatable implements OnInit {
       this.titleModal = this.__('produit.title_add_modal');
       this.produit = new produit();
       this.actualisationSelectFamille();
+      this.actualisationSelectFormes();
 
       this.modalRef = this.modalService.show(template, {
+        class: 'modal-xl',
         backdrop: 'static',
         keyboard: false
       });
@@ -487,7 +549,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
       let result : any;
       if (storedData) result = JSON.parse(storedData);
       this.listproduits = result.data;
-      console.log(this.listproduits);
+      
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
       const res = this.listproduits.filter(_ => _.id == this.idproduit);
       this.produit = res[0];

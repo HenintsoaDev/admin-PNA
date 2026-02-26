@@ -41,11 +41,11 @@
               <input #checkAll  *ngIf="header.nomColonne == 'checkbox'" type="checkbox" name="xx" id="xx" (click)="updateAllAction(donneeAfficher, checkAll)" >
                       
               &nbsp;
-              <span *ngIf="header.nomColonne != 'Action' && header.nomColonne != 'checkbox'">
+              <span *ngIf="(header.nomColonne != 'Action' && header.nomColonne != '') && header.nomColonne != 'checkbox'">
                 <i class="fa fa-caret-down icon-tri" (click)="triTable(header.table + '.' + header.colonneTable,'asc')" *ngIf="tri==header.table + '.' + header.colonneTable && order=='desc'" ></i>
                 <i class="fa fa-caret-up icon-tri"  (click)="triTable(header.table + '.' + header.colonneTable,'desc')"  *ngIf="tri==header.table + '.' + header.colonneTable && order=='asc'"  ></i>
                 <i class="fa fa-filter icon-tri" (click)="triTable(header.table + '.' + header.colonneTable,'asc')"  *ngIf="tri!=header.table + '.' + header.colonneTable"></i> <br>
-                <input *ngIf="header.nomColonne != 'Action' && formSearch == true" type="text"  #ref class="inputCol" [name]="header.nomColonne" (keyup.enter)="getUrlDatatable(endpoint+'?page=1', header.colonneTable, ref.value, header.table, this.search)" id="">  
+                <input *ngIf="(header.nomColonne != 'Action' && header.nomColonne != '') && formSearch == true" type="text"  #ref class="inputCol" [name]="header.nomColonne" (keyup.enter)="getUrlDatatable(endpoint+'?page=1', header.colonneTable, ref.value, header.table, this.search)" id="">  
               </span>
             </th>
 
@@ -66,31 +66,38 @@
                 <span *ngIf="isArray(cell)">
                   
 
+                  <div class="d-flex" style="justify-content: center;" *ngIf="verifIconOrImage(cell)">
+                      <img style="height: 25px; margin: 0 20px;" [src]="cell[0].url" alt="">
+                  </div>
+
+                  <div *ngIf="!verifIconOrImage(cell)">
+                    <div *ngIf="verifStatut(cell) == 1 || verifStatut(cell) == 2 ">
+                      <i class="material-icons" mat-raised-button> lock </i>
+                    </div>
+  
+                    <div *ngIf="verifStatut(cell) == undefined || verifStatut(cell) == 0">
+                      <ng-container *ngFor="let icon of cell" style="text-align: center;">
+                        <!-- Si on utilise le checkbox sur l'action -->
+                        <input #checkboxList *ngIf="icon.action == 'checkbox'" [checked]="isCheckedAllList"  type="checkbox" name="checkOne" id="checkOne" (click)="updateAction(cell,checkboxList)" >
+                        
+                        <!-- Si on utilise l'icon sur l'action -->
+                        <i *ngIf="autority(icon.autority) && icon.action != 'checkbox'"
+                            class="material-icons"
+                            mat-raised-button
+                            matTooltip="{{ verifTooltipIcon(icon) }}"
+                            [ngStyle]="{ 'color': verifColorIcon(icon) }"
+                            (click)="openModal(icon)"
+                            style="margin-right: 5px !important; font-size: 18px; cursor: pointer;">
+                            {{ verifIcon(icon) }}
+                          </i>
+    
+                      </ng-container>
+                    </div>
+  
+                  </div>
                   
  
-                  <div *ngIf="verifStatut(cell) == 1 || verifStatut(cell) == 2 ">
-                    <i class="material-icons" mat-raised-button> lock </i>
-                  </div>
-
-                  <div *ngIf="verifStatut(cell) == undefined || verifStatut(cell) == 0">
-                    <ng-container *ngFor="let icon of cell" style="text-align: center;">
-                      <!-- Si on utilise le checkbox sur l'action -->
-                      <input #checkboxList *ngIf="icon.action == 'checkbox'" [checked]="isCheckedAllList"  type="checkbox" name="checkOne" id="checkOne" (click)="updateAction(cell,checkboxList)" >
-                      
-                      <!-- Si on utilise l'icon sur l'action -->
-                      <i *ngIf="autority(icon.autority) && icon.action != 'checkbox'"
-                          class="material-icons"
-                          mat-raised-button
-                          matTooltip="{{ verifTooltipIcon(icon) }}"
-                          [ngStyle]="{ 'color': verifColorIcon(icon) }"
-                          (click)="openModal(icon)"
-                          style="margin-right: 5px !important; font-size: 18px; cursor: pointer;">
-                          {{ verifIcon(icon) }}
-                        </i>
-  
-                    </ng-container>
-                  </div>
-
+                
                   <!-- Si on utilise font awesome ---
                     <i *ngFor="let icon of cell" class="fa {{ icon.icon }}"  style="margin-right: 15px !important;" (click)="openModal(icon)" ></i> 
                     -->
