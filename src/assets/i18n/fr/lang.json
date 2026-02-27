@@ -327,7 +327,8 @@
         "forme" : "Forme",
         "description" : "Description",
         "add_produit" : "Ajout un produit ",
-        "add_image" : "Ajout des images"
+        "add_image" : "Ajout des images",
+        "select_image" : "Sélectionner des images"
     }
 
 }

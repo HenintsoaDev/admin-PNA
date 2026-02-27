@@ -11,6 +11,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { ProduitService } from 'app/services/boutique/produits/produit.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+interface UploadedFile {
+  file: File;
+  preview?: SafeUrl;
+}
 
 @Component({
   selector: 'app-produits',
@@ -150,13 +156,15 @@ export class ProduitsComponent extends Translatable implements OnInit {
     filteredSousCategories: any[] = []; 
     filteredFormes: any[] = []; 
     searchControl = new FormControl('');
-  
+    uploadedFiles: UploadedFile[] = [];
+
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
                 private produitService: ProduitService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
-                private authService : AuthService
+                private authService : AuthService,
+                private sanitizer: DomSanitizer,
       ) {
       super();
     }
@@ -206,7 +214,9 @@ export class ProduitsComponent extends Translatable implements OnInit {
             famille_produit_id : ['', [Validators.required]],
             categorie_produit_id : ['', [Validators.required]],
             sous_categorie_produit_id : ['', [Validators.required]],
-            forme_id : ['', [Validators.required]]
+            forme_id : ['', [Validators.required]],
+            documents: [[]]
+
         });
     }
   
@@ -564,5 +574,63 @@ export class ProduitsComponent extends Translatable implements OnInit {
     closeModal() {
       this.modalRef?.hide();
     }
+
+
+
+    onFilesSelected(event: Event): void {
+      const input = event.target as HTMLInputElement;
+    
+      if (input.files && input.files.length > 0) {
+        Array.from(input.files).forEach(file => {
+    
+          if (file.size > 5 * 1024 * 1024) {
+            this.toastr.error(
+              `Le fichier ${file.name} dépasse 5Mo`,
+              this.__('global.error')
+            );
+            return;
+          }
+    
+          if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
+            this.toastr.error(
+              `Format non supporté : ${file.name}`,
+              this.__('global.error')
+            );
+            return;
+          }
+    
+          const uploadedFile: UploadedFile = { file };
+    
+          if (file.type.startsWith('image/')) {
+            const objectUrl = URL.createObjectURL(file);
+            uploadedFile.preview =
+              this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+          }
+    
+          this.uploadedFiles.push(uploadedFile);
+        });
+    
+        this.produitForm.patchValue({
+          documents: this.uploadedFiles.map(f => f.file)
+        });
+    
+        // 🔥 reset input (important)
+        input.value = '';
+      }
+    }
+
+
+    removeFile(file: UploadedFile): void {
+      if (file.preview) {
+/*         URL.revokeObjectURL(file.preview);
+ */      }
+
+      this.uploadedFiles = this.uploadedFiles.filter(f => f !== file);
+
+      this.produitForm.patchValue({
+        documents: this.uploadedFiles.map(f => f.file)
+      });
+    }
+
 
 }

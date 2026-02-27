@@ -236,12 +236,44 @@
               <form [formGroup]="secondFormGroup">
                 <ng-template matStepLabel>{{ __('produit.add_image')}}</ng-template>
           
-                <mat-form-field>
-                  <input matInput formControlName="email" placeholder="Email">
-                </mat-form-field>
-          
-                <button mat-button matStepperPrevious>Retour</button>
-                <button mat-button matStepperNext>Terminer</button>
+                 <!-- Documents Section -->
+                    <div class="text-primary mb-3">
+                        <label class="form-label text-primary small mb-2">{{__('produit.select_image')}}</label>
+                        <input type="file" #fileInput multiple (change)="onFilesSelected($event)" 
+                            accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+                        
+                        <div class="d-flex align-items-center gap-3">
+                        <button type="button" class="btn btn-outline-primary" (click)="fileInput.click()">
+                            <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                        </button>
+                        
+                        <div *ngIf="uploadedFiles.length > 0" class="d-flex flex-wrap gap-3">
+
+                            <div *ngFor="let f of uploadedFiles" class="position-relative" style="margin: 0 20px;">
+                        
+                            <!-- IMAGE PREVIEW -->
+                            <img *ngIf="f.preview"
+                                [src]="f.preview"
+                                class="rounded border"
+                                style="width: 120px; height: 120px; object-fit: cover;" />
+                        
+                            <!-- REMOVE ICON -->
+                            <i class="fa fa-times-circle text-danger position-absolute"
+                                style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                                (click)="removeFile(f)">
+                            </i>
+                        
+                            </div>
+                        
+                        </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" matStepperPrevious>{{ __('global.back')}}</button>
+                        <button type="button" class="btn btn-primary" matStepperNext *ngIf="uploadedFiles.length > 0" >{{ __('global.next')}}</button>
+                    </div>
+
               </form>
             </mat-step>
           
