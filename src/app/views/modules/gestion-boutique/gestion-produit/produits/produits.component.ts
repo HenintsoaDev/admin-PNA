@@ -156,7 +156,10 @@ export class ProduitsComponent extends Translatable implements OnInit {
     filteredSousCategories: any[] = []; 
     filteredFormes: any[] = []; 
     searchControl = new FormControl('');
-    uploadedFiles: UploadedFile[] = [];
+    uploadedFiles: any[] = [];
+    uploadedFilesPdf: any[] = [];
+    titre_fiche: string | Blob;
+    isAdd: boolean = true;
 
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
@@ -214,8 +217,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
             famille_produit_id : ['', [Validators.required]],
             categorie_produit_id : ['', [Validators.required]],
             sous_categorie_produit_id : ['', [Validators.required]],
-            forme_id : ['', [Validators.required]],
-            documents: [[]]
+            forme_pharmaceutique_id : ['', [Validators.required]]
 
         });
     }
@@ -228,6 +230,11 @@ export class ProduitsComponent extends Translatable implements OnInit {
   
     // Quand on faire l'ajout ou modification
     onSubmit() {
+
+      console.log(this.produit, "FORM");
+      console.log(this.uploadedFiles, "IMAGE")
+      console.log(this.uploadedFilesPdf, "PDF")
+
       if (this.produitForm.valid) {
   
         let msg = "";
@@ -263,6 +270,9 @@ export class ProduitsComponent extends Translatable implements OnInit {
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
+
+                        this.addImage(res['data'].id);
+                        this.addFicheTechnique(res['data'].id);
                         this.actualisationTableau();
                         this.closeModal();
                       }
@@ -307,24 +317,95 @@ export class ProduitsComponent extends Translatable implements OnInit {
             alert("Veuillez remplir tous les champs correctement.");
         }
     }
+
+
+    addImage(idProduit){
+
+      const formData = new FormData();
+
+      formData.append('produit_id', idProduit);
+      this.uploadedFiles.forEach(f => {
+        formData.append('images[]', f.file, f.file.name);
+      });
+
+
+      this.produitService.ajoutImageProduit(formData).subscribe({
+        next: (res) => {
+            if(res['code'] == 201) {
+              this.toastr.success(res['msg'], this.__("global.success"));
+            }else{
+                this.toastr.error(res['msg'], this.__("global.error"));
+            }                
+          },
+          error: (err) => {
+          }
+      }); 
+    }
+
+    addFicheTechnique(idProduit){
+
+      const formData = new FormData();
+
+      formData.append('produit_id', idProduit);
+      formData.append('titre', this.titre_fiche);
+      this.uploadedFilesPdf.forEach(f => {
+        formData.append('fiche', f.file, f.file.name);
+      });
+
+
+      this.produitService.ajoutFicheTechniqueProduit(formData).subscribe({
+        next: (res) => {
+            if(res['code'] == 201) {
+              this.toastr.success(res['msg'], this.__("global.success"));
+
+            }else{
+                this.toastr.error(res['msg'], this.__("global.error"));
+            }                
+          },
+          error: (err) => {
+          }
+      }); 
+    }
   
     // Ouverture de modal pour modification
     openModalEditproduit() {
   
       this.titleModal = this.__('produit.title_edit_modal');
+
+      this.isAdd = false;
   
       if (this.addproduit) {
-  
+        
         this.recupererDonnee();
-
         
         this.actualisationSelectFamille();
-        this.recupererIdFamille(this.produit.categorie_produit_id)
-        this.actualisationSelectCategorie()
+        this.actualisationSelectFormes();
+        this.recupererIdCategorie(this.produit.sous_categorie_produit_id);
+
+
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addproduit, { backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.addproduit, {
+          class: 'modal-xl',
+          backdrop: 'static',
+          keyboard: false
+        });
       }
     }
+
+
+
+    async recupererIdCategorie(idSousCat = null) {
+
+      let whereId = "";
+      if (idSousCat != null) whereId = "?where=sous_categorie_produit.id|e|" + idSousCat;
+  
+      const resSousCat = await this.authService.getSelectList(environment.liste_sous_categorie_active + whereId, ['nom']);
+
+      this.produit.categorie_produit_id = resSousCat[0].categorie_produit_id;
+      this.actualisationSelectSousCategorie(this.produit.categorie_produit_id);
+      this.recupererIdFamille(this.produit.categorie_produit_id);
+    }
+
 
 
     async recupererIdFamille(idCat = null) {
@@ -350,7 +431,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
   
         this.recupererDonnee();
   
-  
+     
   
         // Ouverture de modal
         this.modalRef = this.modalService.show(this.detailproduit, {
@@ -359,6 +440,9 @@ export class ProduitsComponent extends Translatable implements OnInit {
       }
   
     }
+
+
+
      // SUppression d'un modal
      openModalDeleteproduit() {
   
@@ -542,9 +626,12 @@ export class ProduitsComponent extends Translatable implements OnInit {
     openModalAdd(template: TemplateRef<any>) {
       this.titleModal = this.__('produit.title_add_modal');
       this.produit = new produit();
+      this.isAdd = true;
+
       this.actualisationSelectFamille();
       this.actualisationSelectFormes();
-
+      this.uploadedFiles = [];
+      this.uploadedFilesPdf = [];
       this.modalRef = this.modalService.show(template, {
         class: 'modal-xl',
         backdrop: 'static',
@@ -563,6 +650,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
       const res = this.listproduits.filter(_ => _.id == this.idproduit);
       this.produit = res[0];
+      this.produit.forme_pharmaceutique_id = this.produit.forme_id;
+
     }
   
     // Actualisation des données
@@ -627,10 +716,49 @@ export class ProduitsComponent extends Translatable implements OnInit {
 
       this.uploadedFiles = this.uploadedFiles.filter(f => f !== file);
 
-      this.produitForm.patchValue({
+     /*  this.produitForm.patchValue({
         documents: this.uploadedFiles.map(f => f.file)
-      });
+      }); */
     }
 
+
+    onFilesPdfSelected(event: any) {
+      const file: File = event.target.files[0];
+    
+      if (!file) {
+        return;
+      }
+    
+      // Limite à 1 fichier
+      if (this.uploadedFilesPdf.length >= 1) {
+        alert('Un seul fichier PDF est autorisé');
+        event.target.value = '';
+        return;
+      }
+    
+      // Autoriser uniquement PDF
+      if (file.type !== 'application/pdf') {
+        alert('Seuls les fichiers PDF sont autorisés');
+        event.target.value = '';
+        return;
+      }
+    
+      this.uploadedFilesPdf = [{
+        file,
+        name: file.name
+      }];
+    
+      event.target.value = ''; // reset input
+    }
+
+    removeFilePdf(file: any): void {
+      if (file.preview) {
+/*         URL.revokeObjectURL(file.preview);
+ */      }
+
+      this.uploadedFilesPdf = this.uploadedFilesPdf.filter(f => f !== file);
+
+     
+    }
 
 }

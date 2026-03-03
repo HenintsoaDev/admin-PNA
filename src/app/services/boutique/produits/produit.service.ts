@@ -69,5 +69,27 @@ export class ProduitService {
         );
     }
 
+    ajoutImageProduit(credentials: any): Observable<any> {
+        
+        return this.httpService.post<any>(environment.images_produits, credentials).pipe(
+            tap(response => {
+                if (response['code'] === 200) {
+                    console.log("response XHR", response)
+                }
+            })
+        );
+    }
+
+    ajoutFicheTechniqueProduit(credentials: any): Observable<any> {
+        
+        return this.httpService.post<any>(environment.fiche_techniques, credentials).pipe(
+            tap(response => {
+                if (response['code'] === 200) {
+                    console.log("response XHR", response)
+                }
+            })
+        );
+    }
+
    
 }

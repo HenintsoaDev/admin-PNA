@@ -58,6 +58,6 @@ export const environment = {
   forme: 'admin/gestion_produits/formes',
   liste_forme_active: 'admin/gestion_produits/formes/active',
   produit: 'admin/gestion_produits/produits',
-
-
+  images_produits: 'admin/images_produits',
+  fiche_techniques: 'admin/gestion_produits/fiche_techniques'
 };

@@ -171,4 +171,5 @@ export class produit {
     categories: categorie [] | null | [];
     famille_produit_id: any;
     categorie_produit_id: any;
+    forme_id: number;
 }

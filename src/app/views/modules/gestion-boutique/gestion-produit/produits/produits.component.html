@@ -60,17 +60,9 @@
         <mat-horizontal-stepper linear>
 
             <mat-step [stepControl]="firstFormGroup">
-                <ng-template matStepLabel>{{ __('produit.add_produit')}}</ng-template>
+                <ng-template matStepLabel >{{ __('produit.add_produit')}}</ng-template>
           
                 <form #f="ngForm" [formGroup]="produitForm" >
-
-
-
-
-
-
-                  
-
 
                     <div class="row">
                         <div class="col-lg-6">
@@ -115,7 +107,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>{{ __('produit.prix_unitaire')}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="produit.prix_unitaire" placeholder="{{ __('produit.prix_unitaire')}}" formControlName="prix_unitaire" name="prix_unitaire">
+                                    <input matInput type="text" [(ngModel)]="produit.prix_unitaire"   oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="{{ __('produit.prix_unitaire')}}" formControlName="prix_unitaire" name="prix_unitaire">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -134,7 +126,7 @@
                             <div class="form-group">
                                 <mat-form-field>
                                     <mat-label>{{ __('produit.description')}}</mat-label>
-                                    <input matInput type="text" [(ngModel)]="produit.prix_unitaire" placeholder="{{ __('produit.description')}}" formControlName="description" name="description">
+                                    <input matInput type="text" [(ngModel)]="produit.description" placeholder="{{ __('produit.description')}}" formControlName="description" name="description">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -201,7 +193,7 @@
                             <div class="form-group"> 
                                 <mat-form-field appearance="fill">
                                     <mat-label>{{ __('produit.forme')}}</mat-label>
-                                    <mat-select [(ngModel)]="produit.forme_id" name="forme_id" formControlName="forme_id" >
+                                    <mat-select [(ngModel)]="produit.forme_pharmaceutique_id" name="forme_pharmaceutique_id" formControlName="forme_pharmaceutique_id" >
                                       <!-- Champ de recherche -->
                                       <mat-option>
                                         <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
@@ -225,15 +217,14 @@
     
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                    <button type="button" class="btn btn-primary" matStepperNext *ngIf="!produit.id" >{{ __('global.save')}}</button>
-                    <button type="submit" class="btn btn-primary" *ngIf="produit.id" [disabled]="produitForm.invalid">{{ __('global.edit')}}</button>
+                    <button type="button" class="btn btn-primary" matStepperNext [disabled]="produitForm.invalid" *ngIf="!produit.id" >{{ __('global.next')}}</button>
+                    <button type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="produit.id" >{{ __('global.edit')}}</button>
                 </div>
                 </form>
           
             </mat-step>
           
-            <mat-step [stepControl]="secondFormGroup">
-              <form [formGroup]="secondFormGroup">
+            <mat-step [stepControl]="secondFormGroup" *ngIf="isAdd">
                 <ng-template matStepLabel>{{ __('produit.add_image')}}</ng-template>
           
                  <!-- Documents Section -->
@@ -243,7 +234,7 @@
                             accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
                         
                         <div class="d-flex align-items-center gap-3">
-                        <button type="button" class="btn btn-outline-primary" (click)="fileInput.click()">
+                        <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFiles.length >= 4" (click)="fileInput.click()">
                             <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
                         </button>
                         
@@ -274,8 +265,77 @@
                         <button type="button" class="btn btn-primary" matStepperNext *ngIf="uploadedFiles.length > 0" >{{ __('global.next')}}</button>
                     </div>
 
-              </form>
             </mat-step>
+
+            <mat-step [stepControl]="threeFormGroup" *ngIf="isAdd">
+                  <ng-template matStepLabel>{{ __('produit.fiche_technique')}}</ng-template>
+            
+                  
+                     <!-- Documents Section -->
+                    <div class="text-primary mb-3">
+                        <input  type="file"
+                                #fileInputPdf
+                                (change)="onFilesPdfSelected($event)"
+                                accept="application/pdf"
+                                style="display: none;"
+/>
+                        
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <mat-label>{{ __('produit.titre')}}</mat-label>
+                                            <input matInput type="text" [(ngModel)]="titre_fiche" placeholder="{{ __('produit.titre')}}" name="titre">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label class="form-label text-primary small mb-2">{{__('produit.selection_fiche')}}</label>
+
+                                    <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFilesPdf.length === 1" (click)="fileInputPdf.click()">
+                                        <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                                    </button>
+                                </div>
+                            </div>
+                          
+
+                       
+                        
+                        <div *ngIf="uploadedFilesPdf.length > 0" class="d-flex flex-wrap gap-3">
+
+                            <div *ngFor="let f of uploadedFilesPdf" class="position-relative" style="margin: 0 20px;">
+
+                                <!-- PDF ICON -->
+                                <div
+                                  class="d-flex flex-column align-items-center justify-content-center border rounded"
+                                  style="width: 120px; height: 120px;"
+                                >
+                                  <i class="fa fa-file-pdf text-danger" style="font-size: 48px;"></i>
+                                  <small class="text-center mt-2">{{ f.name }}</small>
+                                </div>
+                              
+                                <!-- REMOVE ICON -->
+                                <i
+                                  class="fa fa-times-circle text-danger position-absolute"
+                                  style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                                  (click)="removeFilePdf(f)">
+                                </i>
+                              
+                              </div>
+                        
+                        </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" matStepperPrevious>{{ __('global.back')}}</button>
+                        <button type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="uploadedFiles.length > 0" >{{ __('global.save')}}</button>
+                    </div>
+  
+              </mat-step>
           
           </mat-horizontal-stepper>
 

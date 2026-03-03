@@ -21,7 +21,6 @@ import { CategorieComponent } from './categorie/categorie.component';
 import { SousCategorieComponent } from './sous-categorie/sous-categorie.component';
 import { FormesComponent } from './formes/formes.component';
 import { ProduitsComponent } from './produits/produits.component';
-
 import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({

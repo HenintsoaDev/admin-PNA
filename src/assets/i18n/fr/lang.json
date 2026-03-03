@@ -328,7 +328,10 @@
         "description" : "Description",
         "add_produit" : "Ajout un produit ",
         "add_image" : "Ajout des images",
-        "select_image" : "Sélectionner des images"
+        "select_image" : "Sélectionner des images",
+        "fiche_technique" : "Fiche technique",
+        "titre" : "Titre",
+        "selection_fiche" : "Sélectionner le fiche technique"
     }
 
 }
