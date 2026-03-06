@@ -371,7 +371,7 @@
                         <td >
                             <div class="alert alert-custom">
                                 <label><b class="fw-800">{{ __("produit.code")}}</b></label>
-                                <h6><b class="bold">{{  produit.code }}</b></h6>
+                                <h6><span class="bold">{{  produit.code }}</span></h6>
                             </div>
                         </td>
                         <td >
@@ -445,7 +445,7 @@
                 </table>
             </mat-tab>
 
-            <mat-tab label="Images du produits">
+            <mat-tab label="Images">
                 <br />
 
                 <div class="text-primary mb-3" *ngIf="produit?.images?.length < 4">
@@ -525,7 +525,7 @@
                   <div class="col-lg-9">
                     <div class="alert alert-custom">
                       <h6>
-                        <b class="bold">{{ __("global.aucun_document") }}</b>
+                        <span >{{ __("global.aucun_document") }}</span>
                       </h6>
                     </div>
                   </div>
