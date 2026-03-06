@@ -91,5 +91,29 @@ export class ProduitService {
         );
     }
 
+
+    supprimerImageproduit(id): Observable<any> {
+        
+        return this.httpService.delete<any>(environment.images_produits + '/' + id,).pipe(
+            tap(response => {
+                if (response['code'] === 200) {
+                    console.log("response XHR", response)
+                }
+            })
+        );
+    }
+
+    supprimerFicheproduit(id): Observable<any> {
+        
+        return this.httpService.delete<any>(environment.fiche_techniques + '/' + id,).pipe(
+            tap(response => {
+                if (response['code'] === 200) {
+                    console.log("response XHR", response)
+                }
+            })
+        );
+    }
+
+
    
 }

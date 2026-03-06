@@ -59,7 +59,7 @@
 
         <mat-horizontal-stepper linear>
 
-            <mat-step [stepControl]="firstFormGroup">
+            <mat-step [stepControl]="firstFormGroup" >
                 <ng-template matStepLabel >{{ __('produit.add_produit')}}</ng-template>
           
                 <form #f="ngForm" [formGroup]="produitForm" >
@@ -310,10 +310,10 @@
 
                                 <!-- PDF ICON -->
                                 <div
-                                  class="d-flex flex-column align-items-center justify-content-center border rounded"
+                                  class="d-flex flex-column align-items-center justify-content-center"
                                   style="width: 120px; height: 120px;"
                                 >
-                                  <i class="fa fa-file-pdf text-danger" style="font-size: 48px;"></i>
+                                  <i class="fa fa-file-pdf-o text-danger" style="font-size: 48px;"></i>
                                   <small class="text-center mt-2">{{ f.name }}</small>
                                 </div>
                               
@@ -332,7 +332,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" matStepperPrevious>{{ __('global.back')}}</button>
-                        <button type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="uploadedFiles.length > 0" >{{ __('global.save')}}</button>
+                        <button type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="uploadedFilesPdf.length > 0 && titre_fiche" >{{ __('global.save')}}</button>
                     </div>
   
               </mat-step>
@@ -362,7 +362,7 @@
 
 
         <mat-tab-group>
-            <mat-tab label="Information du sous produit">
+            <mat-tab label="Informations du produit">
               <br />
       
                 <table style="width: 100%;">
@@ -391,10 +391,11 @@
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
-                                <h6><b class="bold">{{  produit.dosage }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
+                                <h6><b class="bold">{{  produit.prix_unitaire }}</b></h6>
                             </div>
                         </td>
+                      
                     </tr>
 
                     <tr>
@@ -406,19 +407,21 @@
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.description")}}</b></label>
-                                <h6><b class="bold">{{  produit.description }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
+                                <h6><b class="bold">{{  produit.forme }}</b></h6>
                             </div>
                         </td>
+                       
                     </tr>
 
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
-                                <h6><b class="bold">{{  produit.prix_unitaire }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
+                                <h6><b class="bold">{{  produit.dosage }}</b></h6>
                             </div>
                         </td>
+                     
                         <td >
                             <div class="alert alert-custom">
                                 <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
@@ -428,10 +431,10 @@
                     </tr>
 
                     <tr>
-                        <td >
+                        <td colspan="2">
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
-                                <h6><b class="bold">{{  produit.forme }}</b></h6>
+                                <label><b class="fw-800">{{ __("produit.description")}}</b></label>
+                                <h6><b class="bold">{{  produit.description }}</b></h6>
                             </div>
                         </td>
                        
@@ -442,35 +445,80 @@
                 </table>
             </mat-tab>
 
-            <mat-tab label="Documents">
+            <mat-tab label="Images du produits">
                 <br />
+
+                <div class="text-primary mb-3" *ngIf="produit?.images?.length < 4">
+                    <label class="form-label text-primary small mb-2" >{{__('produit.select_one_image')}}</label>
+                    <input type="file" #fileInput (change)="onFilesSelectedAdd($event)" 
+                        accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+                    
+                    <div class="d-flex align-items-center gap-3">
+                    <button type="button" class="btn btn-outline-primary"  [disabled]="produit?.images?.length == 4" (click)="fileInput.click()">
+                        <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                    </button>
+                    
+                    <div *ngIf="uploadedOneFiles.length != 0" class="d-flex flex-wrap gap-3">
+
+                        <div *ngFor="let f of uploadedOneFiles" class="position-relative" style="margin: 0 20px;">
+                    
+                        <!-- IMAGE PREVIEW -->
+                        <img *ngIf="f.preview"
+                            [src]="f.preview"
+                            class="rounded border"
+                            style="width: 120px; height: 120px; object-fit: cover;" />
+                    
+                        <!-- REMOVE ICON -->
+                        <i class="fa fa-times-circle text-danger position-absolute"
+                            style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                            (click)="removeFile(f)">
+                        </i>
+                    
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-primary" (click)="addImage(produit.id, 2)" >{{ __('global.save')}}</button> <br>
+                            <button type="button" class="btn btn-secondary" (click)="annulerImage()" >{{ __('global.back')}}</button>
+                        </div>
+                    
+                    </div>
+                    </div>
+
+                    <hr>
+                    
+                </div>
+
         
                 <div class="row" *ngIf="produit?.images?.length != 0">
-                  <div class="col-lg-2" *ngFor="let document of produit.images">
-                    <img
-                      [src]="document.url"
-                      *ngIf="
-                        document.url.split('.').pop() == 'jpeg' ||
-                        document.url.split('.').pop() == 'png' ||
-                        document.url.split('.').pop() == 'jpg' ||
-                        document.url.split('.').pop() == 'svg'
-                      "
-                      style="width: 100px"
-                    />
-                
-        
-                    <div class="col-lg-4 img-detail">
-                      <button
-                        #btnDownload
-                        class="btn btn-sm btn-success"
-                        type="button"
-                        (click)="downloadDirect(document.url)"
-                        tooltip="{{ __('tooltip.download') }}"
-                      >
-                        <i class="fa fa-download fa-2x colorThemePrimary"></i>
-                      </button>
-                    </div>
-                  </div>
+
+                  
+
+                    <div class="col-lg-2 text-center d-flex flex-column align-items-center" *ngFor="let document of produit.images">
+  
+                        <img
+                          [src]="document.url"
+                          *ngIf="
+                            document.url.split('.').pop() == 'jpeg' ||
+                            document.url.split('.').pop() == 'png' ||
+                            document.url.split('.').pop() == 'jpg' ||
+                            document.url.split('.').pop() == 'svg'
+                          "
+                          style="width: 100px"
+                        />
+                      
+                        <div>
+                          <i class="fa fa-download fa-2x icon-img"
+                             (click)="downloadDirect(document.url)"
+                             tooltip="{{ __('tooltip.download') }}"></i>
+                      
+                            <i class="fa fa-trash fa-2x icon-img"
+                             style="color: red; cursor: pointer;"
+                             (click)="openModalDeleteImageproduit(document.id)"></i>
+                        </div>
+
+
+                      
+                      </div>
                 </div>
         
                 <div class="row" *ngIf="produit?.images?.length == 0">
@@ -482,6 +530,41 @@
                     </div>
                   </div>
                 </div>
+                <div></div>
+              </mat-tab>
+              <mat-tab label="Fiche technique">
+                <br />
+        
+                <div class="row" *ngIf="produit.fiche != null">
+                  <div class="col-lg-2  text-center d-flex flex-column align-items-center">
+                    <div
+                    class="d-flex flex-column align-items-center justify-content-center"
+                    style="width: 120px; height: 120px;"
+                  >
+                    <i class="fa fa-file-pdf-o text-danger" style="font-size: 48px;"></i>
+                    <small class="text-center mt-2">{{ produit.fiche?.titre }}</small>
+                  </div>
+                
+        
+                    <div class="col-lg-4 img-detail d-flex justify-content-center">
+                                       
+                      <i class="fa fa-download fa-2x icon-img"   (click)="downloadDirect(produit.fiche?.url_document)" tooltip="{{ __('tooltip.download') }}"></i>
+                      <i class="fa fa-trash fa-2x icon-img"  style="color: red;" (click)="openModalDeleteFicheproduit(produit.fiche?.id)" ></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="produit.fiche == null">
+                    <div class="col-lg-9">
+                      <div class="alert alert-custom">
+                        <h6>
+                          <b class="bold">{{ __("global.aucun_document") }}</b>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+        
+             
                 <div></div>
               </mat-tab>
 

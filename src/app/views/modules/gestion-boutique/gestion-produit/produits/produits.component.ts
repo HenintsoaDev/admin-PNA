@@ -160,6 +160,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
     uploadedFilesPdf: any[] = [];
     titre_fiche: string | Blob;
     isAdd: boolean = true;
+  uploadedOneFiles: UploadedFile[];
 
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
@@ -319,20 +320,32 @@ export class ProduitsComponent extends Translatable implements OnInit {
     }
 
 
-    addImage(idProduit){
+    addImage(idProduit, addOne = 1){
 
       const formData = new FormData();
 
       formData.append('produit_id', idProduit);
-      this.uploadedFiles.forEach(f => {
-        formData.append('images[]', f.file, f.file.name);
-      });
+
+      if(addOne == 1){
+        this.uploadedFiles.forEach(f => {
+          formData.append('images[]', f.file, f.file.name);
+        });
+      }else{
+        this.uploadedOneFiles.forEach(f => {
+          formData.append('images[]', f.file, f.file.name);
+        });
+      }
+    
 
 
       this.produitService.ajoutImageProduit(formData).subscribe({
         next: (res) => {
             if(res['code'] == 201) {
               this.toastr.success(res['msg'], this.__("global.success"));
+              if(addOne == 2) {
+                this.actualisationTableau();
+                this.closeModal();
+              }
             }else{
                 this.toastr.error(res['msg'], this.__("global.error"));
             }                
@@ -342,6 +355,9 @@ export class ProduitsComponent extends Translatable implements OnInit {
       }); 
     }
 
+    annulerImage(){
+      this.uploadedOneFiles = [];
+    }
     addFicheTechnique(idProduit){
 
       const formData = new FormData();
@@ -430,6 +446,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
   
   
         this.recupererDonnee();
+        this.uploadedOneFiles = [];
   
      
   
@@ -465,6 +482,85 @@ export class ProduitsComponent extends Translatable implements OnInit {
               next: (res) => {
                   if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
+                    this.closeModal();
+                    this.actualisationTableau();
+                  }
+                  else{
+                      this.toastr.error(res['msg'], this.__("global.error"));
+                  }                
+                },
+                error: (err) => {
+                }
+            }); 
+  
+          
+          }
+      });
+  
+    }
+
+     // SUppression d'un modal
+     openModalDeleteImageproduit(idImage) {
+  
+      Swal.fire({
+        title: this.__("global.confirmation"),
+        text: this.__("global.supprimer_image_?"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: this.__("global.oui_supprimer"),
+        cancelButtonText: this.__("global.cancel"),
+        allowOutsideClick: false,
+        customClass: {
+            confirmButton: 'swal-button--confirm-custom',
+            cancelButton: 'swal-button--cancel-custom'
+        },
+        }).then((result) => {
+        if (result.isConfirmed) {
+  
+             this.produitService.supprimerImageproduit(idImage).subscribe({
+              next: (res) => {
+                  if(res['code'] == 205) {
+                    this.toastr.success(res['msg'], this.__("global.success"));
+                    this.produit.images = this.produit.images?.filter(_=>_.id != idImage);
+                    this.actualisationTableau();
+                  }
+                  else{
+                      this.toastr.error(res['msg'], this.__("global.error"));
+                  }                
+                },
+                error: (err) => {
+                }
+            }); 
+  
+          
+          }
+      });
+  
+    }
+
+     // SUppression d'un modal
+     openModalDeleteFicheproduit(idImage) {
+  
+      Swal.fire({
+        title: this.__("global.confirmation"),
+        text: this.__("global.supprimer_fiche_?"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: this.__("global.oui_supprimer"),
+        cancelButtonText: this.__("global.cancel"),
+        allowOutsideClick: false,
+        customClass: {
+            confirmButton: 'swal-button--confirm-custom',
+            cancelButton: 'swal-button--cancel-custom'
+        },
+        }).then((result) => {
+        if (result.isConfirmed) {
+  
+             this.produitService.supprimerFicheproduit(idImage).subscribe({
+              next: (res) => {
+                  if(res['code'] == 205) {
+                    this.toastr.success(res['msg'], this.__("global.success"));
+                    this.closeModal();
                     this.actualisationTableau();
                   }
                   else{
@@ -745,7 +841,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
     
       this.uploadedFilesPdf = [{
         file,
-        name: file.name
+        url_documentname: file.name
       }];
     
       event.target.value = ''; // reset input
@@ -760,5 +856,41 @@ export class ProduitsComponent extends Translatable implements OnInit {
 
      
     }
+
+    onFilesSelectedAdd(event: Event): void {
+      const input = event.target as HTMLInputElement;
+    
+      if (input.files && input.files.length > 0) {
+        const file = input.files[0]; // seulement 1 fichier
+    
+        if (file.size > 5 * 1024 * 1024) {
+          this.toastr.error(
+            `Le fichier ${file.name} dépasse 5Mo`,
+            this.__('global.error')
+          );
+          return;
+        }
+    
+        if (!file.type.startsWith('image/')) {
+          this.toastr.error(
+            `Seulement les images sont autorisées`,
+            this.__('global.error')
+          );
+          return;
+        }
+    
+        const uploadedFile: UploadedFile = { file };
+    
+        const objectUrl = URL.createObjectURL(file);
+        uploadedFile.preview =
+          this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    
+        // 🔥 garder seulement une image
+        this.uploadedOneFiles = [uploadedFile];
+    
+        input.value = '';
+      }
+    }
+    
 
 }

@@ -172,4 +172,5 @@ export class produit {
     famille_produit_id: any;
     categorie_produit_id: any;
     forme_id: number;
+    images: any;
 }
