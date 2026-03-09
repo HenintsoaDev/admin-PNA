@@ -335,6 +335,16 @@
         "fiche_technique" : "Fiche technique",
         "titre" : "Titre",
         "selection_fiche" : "Sélectionner le fiche technique"
+    },
+    "region": {
+        "title_breadcrumb": "Lister les regions",
+        "title": "Gestion des regions",
+        "nom": "Nom",
+        "code": "Code",
+        "add": "Ajouter une region",
+        "title_edit_modal": "Modification d'une region",
+        "title_add_modal": "Ajout d'un region",
+        "title_detail_modal" : "Détails"
     }
 
 }

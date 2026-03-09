@@ -112,12 +112,10 @@ export class departement {
 }
 
 export class region {
-    id: number;
-    lib2: string ;
-    lib_region: string ;
-    libelle!: string ;
-    state!: number ;
-    dr_id!: number;
+    id: number ;
+    nom: string ;
+    code: string ;
+    state: number | null ;
 }
 
 export class famille {

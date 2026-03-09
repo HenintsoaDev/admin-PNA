@@ -21,6 +21,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { RegionComponent } from './region/region.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
     ProfilsComponent,
     TypeProfilComponent,
     ActionComponent,
+    RegionComponent,
   ],
   imports: [
     CommonModule,

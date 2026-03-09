@@ -26,6 +26,8 @@ export const environment = {
   module: 'admin/parametrages/modules',
   sous_module: 'admin/parametrages/sous_modules',
   liste_module_active: 'admin/parametrages/modules/active',
+  region: 'admin/parametrages/regions',
+  
   type_bureau: 'parametrage/type_bureau',
   type_profil: 'parametrage/type_profil',
   profil: 'parametrage/profil',

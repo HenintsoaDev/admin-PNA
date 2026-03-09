@@ -6,6 +6,7 @@ import { ProfilsComponent } from './profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
 import { TypeProfilComponent } from './type-profil/type-profil.component';
 import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { RegionComponent } from './region/region.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'type_profil', component: TypeProfilComponent, data: { breadcrumb: 'type_profil.title_breadcrumb' } },
   { path: 'user', component: UtilisateurComponent, data: { breadcrumb: 'utilisateur.title_breadcrumb' } },
   { path: 'actions', component: ActionComponent, data: { breadcrumb: 'action.title_breadcrumb' } },
+  { path: 'regions', component: RegionComponent, data: { breadcrumb: 'region.title_breadcrumb' } },
 
 
 ];
