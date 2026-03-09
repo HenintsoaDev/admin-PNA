@@ -231,7 +231,7 @@
                     <div class="text-primary mb-3">
                         <label class="form-label text-primary small mb-2">{{__('produit.select_image')}}</label>
                         <input type="file" #fileInput multiple (change)="onFilesSelected($event)" 
-                            accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+                            accept=".jpg,.jpeg,.png,.webp" style="display: none;" />
                         
                         <div class="d-flex align-items-center gap-3">
                         <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFiles.length >= 4" (click)="fileInput.click()">
@@ -451,7 +451,7 @@
                 <div class="text-primary mb-3" *ngIf="produit?.images?.length < 4">
                     <label class="form-label text-primary small mb-2" >{{__('produit.select_one_image')}}</label>
                     <input type="file" #fileInput (change)="onFilesSelectedAdd($event)" 
-                        accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+                        accept=".webp,.jpg,.jpeg,.png" style="display: none;" />
                     
                     <div class="d-flex align-items-center gap-3">
                     <button type="button" class="btn btn-outline-primary"  [disabled]="produit?.images?.length == 4" (click)="fileInput.click()">
@@ -501,6 +501,7 @@
                             document.url.split('.').pop() == 'jpeg' ||
                             document.url.split('.').pop() == 'png' ||
                             document.url.split('.').pop() == 'jpg' ||
+                            document.url.split('.').pop() == 'webp' ||
                             document.url.split('.').pop() == 'svg'
                           "
                           style="width: 100px"
@@ -508,6 +509,7 @@
                       
                         <div>
                           <i class="fa fa-download fa-2x icon-img"
+                            style="cursor: pointer;"
                              (click)="downloadDirect(document.url)"
                              tooltip="{{ __('tooltip.download') }}"></i>
                       
@@ -534,6 +536,70 @@
               </mat-tab>
               <mat-tab label="Fiche technique">
                 <br />
+
+                  <!-- Documents Section -->
+                  <div class="text-primary mb-3"   *ngIf="produit.fiche == null" >
+                    <input  type="file"
+                            #fileInputPdf
+                            (change)="onFilesPdfSelected($event)"
+                            accept="application/pdf"
+                            style="display: none;"/>
+                    
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>{{ __('produit.titre')}}</mat-label>
+                                        <input matInput type="text" [(ngModel)]="titre_fiche" placeholder="{{ __('produit.titre')}}" name="titre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label text-primary small mb-2">{{__('produit.selection_fiche')}}</label>
+
+                                <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFilesPdf.length === 1" (click)="fileInputPdf.click()">
+                                    <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                                </button>
+                            </div>
+                        </div>
+                      
+
+                   
+                    
+                        <div *ngIf="uploadedFilesPdf.length > 0" class="d-flex flex-wrap gap-3">
+
+                            <div *ngFor="let f of uploadedFilesPdf" class="position-relative" style="margin: 0 20px;">
+
+                                <!-- PDF ICON -->
+                                <div
+                                class="d-flex flex-column align-items-center justify-content-center"
+                                style="width: 120px; height: 120px;"
+                                >
+                                <i class="fa fa-file-pdf-o text-danger" style="font-size: 48px;"></i>
+                                <small class="text-center mt-2">{{ f.name }}</small>
+                                </div>
+                            
+                                <!-- REMOVE ICON -->
+                                <i
+                                class="fa fa-times-circle text-danger position-absolute"
+                                style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                                (click)="removeFilePdf(f)">
+                                </i>
+                            
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" (click)="addFicheTechnique(produit.id, 2)" >{{ __('global.save')}}</button> <br>
+                                <button type="button" class="btn btn-secondary" (click)="annulerFiche()" >{{ __('global.back')}}</button>
+                            </div>
+                        
+                        </div>
+                    
+                    </div>
+                    
+                </div>
         
                 <div class="row" *ngIf="produit.fiche != null">
                   <div class="col-lg-2  text-center d-flex flex-column align-items-center">
@@ -548,8 +614,8 @@
         
                     <div class="col-lg-4 img-detail d-flex justify-content-center">
                                        
-                      <i class="fa fa-download fa-2x icon-img"   (click)="downloadDirect(produit.fiche?.url_document)" tooltip="{{ __('tooltip.download') }}"></i>
-                      <i class="fa fa-trash fa-2x icon-img"  style="color: red;" (click)="openModalDeleteFicheproduit(produit.fiche?.id)" ></i>
+                      <i class="fa fa-download fa-2x icon-img"  style="cursor: pointer;" (click)="downloadDirect(produit.fiche?.url_document)" tooltip="{{ __('tooltip.download') }}"></i>
+                      <i class="fa fa-trash fa-2x icon-img"  style="color: red;cursor: pointer;" (click)="openModalDeleteFicheproduit(produit.fiche?.id)" ></i>
                     </div>
                   </div>
                 </div>

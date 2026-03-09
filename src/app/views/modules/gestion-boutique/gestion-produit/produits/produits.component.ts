@@ -160,7 +160,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
     uploadedFilesPdf: any[] = [];
     titre_fiche: string | Blob;
     isAdd: boolean = true;
-  uploadedOneFiles: UploadedFile[];
+    uploadedOneFiles: UploadedFile[];
+    uploadedOneFilesPdf:any[] = [];
 
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
@@ -358,7 +359,10 @@ export class ProduitsComponent extends Translatable implements OnInit {
     annulerImage(){
       this.uploadedOneFiles = [];
     }
-    addFicheTechnique(idProduit){
+    annulerFiche(){
+      this.uploadedFilesPdf = [];
+    }
+    addFicheTechnique(idProduit, addOne = 1){
 
       const formData = new FormData();
 
@@ -373,7 +377,10 @@ export class ProduitsComponent extends Translatable implements OnInit {
         next: (res) => {
             if(res['code'] == 201) {
               this.toastr.success(res['msg'], this.__("global.success"));
-
+              if(addOne == 2) {
+                this.actualisationTableau();
+                this.closeModal();
+              }
             }else{
                 this.toastr.error(res['msg'], this.__("global.error"));
             }                
@@ -447,7 +454,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
   
         this.recupererDonnee();
         this.uploadedOneFiles = [];
-  
+        this.uploadedFilesPdf = [];
      
   
         // Ouverture de modal
@@ -776,7 +783,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
             return;
           }
     
-          if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
+          if (![ 'image/jpeg','image/webp', 'image/png'].includes(file.type)) {
             this.toastr.error(
               `Format non supporté : ${file.name}`,
               this.__('global.error')
@@ -856,6 +863,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
 
      
     }
+
 
     onFilesSelectedAdd(event: Event): void {
       const input = event.target as HTMLInputElement;
