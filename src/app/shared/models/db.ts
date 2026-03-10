@@ -1,10 +1,11 @@
 export class utilisateur {
-    rowid: number;
+    id: number;
     nom: string;
     prenom: string;
+    prenoms: string;
     telephone: string;
     login: string;
-    fk_profil: number;
+    profil_id: number;
     fk_agence: number;
     admin: number;
     connect: number;
@@ -16,6 +17,10 @@ export class utilisateur {
     wallet_carte: number;
     profil: any;
     direction_regionale: any;
+    identifiant: any;
+    district_sanitaire_id: number;
+    structure_sanitaire_id: number;
+
 }
 
 export class VerifiedAccount {
@@ -26,10 +31,9 @@ export class VerifiedAccount {
     adress: string;
 }
 
-export class Agence {
-    rowid: number
-    code: string;
-    name: string
+export class type_structure {
+    id: number
+    nom: string
 }
 
 export class utilisateurApiNumherit {
@@ -94,9 +98,11 @@ export class type_profil {
 
 export class profil {
     id: number ;
-    name: string ;
+    nom_profil: string ;
     code: string ;
     wallet_carte: number | null ;
+    name: string ;
+
     type_profil_id: string | null ;
     state: number | null ;
     actions: action [] | null | [];

@@ -14,7 +14,7 @@
                                 </button> -->
                             </div>
                             <div class="right-button">
-                                <button class="btn btn-secondary" *ngIf="autority('PRM_38')" (click)="openModalAdd(addutilisateur)"> {{ __("utilisateur.add")}}</button>
+                                <button class="btn btn-secondary" *ngIf="autority('GSU_1')" (click)="openModalAdd(addutilisateur)"> {{ __("utilisateur.add")}}</button>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()">
             <div class="modal-body">
 
                 <div class="row">
@@ -71,30 +71,10 @@
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>{{ __('utilisateur.prenom')}}</mat-label>
-                                <input matInput type="text"  placeholder="{{ __('utilisateur.prenom')}}" formControlName="prenom" name="prenom">
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.prenom')}}" formControlName="prenoms" name="prenom">
                             </mat-form-field>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <mat-label>{{ __('utilisateur.login')}}</mat-label>
-                                <input matInput type="text"  placeholder="{{ __('utilisateur.login')}}" formControlName="login" name="login">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <mat-label>{{ __('utilisateur.email')}}</mat-label>
-                                <input matInput type="email"  placeholder="{{ __('utilisateur.email')}}" formControlName="email" name="email">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    
                 </div>
 
                 <div class="row">
@@ -114,17 +94,47 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('utilisateur.email')}}</mat-label>
+                                <input matInput type="email"  placeholder="{{ __('utilisateur.email')}}" formControlName="email" name="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                 
+                    <div class="col-lg-6">
                         <div class="form-group"> 
                             <mat-form-field appearance="fill">
                                 <mat-label>{{ __('utilisateur.profil')}}</mat-label>
-                                <mat-select name="fk_profil" formControlName="fk_profil" >
+                                <mat-select name="profil_id" formControlName="profil_id" >
                                   <!-- Champ de recherche -->
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
                                   <!-- Affichage des options filtrées -->
-                                  <mat-option *ngFor="let profil of filteredProfils" [value]="profil.id"> {{ profil.name }} </mat-option>
+                                  <mat-option *ngFor="let profil of filteredProfils" [value]="profil.id"> {{ profil.nom_profil }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('utilisateur.district')}}</mat-label>
+                                <mat-select  name="district_sanitaire_id" formControlName="district_sanitaire_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let district of filteredDistrict" [value]="district.id"> {{ district.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
                         </div>
@@ -136,15 +146,15 @@
                     <div class="col-lg-6">
                         <div class="form-group"> 
                             <mat-form-field appearance="fill">
-                                <mat-label>{{ __('utilisateur.type_bureau')}}</mat-label>
-                                <mat-select name="id_type_agence"   (selectionChange)="recupererBureau($event)" formControlName="id_type_agence" >
+                                <mat-label>{{ __('utilisateur.type_structure')}}</mat-label>
+                                <mat-select name="type_structure_id"   (selectionChange)="recupererStructure($event)" formControlName="type_structure_id" >
                                   <!-- Champ de recherche -->
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
                                   <!-- Affichage des options filtrées -->
-                                  <mat-option *ngFor="let type of filteredTypeBureau" [value]="type.id"> {{ type.name }} </mat-option>
+                                  <mat-option *ngFor="let type of filteredType" [value]="type.id"> {{ type.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
                         </div>
@@ -152,19 +162,24 @@
                     <div class="col-lg-6">
                         <div class="form-group"> 
                             <mat-form-field appearance="fill">
-                                <mat-label>{{ __('utilisateur.bureau')}}</mat-label>
-                                <mat-select  name="fk_agence" formControlName="fk_agence" >
+                                <mat-label>{{ __('utilisateur.structure')}}</mat-label>
+                                <mat-select  name="structure_sanitaire_id" formControlName="structure_sanitaire_id" >
                                   <!-- Champ de recherche -->
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
                                   <!-- Affichage des options filtrées -->
-                                  <mat-option *ngFor="let bureau of filteredBureau" [value]="bureau.rowid"> {{ bureau.name }} </mat-option>
+                                  <mat-option *ngFor="let structure of filteredStructure" [value]="structure.id"> {{ structure.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
+          
+                  
                 </div>
                 
                 
@@ -186,7 +201,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="!utilisateur.id" [disabled]="utilisateurForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!utilisateur.id" >{{ __('global.save')}}</button>
                 <button type="submit" class="btn btn-primary" *ngIf="utilisateur.id" [disabled]="utilisateurForm.invalid">{{ __('global.edit')}}</button>
             </div>
         </form>
@@ -218,7 +233,7 @@
                 <td >
                     <div class="alert alert-custom">
                         <label><b class="fw-800">{{ __("utilisateur.prenom")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.prenom }}</b></h6>
+                        <h6><b class="bold">{{  utilisateur.prenoms }}</b></h6>
                      </div>
                 </td>
             </tr>
@@ -242,13 +257,22 @@
                 <td >
                     <div class="alert alert-custom">
                         <label><b class="fw-800">{{ __("utilisateur.profil")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.profil }}</b></h6>
+                        <h6><b class="bold">{{  utilisateur.profil_name }}</b></h6>
                      </div>
                 </td>
                 <td >
                     <div class="alert alert-custom">
-                        <label><b class="fw-800">{{ __("utilisateur.bureau")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.agence }}</b></h6>
+                        <label><b class="fw-800">{{ __("utilisateur.district")}}</b></label>
+                        <h6><b class="bold">{{  utilisateur.district_sanitaire_nom }}</b></h6>
+                     </div>
+                </td>
+            </tr>
+            <tr>
+           
+                <td >
+                    <div class="alert alert-custom">
+                        <label><b class="fw-800">{{ __("utilisateur.structure")}}</b></label>
+                        <h6><b class="bold">{{  utilisateur.structure_sanitaire_nom }}</b></h6>
                      </div>
                 </td>
             </tr>

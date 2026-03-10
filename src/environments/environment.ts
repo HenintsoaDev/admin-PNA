@@ -27,13 +27,19 @@ export const environment = {
   sous_module: 'admin/parametrages/sous_modules',
   liste_module_active: 'admin/parametrages/modules/active',
   region: 'admin/parametrages/regions',
-  
-  type_bureau: 'parametrage/type_bureau',
+
+  //** Gestion utilisateurs */
+  liste_district_active : 'admin/gestion_utilisateurs/district_sanitaires/active',
+  utilisateur: 'admin/gestion_utilisateurs/utilisateurs',
+  liste_type_structure_active : 'admin/gestion_utilisateurs/type_structures/active',
+  liste_structure_active : 'admin/gestion_utilisateurs/structure_sanitaires/active',
+  liste_profil_active: 'admin/gestion_utilisateurs/profils/active',
+  profil: 'admin/gestion_utilisateurs/profils',
+  type_structure: 'admin/gestion_utilisateurs/type_structures',
+
+
   type_profil: 'parametrage/type_profil',
-  profil: 'parametrage/profil',
-  liste_profil_active: 'parametrage/consult/profil/allActivatedProfil',
   liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',
-  utilisateur: 'parametrage/user',
   liste_type_bureau_active: 'parametrage/consult/type_bureau/type_de_bureaux_active',
   regenerer_mdp: 'parametrage/user/regenerer_password',
   profilage: 'parametrage/profilage',

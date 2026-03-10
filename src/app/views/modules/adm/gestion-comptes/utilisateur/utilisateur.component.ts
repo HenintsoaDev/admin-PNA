@@ -27,22 +27,22 @@ export class UtilisateurComponent extends Translatable implements OnInit {
     {
       "nomColonne" : this.__('utilisateur.nom'),
       "colonneTable" : "nom",
-      "table" : "user"
+      "table" : "utilisateur"
     },
     {
       "nomColonne" : this.__('utilisateur.prenom'),
-      "colonneTable" : "prenom",
-      "table" : "user"
+      "colonneTable" : "prenoms",
+      "table" : "utilisateur"
     },
     {
       "nomColonne" : this.__('utilisateur.email'),
       "colonneTable" : "email",
-      "table" : "user"
+      "table" : "utilisateur"
     },
     {
       "nomColonne" : this.__('utilisateur.telephone'),
       "colonneTable" : "telephone",
-      "table" : "user"
+      "table" : "utilisateur"
     },
     {
       "nomColonne" : this.__('utilisateur.profil'),
@@ -50,9 +50,14 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       "table" : "profil"
     },
     {
-      "nomColonne" : this.__('utilisateur.bureau'),
+      "nomColonne" : this.__('utilisateur.structure'),
       "colonneTable" : "name",
-      "table" : "agence"
+      "table" : "structure_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('utilisateur.district'),
+      "colonneTable" : "name",
+      "table" : "district_sabitaire"
     },
 
     
@@ -70,7 +75,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             'type' : 'text',
           },
           {
-            'name' : 'prenom',
+            'name' : 'prenoms',
             'type' : 'text',
           },
           {
@@ -83,16 +88,20 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             'type' : 'text',
           },
           {
-            'name' : 'profil',
+            'name' : 'profil_name',
             'type' : 'text',
           },
           {
-            'name' : 'agence',
+            'name' : 'structure_sanitaire_nom',
+            'type' : 'text',
+          },
+          {
+            'name' : 'district_sanitaire_nom',
             'type' : 'text',
           },
          
         
-          {'name' :  'state#rowid'}
+          {'name' :  'state#id'}
   ]
   
   listIcon = [
@@ -101,7 +110,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'PRM_40',
+      'autority' : 'GSU_1',
   
     },
     
@@ -109,30 +118,30 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       'icon' : 'lock_reset',
       'action' : 'regenerer_mdp',
       'tooltip' : 'Régeneration de mot de passe',
-      'autority' : 'PRM_43',
+      'autority' : 'GSU_1',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'PRM_39',
+      'autority' : 'GSU_1',
   
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'PRM_41',
+      'autority' : 'GSU_1',
 
   
     },
     {
       'icon' : 'state',
-      'autority' : 'PRM_42',
+      'autority' : 'GSU_1',
     },
   ]
-    searchGlobal = [ 'user.nom', 'user.prenom', 'user.email',  'user.telephone', 'profil.name', 'agence.name']
+    searchGlobal = [ 'utilisateur.nom', 'utilisateur.prenom', 'utilisateur.email',  'utilisateur.telephone', 'profil.nom_profil', 'structure_sanitaire.nom', 'district_sanitaire.nom']
    
     /***************************************** */
   
@@ -150,10 +159,9 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
     profils:profil [] = [];
     filteredProfils: profil[] = [];
-    type_bureaux:any [] = [];
-    filteredTypeBureau: any[] = [];
-    bureaux:any [] = [];
-    filteredBureau: any[] = [];
+    filteredType: any[] = [];
+    filteredStructure: any[] = [];
+    filteredDistrict: any[] = [];
 
     searchControl = new FormControl('');
 
@@ -162,8 +170,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
     objetPhone : any;
     element : any;
 
-    currenCode :string =environment.currentCodeCountry;
-    formatTelephone :string = environment.formatTelephone;
+
 
 
     tel!: string;
@@ -182,7 +189,6 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
     selectedCountryISO = environment.currentCodeCountry;
     phoneNumber = '';
-    dialCode: any = environment.dialCode;
 
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
@@ -201,7 +207,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
   
   
     async ngOnInit() {
-      this.authService.initAutority("PRM","ADM");
+      this.authService.initAutority("GSU","ADM");
 
       this.titleModal = this.__('utilisateur.title_add_modal');
   
@@ -230,20 +236,46 @@ export class UtilisateurComponent extends Translatable implements OnInit {
           this.endpoint = environment.baseUrl + '/' + environment.utilisateur;
       /***************************************** */
   
-          this.utilisateurForm = this.fb.group({
-            nom: ['', Validators.required],
-            prenom: [''],
-            login: ['', [Validators.required]],
-            email: ['', [Validators.required]],
-            telephone: ['', [Validators.required,  Validators.minLength(9)]],
-            fk_agence: ['', [Validators.required]],
-            fk_profil: ['', [Validators.required]], 
-            id_type_agence: ['', [Validators.required]] 
-        });
+        this.initForm();
 
 
         
 
+
+    }
+
+    formatTelephone(phone){
+
+      let telephoneForm = phone.number.replace('+', '');
+      let dialCode = phone.dialCode.replace('+', '');
+      let telephoneFinal = "";
+    
+      if (telephoneForm.startsWith(dialCode)) {
+        telephoneFinal = '00' + telephoneForm;
+      } else {
+        if (telephoneForm.startsWith('0')) {
+          telephoneFinal = '00' + dialCode + telephoneForm.replace(/^0/, '');
+        } else {
+          telephoneFinal = '00' + dialCode + telephoneForm;
+        }
+      }
+    
+      return telephoneFinal;
+    
+    }
+
+
+    initForm(){
+      this.utilisateurForm = this.fb.group({
+        nom: ['', Validators.required],
+        prenoms: [''],
+        email: ['', [Validators.required]],
+        telephone: ['', [Validators.required]],
+        district_sanitaire_id: ['', [Validators.required]],
+        profil_id: ['', [Validators.required]], 
+        type_structure_id: ['', [Validators.required]],
+        structure_sanitaire_id: ['', [Validators.required]] 
+    });
 
     }
 
@@ -271,8 +303,9 @@ export class UtilisateurComponent extends Translatable implements OnInit {
           let msg = "";
           let msg_btn = "";
           
-    
-          if(!this.utilisateur.rowid){
+          this.utilisateur.telephone  = this.formatTelephone(this.utilisateur.telephone )
+
+          if(!this.utilisateur.id){
             msg = this.__("global.enregistrer_donnee_?");
             msg_btn = this.__("global.oui_enregistrer");
           }else{
@@ -280,8 +313,6 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             msg_btn = this.__("global.oui_modifier");
           }
 
-          if (this.utilisateur.telephone.startsWith(this.dialCode))this.utilisateur.telephone = this.utilisateur.telephone
-          else this.utilisateur.telephone = this.dialCode + this.utilisateur.telephone;
         
           Swal.fire({
             title: this.__("global.confirmation"),
@@ -298,7 +329,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.utilisateur.rowid){
+              if(!this.utilisateur.id){
 
                  this.utilisateurService.ajoutUtilisateur(this.utilisateur).subscribe({
                   next: (res) => {
@@ -360,8 +391,9 @@ export class UtilisateurComponent extends Translatable implements OnInit {
         this.recupererDonnee();
 
         this.actualisationSelectProfil();
-        this.actualisationSelectTypeBureau();
-        this.actualisationSelectBureau(this.utilisateur.id_type_agence);
+        this.actualisationSelectDistrict();
+        this.recupererIdType(this.utilisateur.structure_sanitaire_id)
+        this.actualisationSelectType();
 
         // Ouverture de modal
         this.modalRef = this.modalService.show(this.addutilisateur, {
@@ -370,6 +402,20 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       }
     }
   
+    async recupererIdType(idStructure = null) {
+
+      let whereId = "";
+      if (idStructure != null) whereId = "?where=structure_sanitaire.id|e|" + idStructure;
+  
+      const resStructure = await this.authService.getSelectList(environment.liste_structure_active + whereId, ['nom']);
+
+      let idType = resStructure[0].type_structure_id
+      this.utilisateurForm.patchValue({
+        type_structure_id : idType
+      });
+
+      this.actualisationSelectStructure(idType);
+    }
 
       
   
@@ -393,7 +439,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
   
              this.utilisateurService.supprimerUtilisateur(this.idUtilisateur).subscribe({
               next: (res) => {
-                  if(res['code'] == 204) {
+                  if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
                     this.actualisationTableau();
                   }
@@ -528,19 +574,11 @@ export class UtilisateurComponent extends Translatable implements OnInit {
     // Ouverture du modal pour l'ajout
     async openModalAdd(template: TemplateRef<any>) {
       this.titleModal = this.__('utilisateur.title_add_modal');
-      this.utilisateurForm = this.fb.group({
-          nom: ['', Validators.required],
-          prenom: [''],
-          login: ['', [Validators.required]],
-          email: ['', [Validators.required]],
-          telephone: ['', [Validators.required,  Validators.minLength(9)]],
-          fk_agence: ['', [Validators.required]],
-          fk_profil: ['', [Validators.required]], 
-          id_type_agence: ['', [Validators.required]] 
-      });
+      this.initForm();
 
       this.actualisationSelectProfil();
-      this.actualisationSelectTypeBureau();
+      this.actualisationSelectDistrict();
+      this.actualisationSelectType();
       //this.actualisationSelectBureau();
       this.modalRef = this.modalService.show(template, {
         class: 'modal-lg',backdrop:"static"
@@ -548,50 +586,63 @@ export class UtilisateurComponent extends Translatable implements OnInit {
     }
 
     async actualisationSelectProfil(){
-      this.profils = await this.authService.getSelectList(environment.liste_profil_active,['name']);
-      this.filteredProfils = this.profils;
+      let profils = await this.authService.getSelectList(environment.liste_profil_active,['name']);
+      this.filteredProfils = profils;
 
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
-        this.filteredProfils = this.profils.filter(profil =>
-          profil.name.toLowerCase().includes(lower)
+        this.filteredProfils = profils.filter(profil =>
+          profil.nom_profil.toLowerCase().includes(lower)
         );
       });
 
     }
 
-    async actualisationSelectTypeBureau(){
-      this.type_bureaux = await this.authService.getSelectList(environment.liste_type_bureau_active,['name']);
-      this.filteredTypeBureau = this.type_bureaux;
+    async actualisationSelectDistrict(){
+      let districts = await this.authService.getSelectList(environment.liste_district_active,['name']);
+      this.filteredDistrict = districts;
 
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
-        this.filteredTypeBureau = this.type_bureaux.filter(type =>
-          type.name.toLowerCase().includes(lower)
+        this.filteredDistrict = districts.filter(district =>
+          district.nom.toLowerCase().includes(lower)
         );
       });
 
     }
 
-    recupererBureau(event: MatSelectChange) {
-      const idTypeAgence = event.value;
-      this.actualisationSelectBureau(idTypeAgence);
+    async actualisationSelectType(){
+      let type_structure = await this.authService.getSelectList(environment.liste_type_structure_active,['nom']);
+      this.filteredType = type_structure;
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredType = type_structure.filter(type =>
+          type.nom.toLowerCase().includes(lower)
+        );
+      });
+
+    }
+
+    recupererStructure(event: MatSelectChange) {
+      const idType = event.value;
+      this.actualisationSelectStructure(idType);
       
     }
 
-    async actualisationSelectBureau(idTypeAgence = null){
-      let endpointBureau = "";
+    async actualisationSelectStructure(idType = null){
+      let endpointStructure = "";
 
-      if(idTypeAgence != null) endpointBureau = environment.liste_bureau_active + "?where=agence.idtype_agence|e|" + idTypeAgence;
-      else  endpointBureau = environment.liste_bureau_active ;
+      if(idType != null) endpointStructure = environment.liste_structure_active + "?where=structure_sanitaire.type_structure_id|e|" + idType;
+      else  endpointStructure = environment.liste_structure_active ;
 
-      this.bureaux = await this.authService.getSelectList(endpointBureau,['name']);
-      this.filteredBureau = this.bureaux;
+      let structures = await this.authService.getSelectList(endpointStructure,['name']);
+      this.filteredStructure = structures;
 
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
-        this.filteredBureau = this.bureaux.filter(bureau =>
-          bureau.name.toLowerCase().includes(lower)
+        this.filteredStructure = structures.filter(structures =>
+          structures.nom.toLowerCase().includes(lower)
         );
       });
 
@@ -614,19 +665,23 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
 
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listutilisateurs.filter(_ => _.rowid == this.idUtilisateur);
+      const res = this.listutilisateurs.filter(_ => _.id == this.idUtilisateur);
       if(res.length != 0){
         this.utilisateur = res[0];
 
+        let tel = this.utilisateur.telephone?.startsWith('00')
+        ? this.utilisateur.telephone.replace('00', '+')
+        : this.utilisateur.telephone;
+
+
         this.utilisateurForm.patchValue({
           nom: this.utilisateur.nom,
-          prenom: this.utilisateur.prenom,
-          login: this.utilisateur.login,
+          prenoms: this.utilisateur.prenoms,
           email: this.utilisateur.email,
-          telephone: this.utilisateur.telephone,
-          fk_agence: this.utilisateur.fk_agence,
-          fk_profil: this.utilisateur.fk_profil,
-          id_type_agence: this.utilisateur.id_type_agence
+          telephone: tel,
+          district_sanitaire_id: this.utilisateur.district_sanitaire_id,
+          profil_id: this.utilisateur.profil_id,
+          structure_sanitaire_id : this.utilisateur.structure_sanitaire_id
         });
       }
    }
@@ -638,35 +693,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
 
 
-    changePreferredCountries() {
-      this.preferredCountries = [CountryISO.India, CountryISO.Canada];
-    }
-
-
-    telInputObject(m:any){
-      this.objetPhone = m.s
-      
-    }
-
-    onCountryChange(event: any) {
-      this.dialCode = event.dialCode; // ← ici tu obtiens '261' ou '221'
-      
-    }
-    
-
-    controle(element:any){}
-
-    hasError: boolean = false;
-    onError(obj : any) {
-        this.hasError = obj;
-    }
-
-    getNumber(obj : any) {
-      console.log(this.dialCode, "dialcode");
-      console.log(this.dialCode);
-
-      this.telephone = obj;
-    }
+ 
     
 
 

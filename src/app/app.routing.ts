@@ -30,6 +30,10 @@ const routes: Routes =[
     path: 'admin/gestion_produits', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
     loadChildren: () => import('./views/modules/gestion-boutique/gestion-produit/gestion-produit.module').then(m => m.GestionProduitModule)
   },
+  {
+    path: 'admin/gestion_utilisateurs', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
+    loadChildren: () => import('./views/modules/adm/gestion-comptes/gestion-comptes.module').then(m => m.GestionComptesModule)
+  },
 
 
   {

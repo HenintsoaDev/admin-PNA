@@ -5,7 +5,7 @@ import { ModuleComponent } from './module/module.component';
 import { ProfilsComponent } from './profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
 import { TypeProfilComponent } from './type-profil/type-profil.component';
-import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur.component';
 import { RegionComponent } from './region/region.component';
 
 

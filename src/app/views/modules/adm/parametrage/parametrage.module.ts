@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ParametrageRoutingModule } from './parametrage-routing.module';
-import { UtilisateurComponent } from './utilisateur/utilisateur.component';
+import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur.component';
 import { ModuleComponent } from './module/module.component';
 import { ProfilsComponent } from './profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
@@ -26,7 +26,6 @@ import { RegionComponent } from './region/region.component';
 
 @NgModule({
   declarations: [
-    UtilisateurComponent,
     ModuleComponent,
     SousModuleComponent,
     ProfilsComponent,

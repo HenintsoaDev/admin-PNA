@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { valuesys } from 'app/shared/models/options';
-import { Auth, utilisateur } from 'app/shared/models/db';
+import { Auth, famille, type_structure } from 'app/shared/models/db';
 import { Router } from '@angular/router';
 import { MenuService } from 'app/shared/models/route-info';
 import { HttpService } from '../../http.service';
@@ -12,20 +12,14 @@ import { HttpService } from '../../http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UtilisateurService {
+export class TypeStructureService {
 
     constructor(private http: HttpClient, private httpService: HttpService,private  router: Router,private menuService: MenuService) {}
 
-  
 
-   
-
-
-   
-
-    ajoutUtilisateur(credentials: utilisateur): Observable<any> {
+    ajoutTypeStructure(credentials: type_structure): Observable<any> {
         
-        return this.httpService.post<any>(environment.utilisateur, credentials).pipe(
+        return this.httpService.post<any>(environment.type_structure, credentials).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -33,20 +27,9 @@ export class UtilisateurService {
             })
         );
     }
-    modifierUtilisateur(credentials: utilisateur): Observable<any> {
+    modifierTypeStructure(credentials: type_structure): Observable<any> {
         
-        return this.httpService.put<any>(environment.utilisateur + '/' + credentials.id, credentials).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
-    }
-
-    supprimerUtilisateur(id): Observable<any> {
-        
-        return this.httpService.delete<any>(environment.utilisateur + '/' + id,).pipe(
+        return this.httpService.put<any>(environment.type_structure + '/' + credentials.id, credentials).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -55,9 +38,9 @@ export class UtilisateurService {
         );
     }
 
-    changementStateUtilisateur(data, state): Observable<any> {
+    supprimerTypeStructure(id): Observable<any> {
         
-        return this.httpService.get<any>(environment.utilisateur + '/' + data.id + '/state/' + state + '?state=' + state).pipe(
+        return this.httpService.delete<any>(environment.type_structure + '/' + id,).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -66,9 +49,9 @@ export class UtilisateurService {
         );
     }
 
-    regenererMotDePasse(credentials: any): Observable<any> {
+    changementStateTypeStructure(data, state): Observable<any> {
         
-        return this.httpService.post<any>(environment.regenerer_mdp, credentials).pipe(
+        return this.httpService.get<any>(environment.type_structure + '/' + data.id + '/state/' + state + '?state=' + state).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)

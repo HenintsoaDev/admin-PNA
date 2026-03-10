@@ -215,6 +215,9 @@
         "state": "Statut",
         "user_creation": "Créer par",
         "direction_regional" : "Direction regionale",
+        "structure" : "Structure",
+        "district" : "District",
+        "type_structure" : "Type sctructure",
         "password": {
             "old_password_placeholder": "Votre ancien mot de passe",
             "new_password_placeholder": "Votre nouveau mot de passe",
@@ -344,6 +347,16 @@
         "add": "Ajouter une region",
         "title_edit_modal": "Modification d'une region",
         "title_add_modal": "Ajout d'un region",
+        "title_detail_modal" : "Détails"
+    },
+    "type_structure": {
+        "title_breadcrumb": "Lister les types structures",
+        "title": "Gestion des types structures",
+        "nom": "Nom",
+        "code": "Code",
+        "add": "Ajouter une type structure",
+        "title_edit_modal": "Modification d'une type structure",
+        "title_add_modal": "Ajout d'un type structure",
         "title_detail_modal" : "Détails"
     }
 
