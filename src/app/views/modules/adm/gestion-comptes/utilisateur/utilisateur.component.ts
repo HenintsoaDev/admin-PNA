@@ -495,7 +495,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
   
         this.recupererDonnee();
 
-        
+        console.log(this.utilisateur);
   
         Swal.fire({
           title: this.__("global.confirmation"),
@@ -515,10 +515,10 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             if(this.utilisateur.state == 1) state = 0;
             else state = 1;
   
-    
+            console.log(this.utilisateur);
                this.utilisateurService.changementStateUtilisateur(this.utilisateur, state).subscribe({
                 next: (res) => {
-                    if(res['code'] == 201) {
+                    if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }
@@ -654,7 +654,8 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       if (storedData) result = JSON.parse(storedData);
       this.listutilisateurs = result.data;
 
-
+      console.log(this.listutilisateurs);
+      console.log(this.idUtilisateur);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
       const res = this.listutilisateurs.filter(_ => _.id == this.idUtilisateur);
       if(res.length != 0){
