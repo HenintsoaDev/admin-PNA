@@ -82,7 +82,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
                 <button type="submit" class="btn btn-primary" *ngIf="!profil.id" [disabled]="profilForm.invalid">{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="profil.id" [disabled]="profilForm.invalid">{{ __('global.edit')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="profil.id" [disabled]="profilForm.invalid">{{ __('global.valider')}}</button>
             </div>
         </form>
     </div>

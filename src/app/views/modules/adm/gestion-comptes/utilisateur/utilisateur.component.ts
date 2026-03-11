@@ -266,8 +266,6 @@ export class UtilisateurComponent extends Translatable implements OnInit {
         telephone: ['', [Validators.required]],
         district_sanitaire_id: ['', [Validators.required]],
         profil_id: ['', [Validators.required]], 
-        type_structure_id: ['', [Validators.required]],
-        structure_sanitaire_id: ['', [Validators.required]] 
     });
 
     }
@@ -385,8 +383,8 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
         this.actualisationSelectProfil();
         this.actualisationSelectDistrict();
-        this.recupererIdType(this.utilisateur.structure_sanitaire_id)
-        this.actualisationSelectType();
+      /*   this.recupererIdType(this.utilisateur.structure_sanitaire_id)
+        this.actualisationSelectType(); */
 
         // Ouverture de modal
         this.modalRef = this.modalService.show(this.addutilisateur, {
@@ -571,7 +569,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
 
       this.actualisationSelectProfil();
       this.actualisationSelectDistrict();
-      this.actualisationSelectType();
+      // this.actualisationSelectType();
       //this.actualisationSelectBureau();
       this.modalRef = this.modalService.show(template, {
         class: 'modal-lg',backdrop:"static"

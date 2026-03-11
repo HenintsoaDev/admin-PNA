@@ -217,7 +217,7 @@
         "user_creation": "Créer par",
         "direction_regional" : "Direction regionale",
         "structure" : "Structure",
-        "district" : "District",
+        "district" : "Direction régional",
         "type_structure" : "Type sctructure",
         "password": {
             "old_password_placeholder": "Votre ancien mot de passe",

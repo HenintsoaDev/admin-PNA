@@ -61,13 +61,13 @@ export class ProfilsComponent extends Translatable implements OnInit {
     ]
     
     listIcon = [
-      {
+     /*  {
         'icon' : 'info',
         'action' : 'detail',
         'tooltip' : this.__('global.tooltip_detail'),
         'autority' : 'GSU_1',
     
-      },
+      }, */
       {
         'icon' : 'handshake',
         'action' : 'affect',

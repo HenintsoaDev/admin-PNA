@@ -85,7 +85,7 @@
 
                             <ngx-intl-tel-input
                             formControlName="telephone"
-                            [preferredCountries]="['mg','sn']"
+                            [preferredCountries]="['sn','mg']"
             
                             [enableAutoCountrySelect]="true"
                             [enablePlaceholder]="true">
@@ -142,18 +142,18 @@
                    
                 </div>
 
-                <div class="row">
+              <!--   <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group"> 
                             <mat-form-field appearance="fill">
                                 <mat-label>{{ __('utilisateur.type_structure')}}</mat-label>
                                 <mat-select name="type_structure_id"   (selectionChange)="recupererStructure($event)" formControlName="type_structure_id" >
-                                  <!-- Champ de recherche -->
+                                  <!-- Champ de recherche --
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
-                                  <!-- Affichage des options filtrées -->
+                                  <!-- Affichage des options filtrées --
                                   <mat-option *ngFor="let type of filteredType" [value]="type.id"> {{ type.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
@@ -164,18 +164,18 @@
                             <mat-form-field appearance="fill">
                                 <mat-label>{{ __('utilisateur.structure')}}</mat-label>
                                 <mat-select  name="structure_sanitaire_id" formControlName="structure_sanitaire_id" >
-                                  <!-- Champ de recherche -->
+                                  <!-- Champ de recherche --
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
-                                  <!-- Affichage des options filtrées -->
+                                  <!-- Affichage des options filtrées --
                                   <mat-option *ngFor="let structure of filteredStructure" [value]="structure.id"> {{ structure.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row">
           
@@ -202,7 +202,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
                 <button type="submit" class="btn btn-primary" *ngIf="!utilisateur.id" >{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="utilisateur.id" [disabled]="utilisateurForm.invalid">{{ __('global.edit')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="utilisateur.id" [disabled]="utilisateurForm.invalid">{{ __('global.valider')}}</button>
             </div>
         </form>
     </div>

@@ -326,7 +326,7 @@ subscription: Subscription;
   
              this.moduleService.changementStateModule(this.module, state).subscribe({
               next: (res) => {
-                  if(res['code'] == 201) {
+                  if(res['code'] == 200) {
                     this.toastr.success(res['msg'], this.__("global.success"));
                     this.actualisationTableau();
                   }

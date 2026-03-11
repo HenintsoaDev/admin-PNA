@@ -84,6 +84,10 @@ export class SousModuleComponent extends Translatable implements OnInit {
       'tooltip': 'Supression',
       'autority': 'PAC_11',
     },
+    {
+      'icon' : 'state',
+      'autority' : 'PAC_6',
+    },
   ]
 
   searchGlobal = ['sous_module.code', 'sous_module.name', 'sous_module.icon', 'module.name']
