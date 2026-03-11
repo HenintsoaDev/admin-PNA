@@ -89,24 +89,24 @@ export class DistrictSanitaireComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'GSP_7',
+      'autority' : 'PAC_7',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_9'
+      'autority' : 'PAC_9'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_10'
+      'autority' : 'PAC_10'
     },
     {
       'icon' : 'state',
-      'autority' : 'PRM_6',
+      'autority' : 'PAC_1',
     },
   ]
   
@@ -146,7 +146,7 @@ export class DistrictSanitaireComponent extends Translatable implements OnInit {
   
     async ngOnInit() {
   
-      this.authService.initAutority("GSP","GSB");
+      this.authService.initAutority("PAC","ADM");
   
       this.titleModal = this.__('district.title_add_modal');
   
@@ -421,7 +421,7 @@ export class DistrictSanitaireComponent extends Translatable implements OnInit {
     
                this.districtService.changementStateDistrict(this.district, state).subscribe({
                 next: (res) => {
-                    if(res['code'] == 201) {
+                    if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }

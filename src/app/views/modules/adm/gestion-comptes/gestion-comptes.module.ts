@@ -22,7 +22,7 @@ import { ProfilsComponent } from './profils/profils.component';
 @NgModule({
   declarations: [
     UtilisateurComponent,
-    ProfilsComponent
+    ProfilsComponent,
   ],
   imports: [
     CommonModule,

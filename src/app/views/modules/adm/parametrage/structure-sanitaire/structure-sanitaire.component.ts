@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassageService } from 'app/services/table/passage.service';
-import { region } from 'app/shared/models/db';
+import { structure, region } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -9,16 +9,15 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { RegionService } from 'app/services/admin/parametre/region.service';
+import { StructureService } from 'app/services/admin/parametre/structure.service';
 
 @Component({
-  selector: 'app-region',
-  templateUrl: './region.component.html',
-  styleUrls: ['./region.component.scss']
+  selector: 'app-structure-sanitaire',
+  templateUrl: './structure-sanitaire.component.html',
+  styleUrls: ['./structure-sanitaire.component.scss']
 })
-export class RegionComponent extends Translatable implements OnInit {
+export class StructureSanitaireComponent extends Translatable implements OnInit {
 
- 
   modalRef?: BsModalRef;
   
   /***************************************** */
@@ -26,16 +25,31 @@ export class RegionComponent extends Translatable implements OnInit {
   header = [
     
     {
-      "nomColonne" : this.__('region.code'),
+      "nomColonne" : this.__('structure.code'),
       "colonneTable" : "code",
-      "table" : "region"
+      "table" : "structure_sanitaire"
     },
     {
-      "nomColonne" : this.__('region.nom'),
+      "nomColonne" : this.__('structure.nom'),
       "colonneTable" : "nom",
-      "table" : "region"
+      "table" : "structure_sanitaire"
     },
-   
+    {
+      "nomColonne" : this.__('structure.email'),
+      "colonneTable" : "email",
+      "table" : "structure_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('structure.budget_alloue'),
+      "colonneTable" : "budget_alloue",
+      "table" : "structure_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('structure.district'),
+      "colonneTable" : "nom",
+      "table" : "district_sanitaire"
+    },
+    
     {
       "nomColonne" : this.__('global.action')
     }
@@ -53,25 +67,42 @@ export class RegionComponent extends Translatable implements OnInit {
             'name' : 'nom',
             'type' : 'text',
           },
-        
-         
+          {
+            'name' : 'email',
+            'type' : 'text',
+          },
+          {
+            'name' : 'budget_alloue',
+            'type' : 'montant',
+          },
+          {
+            'name' : 'district_sanitaire_nom',
+            'type' : 'text',
+          },
         
           {'name' :  'state#id'}
   ]
-  
+
+
   listIcon = [
- 
+    {
+      'icon' : 'info',
+      'action' : 'detail',
+      'tooltip' : this.__('global.tooltip_detail'),
+      'autority' : 'PAC_7',
+  
+    },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'PAC_4'
+      'autority' : 'PAC_9'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'PAC_5'
+      'autority' : 'PAC_10'
     },
     {
       'icon' : 'state',
@@ -79,26 +110,30 @@ export class RegionComponent extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'region.code', 'region.nom']
+    searchGlobal = [ 'structure_sanitaire.code', 'structure_sanitaire.nom','structure_sanitaire.budget_alloue','structure_sanitaire.email', 'district_sanitaire.nom']
    
     /***************************************** */
   
   
   
-    regionForm: FormGroup;
-    region: region = new region();
-    listregions:region [] = [];
-  
-    @ViewChild('addregion') addregion: TemplateRef<any> | undefined;
-    @ViewChild('detailregion') detailregion: TemplateRef<any> | undefined;
+    structureForm: FormGroup;
+    structure: structure = new structure();
+    liststructures:structure [] = [];
 
-    idregion : number;
+    filteredType: any[] = [];
+    filteredDistrict: any[] = [];
+    searchControl = new FormControl('');
+
+    @ViewChild('addstructure') addstructure: TemplateRef<any> | undefined;
+    @ViewChild('detailstructure') detailstructure: TemplateRef<any> | undefined;
+
+    idstructure : number;
     titleModal: string = "";
-  
+
   
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private regionService: RegionService,     
+                private structureService: StructureService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -115,7 +150,7 @@ export class RegionComponent extends Translatable implements OnInit {
   
       this.authService.initAutority("PAC","ADM");
   
-      this.titleModal = this.__('region.title_add_modal');
+      this.titleModal = this.__('structure.title_add_modal');
   
           this.passageService.appelURL(null);
   
@@ -124,12 +159,12 @@ export class RegionComponent extends Translatable implements OnInit {
           this.subscription = this.passageService.getObservable().subscribe(event => {
   
             if(event.data){
-              this.idregion = event.data.id;
+              this.idstructure = event.data.id;
   
-              if(event.data.action == 'edit') this.openModalEditregion();
-              else if(event.data.action == 'delete') this.openModalDeleteregion();
-              // else if(event.data.action == 'detail') this.openModalDetailregion();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateregion();
+              if(event.data.action == 'edit') this.openModalEditstructure();
+              else if(event.data.action == 'delete') this.openModalDeletestructure();
+              else if(event.data.action == 'detail') this.openModalDetailstructure();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStatestructure();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -137,13 +172,12 @@ export class RegionComponent extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.region;
+          this.endpoint = environment.baseUrl + '/' + environment.structure;
       /***************************************** */
-  
-          this.regionForm = this.fb.group({
-            nom: ['', Validators.required],
-            code: ['', [Validators.required]],
-        });
+      
+
+      this.initForm();
+       
     }
   
     ngOnDestroy() {
@@ -152,21 +186,62 @@ export class RegionComponent extends Translatable implements OnInit {
       }
     }
   
+
+    initForm(){
+      this.structureForm = this.fb.group({
+        nom: ['', Validators.required],
+        code: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        adresse: ['', [Validators.required]],
+        budget_alloue : ['', [Validators.required]],
+        telephone : ['', [Validators.required]],
+        type_structure_id : ['', [Validators.required]],
+        district_sanitaire_id : ['', [Validators.required]]
+    });
+    }
+
+
+
+    formatTelephone(phone){
+
+      let telephoneForm = phone.number.replace('+', '');
+      let dialCode = phone.dialCode.replace('+', '');
+      let telephoneFinal = "";
+    
+      if (telephoneForm.startsWith(dialCode)) {
+        telephoneFinal = '00' + telephoneForm;
+      } else {
+        if (telephoneForm.startsWith('0')) {
+          telephoneFinal = '00' + dialCode + telephoneForm.replace(/^0/, '');
+        } else {
+          telephoneFinal = '00' + dialCode + telephoneForm;
+        }
+      }
+    
+      return telephoneFinal;
+    
+    }
+    
     // Quand on faire l'ajout ou modification
     onSubmit() {
-      if (this.regionForm.valid) {
+      if (this.structureForm.valid) {
   
         let msg = "";
         let msg_btn = "";
   
-        if(!this.region.id){
+        if(!this.structure.id){
            msg = this.__("global.enregistrer_donnee_?");
            msg_btn = this.__("global.oui_enregistrer");
         }else{
            msg = this.__("global.modifier_donnee_?");
            msg_btn = this.__("global.oui_modifier");
         }
-  
+        this.structure = {
+          ...this.structure,
+          ...this.structureForm.value
+        };
+        this.structure.telephone  = this.formatTelephone(this.structure.telephone )
+
           Swal.fire({
             title: this.__("global.confirmation"),
             text: msg,
@@ -182,10 +257,10 @@ export class RegionComponent extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.region.id){
+              if(!this.structure.id){
                 console.log("add")
   
-                 this.regionService.ajoutRegion(this.region).subscribe({
+                 this.structureService.ajoutstructure(this.structure).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -205,7 +280,7 @@ export class RegionComponent extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.regionService.modifierRegion(this.region).subscribe({
+                 this.structureService.modifierstructure(this.structure).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -235,43 +310,43 @@ export class RegionComponent extends Translatable implements OnInit {
     }
   
     // Ouverture de modal pour modification
-    openModalEditregion() {
+    openModalEditstructure() {
   
-      this.titleModal = this.__('region.title_edit_modal');
+      this.titleModal = this.__('structure.title_edit_modal');
   
-      if (this.addregion) {
+      if (this.addstructure) {
+  
+        this.recupererDonnee();
+        this.actualisationSelectType();
+        this.actualisationSelectDistrict();
+
+        // Ouverture de modal
+        this.modalRef = this.modalService.show(this.addstructure, { class: 'modal-lg', backdrop: 'static',keyboard: false });
+      }
+    }
+  
+    // Detail d'un modal
+    async openModalDetailstructure() {
+  
+  
+      this.titleModal = this.__('structure.title_detail_modal');
+  
+      if (this.detailstructure) {
+  
   
         this.recupererDonnee();
   
+  
+  
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addregion, { backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.detailstructure, {
+          class: 'modal-xl',backdrop:"static"
+        });
       }
+  
     }
-
-     // Detail d'un modal
-   async openModalDetailregion() {
-  
-  
-    this.titleModal = this.__('region.title_detail_modal');
-
-    if (this.detailregion) {
-
-
-      this.recupererDonnee();
-
-
-
-      // Ouverture de modal
-      this.modalRef = this.modalService.show(this.detailregion, {
-        class: 'modal-xl',backdrop:"static"
-      });
-    }
-
-  }
-  
-  
      // SUppression d'un modal
-     openModalDeleteregion() {
+     openModalDeletestructure() {
   
       Swal.fire({
         title: this.__("global.confirmation"),
@@ -288,7 +363,7 @@ export class RegionComponent extends Translatable implements OnInit {
         }).then((result) => {
         if (result.isConfirmed) {
   
-             this.regionService.supprimerRegion(this.idregion).subscribe({
+             this.structureService.supprimerstructure(this.idstructure).subscribe({
               next: (res) => {
                   if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
@@ -310,10 +385,34 @@ export class RegionComponent extends Translatable implements OnInit {
       });
   
     }
-  
-  
+
+    async actualisationSelectDistrict(){
+      let districts = await this.authService.getSelectList(environment.liste_district_active,['name']);
+      this.filteredDistrict = districts;
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredDistrict = districts.filter(district =>
+          district.nom.toLowerCase().includes(lower)
+        );
+      });
+
+    }
+    async actualisationSelectType(){
+      let type_structure = await this.authService.getSelectList(environment.liste_type_structure_active,['nom']);
+      this.filteredType = type_structure;
+
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredType = type_structure.filter(type =>
+          type.nom.toLowerCase().includes(lower)
+        );
+      });
+
+    }
+
       // Ouverture de modal pour modification
-      openModalToogleStateregion() {
+      openModalToogleStatestructure() {
   
        
         this.recupererDonnee();
@@ -333,11 +432,11 @@ export class RegionComponent extends Translatable implements OnInit {
           }).then((result) => {
           if (result.isConfirmed) {
             let state = 0;
-            if(this.region.state == 1) state = 0;
+            if(this.structure.state == 1) state = 0;
             else state = 1;
   
     
-               this.regionService.changementStateRegion(this.region, state).subscribe({
+               this.structureService.changementStatestructure(this.structure, state).subscribe({
                 next: (res) => {
                     if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
@@ -364,10 +463,15 @@ export class RegionComponent extends Translatable implements OnInit {
   
     // Ouverture du modal pour l'ajout
     openModalAdd(template: TemplateRef<any>) {
-      this.titleModal = this.__('region.title_add_modal');
-      this.region = new region();
-  
+      this.titleModal = this.__('structure.title_add_modal');
+      this.structure = new structure();
+      this.actualisationSelectType();
+      this.actualisationSelectDistrict();
+
+      this.initForm();
+
       this.modalRef = this.modalService.show(template, {
+        class: 'modal-lg',
         backdrop: 'static',
         keyboard: false
       });
@@ -379,11 +483,11 @@ export class RegionComponent extends Translatable implements OnInit {
       const storedData = localStorage.getItem('data');
       let result : any;
       if (storedData) result = JSON.parse(storedData);
-      this.listregions = result.data;
-      console.log(this.listregions);
+      this.liststructures = result.data;
+      console.log(this.liststructures);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listregions.filter(_ => _.id == this.idregion);
-      this.region = res[0];
+      const res = this.liststructures.filter(_ => _.id == this.idstructure);
+      this.structure = res[0];
     }
   
     // Actualisation des données

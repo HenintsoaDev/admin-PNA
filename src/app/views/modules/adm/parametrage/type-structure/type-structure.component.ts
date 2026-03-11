@@ -55,17 +55,17 @@ export class TypeStructureComponent extends Translatable implements OnInit {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_4'
+      'autority' : 'PAC_4'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_5'
+      'autority' : 'PAC_5'
     },
     {
       'icon' : 'state',
-      'autority' : 'PRM_6',
+      'autority' : 'PAC_1',
     },
   ]
   
@@ -103,7 +103,7 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
     async ngOnInit() {
   
-      this.authService.initAutority("GSP","GSB");
+      this.authService.initAutority("PAC","ADM");
   
       this.titleModal = this.__('type_structure.title_add_modal');
   
@@ -307,7 +307,7 @@ export class TypeStructureComponent extends Translatable implements OnInit {
     
                this.typeStructureService.changementStateTypeStructure(this.type_structure, state).subscribe({
                 next: (res) => {
-                    if(res['code'] == 201) {
+                    if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }

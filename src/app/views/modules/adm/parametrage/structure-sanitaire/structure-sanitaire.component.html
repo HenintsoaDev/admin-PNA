@@ -14,7 +14,7 @@
                                 </button> -->
                             </div>
                             <div class="right-button">
-                                <button *ngIf="autority('PAC_8')" class="btn btn-secondary" (click)="openModalAdd(adddistrict)"> {{ __("district.add")}}</button>
+                                <button *ngIf="autority('PAC_8')" class="btn btn-secondary" (click)="openModalAdd(addstructure)"> {{ __("structure.add")}}</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
 
 <!-- MODAL -->
  <!-- Modal avec Material Design -->
- <ng-template #adddistrict>
+ <ng-template #addstructure>
     <div class="modal-header btn-primary">
         <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
         <button type="button" class="close" (click)="closeModal()">
@@ -55,15 +55,15 @@
         </button>
     </div>
     <div class="modal-body">
-        <form [formGroup]="districtForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="structureForm" (ngSubmit)="onSubmit()">
             <div class="modal-body">
 
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <mat-form-field>
-                                <mat-label>{{ __('district.code')}}</mat-label>
-                                <input matInput type="text"  placeholder="{{ __('district.code')}}" formControlName="code" name="code">
+                                <mat-label>{{ __('structure.code')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('structure.code')}}" formControlName="code" name="code">
                             </mat-form-field>
                         </div>
                     </div>
@@ -71,8 +71,8 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <mat-form-field>
-                                <mat-label>{{ __('district.nom')}}</mat-label>
-                                <input matInput type="text" placeholder="{{ __('district.nom')}}" formControlName="nom" name="nom">
+                                <mat-label>{{ __('structure.nom')}}</mat-label>
+                                <input matInput type="text" placeholder="{{ __('structure.nom')}}" formControlName="nom" name="nom">
                             </mat-form-field>
                         </div>
                     </div>
@@ -82,26 +82,15 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <mat-form-field>
-                                <mat-label>{{ __('district.email')}}</mat-label>
-                                <input matInput type="email"  placeholder="{{ __('district.email')}}" formControlName="email" name="email">
+                                <mat-label>{{ __('structure.email')}}</mat-label>
+                                <input matInput type="email"  placeholder="{{ __('structure.email')}}" formControlName="email" name="email">
                             </mat-form-field>
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <mat-form-field>
-                                <mat-label>{{ __('district.responsable')}}</mat-label>
-                                <input matInput type="text"  placeholder="{{ __('district.responsable')}}" formControlName="responsable" name="responsable">
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="dateFonction">{{ __('district.telephone')}}</label>
+                            <label for="dateFonction">{{ __('structure.telephone')}}</label>
 
 
                             <ngx-intl-tel-input
@@ -114,34 +103,66 @@
 
                         </div>
                     </div>
+
+                    
+                </div>
+
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <mat-form-field>
-                                <mat-label>{{ __('district.fax')}}</mat-label>
-                                <input matInput type="text"  placeholder="{{ __('utilisateur.fax')}}" formControlName="fax" name="fax">
+                                <mat-label>{{ __('structure.adresse')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.adresse')}}" formControlName="adresse" name="adresse">
                             </mat-form-field>
                         </div>
                     </div>
-                    
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('structure.budget_alloue')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('structure.budget_alloue')}}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" formControlName="budget_alloue" name="budget_alloue">
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
               
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group"> 
                             <mat-form-field appearance="fill">
-                                <mat-label>{{ __('district.region')}}</mat-label>
-                                <mat-select name="region_id" formControlName="region_id" >
+                                <mat-label>{{ __('utilisateur.type_structure')}}</mat-label>
+                                <mat-select name="type_structure_id"   formControlName="type_structure_id" >
                                   <!-- Champ de recherche -->
                                   <mat-option>
                                     <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
                                   </mat-option>
                               
                                   <!-- Affichage des options filtrées -->
-                                  <mat-option *ngFor="let region of filteredRegions" [value]="region.id"> {{ region.nom }} </mat-option>
+                                  <mat-option *ngFor="let type of filteredType" [value]="type.id"> {{ type.nom }} </mat-option>
                                 </mat-select>
                               </mat-form-field>
                         </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('utilisateur.district')}}</mat-label>
+                                <mat-select  name="district_sanitaire_id" formControlName="district_sanitaire_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let district of filteredDistrict" [value]="district.id"> {{ district.nom }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+
+                   
                 </div>
                
 
@@ -156,8 +177,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="!district.id" [disabled]="districtForm.invalid">{{ __('global.save')}}</button>
-                <button type="submit" class="btn btn-primary" *ngIf="district.id" [disabled]="districtForm.invalid">{{ __('global.edit')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!structure.id" [disabled]="structureForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="structure.id" [disabled]="structureForm.invalid">{{ __('global.edit')}}</button>
             </div>
         </form>
     </div>
@@ -168,7 +189,7 @@
 
 <!-- MODAL -->
  <!-- Modal avec Material Design -->
- <ng-template #detaildistrict>
+ <ng-template #detailstructure>
     <div class="modal-header btn-primary">
         <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
         <button type="button" class="close" (click)="closeModal()">
@@ -179,7 +200,7 @@
 
 
         <mat-tab-group>
-            <mat-tab label="Information du district">
+            <mat-tab label="Information du structure">
               <br />
       
                 <table style="width: 100%;">
@@ -187,36 +208,36 @@
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.code")}}</b></label>
-                                <h6><b class="bold">{{  district.code }}</b></h6>
+                                <label><b class="fw-800">{{ __("structure.code")}}</b></label>
+                                <h6><b class="bold">{{  structure.code }}</b></h6>
                             </div>
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.nom")}}</b></label>
-                                <h6><b class="bold">{{  district.nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.email")}}</b></label>
-                                <h6><b class="bold">{{  district.email }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.responsable")}}</b></label>
-                                <h6><b class="bold">{{  district.responsable }}</b></h6>
+                                <label><b class="fw-800">{{ __("structure.nom")}}</b></label>
+                                <h6><b class="bold">{{  structure.nom }}</b></h6>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.famille")}}</b></label>
-                                <h6><b class="bold">{{  district.famille_produit }}</b></h6>
+                                <label><b class="fw-800">{{ __("structure.email")}}</b></label>
+                                <h6><b class="bold">{{  structure.email }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("structure.responsable")}}</b></label>
+                                <h6><b class="bold">{{  structure.responsable }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("structure.famille")}}</b></label>
+                                <h6><b class="bold">{{  structure.famille_produit }}</b></h6>
                             </div>
                         </td>
                        

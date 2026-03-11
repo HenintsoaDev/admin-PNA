@@ -24,6 +24,7 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { RegionComponent } from './region/region.component';
 import { DistrictSanitaireComponent } from './district-sanitaire/district-sanitaire.component';
 import { TypeStructureComponent } from './type-structure/type-structure.component';
+import { StructureSanitaireComponent } from './structure-sanitaire/structure-sanitaire.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { TypeStructureComponent } from './type-structure/type-structure.componen
     RegionComponent,
     TypeStructureComponent,
     DistrictSanitaireComponent,
+    StructureSanitaireComponent
   ],
   imports: [
     CommonModule,

@@ -372,6 +372,22 @@
         "title_add_modal": "Ajout d'un district",
         "title_detail_modal" : "Détails",
         "region": "Region"
+    },
+    "structure": {
+        "title_breadcrumb": "Lister les structures sanitaires",
+        "title": "Gestion des structures sanitaires",
+        "nom": "Nom",
+        "code": "Code",
+        "email": "Email",
+        "telephone":"N° téléphone",
+        "budget_alloue" : "Budget alloué",
+        "adresse": "Adresse",
+        "add": "Ajouter une structure",
+        "title_edit_modal": "Modification d'une structure",
+        "title_add_modal": "Ajout d'une structure",
+        "title_detail_modal" : "Détails",
+        "district": "Direction régional",
+        "type" : "Type sanitaire"
     }
 
 }

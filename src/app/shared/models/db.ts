@@ -186,3 +186,17 @@ export class district {
     telephone: string;
     fax: string;
 }
+
+export class structure {
+    id: number ;
+    nom: string ;
+    code: string ;
+    adresse: string ;
+    telephone: string;
+    email: string ;
+    budget_alloue: string ;
+    type_structure_id: number ;
+    district_sanitaire_id: number ;
+    state: number | null ;
+
+}
