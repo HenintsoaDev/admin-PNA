@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActionComponent } from './action/action.component';
 import { ModuleComponent } from './module/module.component';
-import { ProfilsComponent } from './profils/profils.component';
+import { ProfilsComponent } from '../gestion-comptes/profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
 import { TypeProfilComponent } from './type-profil/type-profil.component';
 import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur.component';
 import { RegionComponent } from './region/region.component';
+import { TypeStructureComponent } from './type-structure/type-structure.component';
+import { DistrictSanitaireComponent } from './district-sanitaire/district-sanitaire.component';
 
 
 const routes: Routes = [
@@ -14,9 +16,11 @@ const routes: Routes = [
   { path: 'sous_modules', component: SousModuleComponent, data: { breadcrumb: 'sous_module.title_breadcrumb' } },
   { path: 'profil', component: ProfilsComponent, data: { breadcrumb: 'profil.title_breadcrumb' } },
   { path: 'type_profil', component: TypeProfilComponent, data: { breadcrumb: 'type_profil.title_breadcrumb' } },
-  { path: 'user', component: UtilisateurComponent, data: { breadcrumb: 'utilisateur.title_breadcrumb' } },
   { path: 'actions', component: ActionComponent, data: { breadcrumb: 'action.title_breadcrumb' } },
   { path: 'regions', component: RegionComponent, data: { breadcrumb: 'region.title_breadcrumb' } },
+  { path: 'type_structures', component: TypeStructureComponent, data: { breadcrumb: 'type_structure.title_breadcrumb' } },
+  { path: 'district_sanitaires', component: DistrictSanitaireComponent, data: { breadcrumb: 'district.title_breadcrumb' } },
+
 
 
 ];

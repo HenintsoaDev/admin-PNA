@@ -14,7 +14,7 @@
                                 </button> -->
                             </div>
                             <div class="right-button">
-                                <button class="btn btn-secondary" *ngIf="autority('PRM_32')" (click)="openModalAdd(addprofil)"> {{ __("profil.add")}}</button>
+                                <button class="btn btn-secondary" *ngIf="autority('GSU_1')" (click)="openModalAdd(addprofil)"> {{ __("profil.add")}}</button>
                             </div>
                         </div>
                     </div>
@@ -60,39 +60,18 @@
                 
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>{{ __('profil.name')}}</mat-label>
-                        <input matInput type="text" [(ngModel)]="profil.name" placeholder="{{ __('profil.name')}}" formControlName="name" name="name">
-                    </mat-form-field>
-                </div>
-                <div class="form-group">
-                    <mat-form-field>
                         <mat-label>{{ __('profil.code')}}</mat-label>
                         <input matInput type="text" [(ngModel)]="profil.code" placeholder="{{ __('profil.code')}}" formControlName="code" name="code">
                     </mat-form-field>
                 </div>
-                <div class="form-group">
-                    <mat-radio-group  [(ngModel)]="wallet_carte" formControlName="wallet_carte">
-                        <mat-radio-button class="mr-3" value="W">{{ __('global.wallet')}}</mat-radio-button>
-                        <mat-radio-button class="mr-3" value="C">{{ __('global.carte')}}</mat-radio-button>
-                        <mat-radio-button class="mr-3" value="WC">{{ __('global.wallet_carte')}}</mat-radio-button>
-                      </mat-radio-group>
-                </div>
-                
 
-                <div class="form-group"> 
-                    <mat-form-field appearance="fill">
-                        <mat-label>{{ __('profil.type')}}</mat-label>
-                        <mat-select [(ngModel)]="profil.type_profil_id" name="type_profil_id" formControlName="type_profil_id" >
-                          <!-- Champ de recherche -->
-                          <mat-option>
-                            <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
-                          </mat-option>
-                      
-                          <!-- Affichage des options filtrées -->
-                          <mat-option *ngFor="let type of filteredTypes" [value]="type.id"> {{ type.name }} </mat-option>
-                        </mat-select>
-                      </mat-form-field>
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>{{ __('profil.name')}}</mat-label>
+                        <input matInput type="text" [(ngModel)]="profil.name" placeholder="{{ __('profil.name')}}" formControlName="name" name="name">
+                    </mat-form-field>
                 </div>
+              
                 
                   
 

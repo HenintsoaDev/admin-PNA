@@ -98,12 +98,8 @@ export class type_profil {
 
 export class profil {
     id: number ;
-    nom_profil: string ;
-    code: string ;
-    wallet_carte: number | null ;
     name: string ;
-
-    type_profil_id: string | null ;
+    code: string ;
     state: number | null ;
     actions: action [] | null | [];
 }
@@ -177,4 +173,16 @@ export class produit {
     categorie_produit_id: any;
     forme_id: number;
     images: any;
+}
+
+export class district {
+    id: number ;
+    nom: string ;
+    code: string ;
+    responsable: string ;
+    email: string ;
+    state: number | null ;
+    categories: categorie [] | null | [];
+    telephone: string;
+    fax: string;
 }

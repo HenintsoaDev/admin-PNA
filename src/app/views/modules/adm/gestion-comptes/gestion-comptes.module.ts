@@ -17,14 +17,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../parametrage/parametrage-routing.module';
-import { TypeStructureComponent } from './type-structure/type-structure.component';
-
+import { ProfilsComponent } from './profils/profils.component';
 
 @NgModule({
   declarations: [
     UtilisateurComponent,
-    TypeStructureComponent,
-
+    ProfilsComponent
   ],
   imports: [
     CommonModule,

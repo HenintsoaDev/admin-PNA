@@ -3,176 +3,71 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-const BASE_URL = "https://gateway-pf.sunuphco.com";
+const BASE_URL = "https://backend-pna.numherit-preprod.com";
 
 export const environment = {
   production: true,
   baseUrl: BASE_URL,
-  userAuth: 'auth/me',
-  menuItemsStorage: 'menuItemsPHCO',
-  menuItemsSelectedStorage: 'menuItemsSelectedPHCO',
-  authItemName: '__token_api_gate_way_phco',
-  userItemName: '__user_api_gate_way_phco',
-  phcoTimeToken: '_phco_time_token',
-  soldeWelletStorage: 'soldeWallet',
-  soldeCarteStorage: 'soldeCarte',
+  userAuth: 'admin/auth/me',
+  login: BASE_URL + '/admin/auth/login',
+  logout: BASE_URL + '/admin/auth/logout',
+  menuItemsStorage: 'menuItemsPNA',
+  menuItemsSelectedStorage: 'menuItemsSelectedPNA',
+  authItemName: '__token_api_gate_way_pna',
+  userItemName: '__user_api_gate_way_pna',
+  phcoTimeToken: '_pna_time_token',
   authorityModule: 'authority_module',
   authoritySousModule: 'authority_sousModule',
-  soldeSuiviCompte: 'soldeSuiviCompte',
-  soldeCarteSuiviCompte: 'soldeCarteSuiviCompte',
   exportPdf: BASE_URL + "/export_to/pdf",
   exportExcel: BASE_URL + "/export_to/excel",
-  soldeVirementCp: 'soldeVirementCp',
-  soldeVirementCarteCp: 'soldeVirementCarteCp',
-  soldeGlobalTotalSolde: 'soldeGlobalTotalSolde',
-  soldeGlobalTotalSoldeCarte: 'soldeGlobalTotalSoldeCarte',
-  soldeCarteParametrable: 'soldeCarteParametrable',
-  soldeWalletCarteParametrable: 'soldeWalletCarteParametrable',
+ 
 
   //** Parametrage */
-  module: 'parametrage/module',
-  sous_module: 'parametrage/sousmodule',
-  liste_module_active: 'parametrage/consult/module/liste_module_active',
-  type_bureau: 'parametrage/type_bureau',
+  module: 'admin/parametrages/modules',
+  sous_module: 'admin/parametrages/sous_modules',
+  liste_module_active: 'admin/parametrages/modules/active',
+  region: 'admin/parametrages/regions',
+  liste_region_active: 'admin/parametrages/regions/active',
+  type_structure: 'admin/parametrages/type_structures',
+  district: 'admin/parametrages/district_sanitaires',
+  liste_district_active : 'admin/parametrages/district_sanitaires/active',
+  liste_structure_active : 'admin/parametrages/structure_sanitaires/active',
+  liste_type_structure_active : 'admin/parametrages/type_structures/active',
+  profilage: 'admin/parametrages/profilage',
+
+  //** Gestion utilisateurs */
+  utilisateur: 'admin/gestion_utilisateurs/utilisateurs',
+  liste_profil_active: 'admin/gestion_utilisateurs/profils/active',
+  profil: 'admin/gestion_utilisateurs/profils',
+
+
   type_profil: 'parametrage/type_profil',
-  profil: 'parametrage/profil',
-  liste_profil_active: 'parametrage/consult/profil/allActivatedProfil',
   liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',
-  utilisateur: 'parametrage/user',
   liste_type_bureau_active: 'parametrage/consult/type_bureau/type_de_bureaux_active',
   regenerer_mdp: 'parametrage/user/regenerer_password',
-  profilage: 'parametrage/profilage',
-  action: 'parametrage/action',
+  action: 'admin/parametrages/actions',
   appendroute: 'parametrage/settings/appendroute',
-  generateroute: 'parametrage/settings/generateroute',
+  generateroute: 'admin/parametrage/generateroute',
   service: 'parametrage/service',
   utilisateur_api_numherit: 'parametrage/user_api_numherit',
   liste_utilisateur_active: 'parametrage/consult/user/allActiveUser',
   regenerer_mdp_user_api: 'parametrage/user_api_numherit/regenerer_password',
-  header_message: 'parametrage/header_message',
-  type_carte: 'parametrage/type_carte',
-  motif: 'parametrage/motif',
 
-  //** Gestion bureau */
-  getSoldeUser: 'gestion_bureau/consult/bureaux/get_solde',
   liste_bureau_active: 'gestion_bureau/agence/active',
-  bureau: 'gestion_bureau/bureaux',
-  demande_credit: 'gestion_bureau/demande_credit',
-  autorise_demande: 'gestion_bureau/demande_credit/autoriserDemande',
-  valide_demande: 'gestion_bureau/demande_credit/validerDemande',
-  initierValidation: 'gestion_bureau/demande_credit/initierValidation',
-  demande_rapatriement: 'gestion_bureau/demande_rapatriement',
-  autorise_demande_rapatriement: 'gestion_bureau/demande_rapatriement/autoriserDemande',
-  valide_demande_rapatriement: 'gestion_bureau/demande_rapatriement/validerDemande',
-  initierValidation_rapatriement: 'gestion_bureau/demande_rapatriement/initierValidation',
-
-  //** Ressource */
-  province: 'resource/province/liste_province',
-  departement: 'resource/departement/liste_departement',
-
-  //** Gestion compte principal */
-  suivi_compte: "gestion_compte_principal/suivi_compte",
-  suivi_compte_commission: "gestion_compte_principal/suivi_compte_commission",
-  historique_virement: "gestion_compte_principal/virement",
-  valide_virement: "gestion_compte_principal/virement/validerVirement",
-  rejet_virement: "gestion_compte_principal/virement/rejeterVirement",
-
-  //** Relevé solde bureau */
-  releve_solde_bureau: "gestion_bureau/releve_solde_bureau",
-
-  //** Solde bureau */
-  solde_bureau: "gestion_bureau/solde_bureau",
-
-  //** Solde distributeur */
-  solde_distributeur: "gestion_bureau/solde_des_distributeur",
-
-  //** Partenaire financier */
-  partenaire_financier: "gestion_commission_reseau_phco/partenaire_financier",
-  suivi_mouvement_partenaire_financier: "gestion_commission_reseau_phco/partenaire_financier/1/suivi_compte_partenaire",
-  liste_partenaire: "gestion_commission_reseau_phco/liste_partenaire_achat_commission",
-
-  //** Beneficiaire */
-  beneficiaire: "gestion_compte/beneficiaire",
-  add_beneficiaire: "gestion_compte/creer_compte",
-  carte: "gestion_compte/carte",
-  agence_active: 'gestion_bureau/agence/active',
-  verification_compte: 'gestion_compte/verification_compte',
-
-  //** Ressource */
-  listetype: "resource/typepiece/listetype",
-  //** Operation compte */
-  cherche_compte: "operation_compte/find_compte",
-  infos_compte: "operation_compte/infos_compte",
-  activer_compte: "operation_compte/activer_compte",
-  desactiver_compte: "operation_compte/desactiver_compte",
-  solde_compte: "operation_compte/solde_compte",
-  releve_compte: "operation_compte/releve_compte",
-  calcul_recharge: "operation_compte/details_recharge",
-  init_rechargement_espece: "operation_compte/init_rechargement_espece",
-  cashin: "operation_compte/cashin",
-  init_cashout: "operation_compte/init_cashout",
-  executeCashOUT: "operation_compte/executeCashOUT",
-  calcul_retrait: "operation_compte/calculFraisForCashOut",
-  verifie_cin: "operation_compte/verifCNI",
-  verifie_code: "operation_compte/verifCodeRetrait",
-  recharge_espece: "operation_compte/rechargement_espece",
-  retrait_espece: "operation_compte/retrait_espece",
-  find_compte_by_numcompte: "operation_compte/find_compte_by_numcompte",
-
-  //** Reporting TRANSACTION JOUR */
-  reporting_transaction: "reporting/transaction_du_jour",
-  reporting_historique_transaction: "reporting/historique_transaction",
-  service_product: "parametrage/consult/service/liste_service_active",
-  reporting_transaction_service: "reporting/transaction_par_service",
-  reporting_transaction_agent: "reporting/transaction_par_agent",
-
-  //** Dashboard */
-  facturation: "dashboard/facturation",
-  details_rechargement: "dashboard/details_rechargement",
-  details_retrait: "dashboard/details_retrait_titulaire",
-  etatCommissionPM: "dashboard/etatCommissionPM",
-
-  //** Direction Regional */
-  liste_direction_regional_active: "parametrage/dr/actives",
-  liste_region_active: "parametrage/region/actives",
-  liste_departement_region_active: "parametrage/departement/actives",
-  liste_type_carte_active: "parametrage/type_carte/actives",
-
-  region: 'parametrage/region',
-  departement_region: 'parametrage/departement',
-  direction_regional: "parametrage/dr",
-
   currentCodeCountry: 'sn',
   formatTelephone: '7X XXX XX XX',
   dialCode: '221',
 
-
-  //** Ouverture */
-  comptes: "ouverture/comptes",
-  traiter_demande_compte: "ouverture/traiter",
-
-  //** Demande */
-  attestation: "demande/attestations",
-  traiter_demande_attestation: "demande/attestations/traiter",
-  chequiers: "demande/chequiers",
-  traiter_demande_chequiers: "demande/chequiers/traiter",
-  avances_salaire: "demande/avances_salaire",
-  traiter_demande_avance_salaire: "demande/avances_salaire/traiter",
-  autre_demande: "demande/autre_demande",
-
-  //** Ordre Virement */ordres_virement
-  ordre_virement: "ordres_virement/ordres_virement",
-  valider_ordre_virement: "ordres_virement/valider",
-
-  // inscription ----
-  inscription: "ouverture/inscription",
-  valider_inscription: "ouverture/inscription/valider/",
-  annuler_inscription: "ouverture/inscription/annuler/",
-
-  // Transfert ----
-  transfet_cash: "transfert/cash",
-  cherche_transaction:  "transfert/cash/detail",
-  paiement_cash : "transfert/cash/payment"
-
-
+  //** Gestion des produits */
+  famille: 'admin/gestion_produits/familles',
+  liste_famille_active: 'admin/gestion_produits/familles/active',
+  categorie: 'admin/gestion_produits/categories',
+  liste_categorie_active: 'admin/gestion_produits/categories/active',
+  sous_categorie: 'admin/gestion_produits/sous_categories',
+  liste_sous_categorie_active: 'admin/gestion_produits/sous_categories/active',
+  forme: 'admin/gestion_produits/formes',
+  liste_forme_active: 'admin/gestion_produits/formes/active',
+  produit: 'admin/gestion_produits/produits',
+  images_produits: 'admin/images_produits',
+  fiche_techniques: 'admin/gestion_produits/fiche_techniques'
 };

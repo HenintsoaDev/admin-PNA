@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassageService } from 'app/services/table/passage.service';
-import { famille, type_structure } from 'app/shared/models/db';
+import { district, region } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,14 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { TypeStructureService } from 'app/services/admin/gestion-compte/type_structure.service';
+import { DistrictService } from 'app/services/admin/parametre/district.service';
 
 @Component({
-  selector: 'app-type-structure',
-  templateUrl: './type-structure.component.html',
-  styleUrls: ['./type-structure.component.scss']
+  selector: 'app-district-sanitaire',
+  templateUrl: './district-sanitaire.component.html',
+  styleUrls: ['./district-sanitaire.component.scss']
 })
-export class TypeStructureComponent extends Translatable implements OnInit {
+export class DistrictSanitaireComponent extends Translatable implements OnInit {
 
   modalRef?: BsModalRef;
   
@@ -25,11 +25,31 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   header = [
     
     {
-      "nomColonne" : this.__('type_structure.nom'),
-      "colonneTable" : "nom",
-      "table" : "type_structure"
+      "nomColonne" : this.__('district.code'),
+      "colonneTable" : "code",
+      "table" : "district_sanitaire"
     },
-   
+    {
+      "nomColonne" : this.__('district.nom'),
+      "colonneTable" : "nom",
+      "table" : "district_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('district.email'),
+      "colonneTable" : "email",
+      "table" : "district_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('district.responsable'),
+      "colonneTable" : "responsable",
+      "table" : "district_sanitaire"
+    },
+    {
+      "nomColonne" : this.__('district.region'),
+      "colonneTable" : "nom",
+      "table" : "region"
+    },
+    
     {
       "nomColonne" : this.__('global.action')
     }
@@ -40,28 +60,49 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
   objetBody = [
           {
+            'name' : 'code',
+            'type' : 'text',
+          },
+          {
             'name' : 'nom',
             'type' : 'text',
           },
-        
-         
+          {
+            'name' : 'email',
+            'type' : 'text',
+          },
+          {
+            'name' : 'responsable',
+            'type' : 'text',
+          },
+          {
+            'name' : 'region',
+            'type' : 'text',
+          },
         
           {'name' :  'state#id'}
   ]
-  
-  listIcon = [
 
+
+  listIcon = [
+    {
+      'icon' : 'info',
+      'action' : 'detail',
+      'tooltip' : this.__('global.tooltip_detail'),
+      'autority' : 'GSP_7',
+  
+    },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_4'
+      'autority' : 'GSP_9'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_5'
+      'autority' : 'GSP_10'
     },
     {
       'icon' : 'state',
@@ -69,26 +110,28 @@ export class TypeStructureComponent extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'type_structure.nom']
+    searchGlobal = [ 'district_sanitaire.code', 'district_sanitaire.nom','district_sanitaire.responsable','district_sanitaire.email', 'region.nom']
    
     /***************************************** */
   
   
   
-    typeStructureForm: FormGroup;
-    type_structure: type_structure = new type_structure();
-    listTypeStructure:type_structure [] = [];
+    districtForm: FormGroup;
+    district: district = new district();
+    listdistricts:district [] = [];
   
-    @ViewChild('addTypeStructure') addTypeStructure: TemplateRef<any> | undefined;
-    @ViewChild('detailTypeStructure') detailTypeStructure: TemplateRef<any> | undefined;
+    @ViewChild('adddistricte') adddistrict: TemplateRef<any> | undefined;
+    @ViewChild('detaildistrict') detaildistrict: TemplateRef<any> | undefined;
 
-    idTypeStructure : number;
+    idDistrict : number;
     titleModal: string = "";
-  
+
+    filteredRegions: region[] = [];
+    searchControl = new FormControl('');
   
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private typeStructureService: TypeStructureService,     
+                private districtService: DistrictService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -105,7 +148,7 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
       this.authService.initAutority("GSP","GSB");
   
-      this.titleModal = this.__('type_structure.title_add_modal');
+      this.titleModal = this.__('district.title_add_modal');
   
           this.passageService.appelURL(null);
   
@@ -114,11 +157,12 @@ export class TypeStructureComponent extends Translatable implements OnInit {
           this.subscription = this.passageService.getObservable().subscribe(event => {
   
             if(event.data){
-              this.idTypeStructure = event.data.id;
+              this.idDistrict = event.data.id;
   
-              if(event.data.action == 'edit') this.openModalEditTypeStructure();
-              else if(event.data.action == 'delete') this.openModalDeleteTypeStructure();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateTypeStructure();
+              if(event.data.action == 'edit') this.openModalEditDistrict();
+              else if(event.data.action == 'delete') this.openModalDeleteDistrict();
+              else if(event.data.action == 'detail') this.openModalDetailDistrict();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateDistrict();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -126,12 +170,12 @@ export class TypeStructureComponent extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.type_structure;
+          this.endpoint = environment.baseUrl + '/' + environment.district;
       /***************************************** */
-  
-          this.typeStructureForm = this.fb.group({
-            nom: ['', Validators.required],
-        });
+      
+
+      this.initForm();
+       
     }
   
     ngOnDestroy() {
@@ -140,21 +184,61 @@ export class TypeStructureComponent extends Translatable implements OnInit {
       }
     }
   
+
+    initForm(){
+      this.districtForm = this.fb.group({
+        nom: ['', Validators.required],
+        code: ['', [Validators.required]],
+        email: ['', [Validators.required]],
+        responsable: ['', [Validators.required]],
+        fax : ['', [Validators.required]],
+        telephone : ['', [Validators.required]],
+        region_id : ['', [Validators.required]]
+    });
+    }
+
+
+
+    formatTelephone(phone){
+
+      let telephoneForm = phone.number.replace('+', '');
+      let dialCode = phone.dialCode.replace('+', '');
+      let telephoneFinal = "";
+    
+      if (telephoneForm.startsWith(dialCode)) {
+        telephoneFinal = '00' + telephoneForm;
+      } else {
+        if (telephoneForm.startsWith('0')) {
+          telephoneFinal = '00' + dialCode + telephoneForm.replace(/^0/, '');
+        } else {
+          telephoneFinal = '00' + dialCode + telephoneForm;
+        }
+      }
+    
+      return telephoneFinal;
+    
+    }
+    
     // Quand on faire l'ajout ou modification
     onSubmit() {
-      if (this.typeStructureForm.valid) {
+      if (this.districtForm.valid) {
   
         let msg = "";
         let msg_btn = "";
   
-        if(!this.type_structure.id){
+        if(!this.district.id){
            msg = this.__("global.enregistrer_donnee_?");
            msg_btn = this.__("global.oui_enregistrer");
         }else{
            msg = this.__("global.modifier_donnee_?");
            msg_btn = this.__("global.oui_modifier");
         }
-  
+        this.district = {
+          ...this.district,
+          ...this.districtForm.value
+        };
+        this.district.telephone  = this.formatTelephone(this.district.telephone )
+
           Swal.fire({
             title: this.__("global.confirmation"),
             text: msg,
@@ -170,10 +254,10 @@ export class TypeStructureComponent extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.type_structure.id){
+              if(!this.district.id){
                 console.log("add")
   
-                 this.typeStructureService.ajoutTypeStructure(this.type_structure).subscribe({
+                 this.districtService.ajoutDistrict(this.district).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -193,7 +277,7 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.typeStructureService.modifierTypeStructure(this.type_structure).subscribe({
+                 this.districtService.modifierDistrict(this.district).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -223,24 +307,42 @@ export class TypeStructureComponent extends Translatable implements OnInit {
     }
   
     // Ouverture de modal pour modification
-    openModalEditTypeStructure() {
+    openModalEditDistrict() {
   
-      this.titleModal = this.__('type_structure.title_edit_modal');
+      this.titleModal = this.__('district.title_edit_modal');
   
-      if (this.addTypeStructure) {
+      if (this.adddistrict) {
+  
+        this.recupererDonnee();
+        this.actualisationSelect();
+
+        // Ouverture de modal
+        this.modalRef = this.modalService.show(this.adddistrict, { class: 'modal-lg', backdrop: 'static',keyboard: false });
+      }
+    }
+  
+    // Detail d'un modal
+    async openModalDetailDistrict() {
+  
+  
+      this.titleModal = this.__('district.title_detail_modal');
+  
+      if (this.detaildistrict) {
+  
   
         this.recupererDonnee();
   
+  
+  
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addTypeStructure, { backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.detaildistrict, {
+          class: 'modal-xl',backdrop:"static"
+        });
       }
+  
     }
-
-   
-  
-  
      // SUppression d'un modal
-     openModalDeleteTypeStructure() {
+     openModalDeleteDistrict() {
   
       Swal.fire({
         title: this.__("global.confirmation"),
@@ -257,7 +359,7 @@ export class TypeStructureComponent extends Translatable implements OnInit {
         }).then((result) => {
         if (result.isConfirmed) {
   
-             this.typeStructureService.supprimerTypeStructure(this.idTypeStructure).subscribe({
+             this.districtService.supprimerDistrict(this.idDistrict).subscribe({
               next: (res) => {
                   if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
@@ -280,9 +382,20 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
     }
   
-  
+    async actualisationSelect() {
+      let regions = await this.authService.getSelectList(environment.liste_region_active, ['nom']);
+      this.filteredRegions = regions;
+      console.log(this.filteredRegions);
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredRegions = regions.filter(reg =>
+          reg.nom.toLowerCase().includes(lower)
+        );
+      });
+    }
+
       // Ouverture de modal pour modification
-      openModalToogleStateTypeStructure() {
+      openModalToogleStateDistrict() {
   
        
         this.recupererDonnee();
@@ -302,10 +415,11 @@ export class TypeStructureComponent extends Translatable implements OnInit {
           }).then((result) => {
           if (result.isConfirmed) {
             let state = 0;
-            
+            if(this.district.state == 1) state = 0;
+            else state = 1;
   
     
-               this.typeStructureService.changementStateTypeStructure(this.type_structure, state).subscribe({
+               this.districtService.changementStateDistrict(this.district, state).subscribe({
                 next: (res) => {
                     if(res['code'] == 201) {
                       this.toastr.success(res['msg'], this.__("global.success"));
@@ -332,10 +446,13 @@ export class TypeStructureComponent extends Translatable implements OnInit {
   
     // Ouverture du modal pour l'ajout
     openModalAdd(template: TemplateRef<any>) {
-      this.titleModal = this.__('type_structure.title_add_modal');
-      this.type_structure = new type_structure();
-  
+      this.titleModal = this.__('district.title_add_modal');
+      this.district = new district();
+      this.actualisationSelect();
+      this.initForm();
+
       this.modalRef = this.modalService.show(template, {
+        class: 'modal-lg',
         backdrop: 'static',
         keyboard: false
       });
@@ -347,11 +464,11 @@ export class TypeStructureComponent extends Translatable implements OnInit {
       const storedData = localStorage.getItem('data');
       let result : any;
       if (storedData) result = JSON.parse(storedData);
-      this.listTypeStructure = result.data;
-      console.log(this.listTypeStructure);
+      this.listdistricts = result.data;
+      console.log(this.listdistricts);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listTypeStructure.filter(_ => _.id == this.idTypeStructure);
-      this.type_structure = res[0];
+      const res = this.listdistricts.filter(_ => _.id == this.idDistrict);
+      this.district = res[0];
     }
   
     // Actualisation des données
@@ -363,4 +480,6 @@ export class TypeStructureComponent extends Translatable implements OnInit {
     closeModal() {
       this.modalRef?.hide();
     }
+
+
 }

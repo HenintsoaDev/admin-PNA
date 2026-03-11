@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProfilService } from 'app/services/admin/parametre/profil.service';
+import { ProfilService } from 'app/services/admin/gestion-compte/profil.service';
 import { PassageService } from 'app/services/table/passage.service';
 import { module, profil, type_profil } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
@@ -35,16 +35,7 @@ export class ProfilsComponent extends Translatable implements OnInit {
         "colonneTable" : "name",
         "table" : "profil"
       },
-      {
-        "nomColonne" : this.__('profil.wallet_carte'),
-        "colonneTable" : "wallet_carte",
-        "table" : "profil"
-      },
-      {
-        "nomColonne" : this.__('profil.type'),
-        "colonneTable" : "name",
-        "table" : "type_profil"
-      },
+ 
   
       
       {
@@ -56,21 +47,13 @@ export class ProfilsComponent extends Translatable implements OnInit {
       ]
     
     objetBody = [
+          
             {
               'name' : 'code',
               'type' : 'text',
             },
             {
               'name' : 'name',
-              'type' : 'text',
-            },
-            {
-              'name' : 'wallet_carte_label',
-              'type' : 'text',
-            },
-            
-            {
-              'name' : 'type_profil_name',
               'type' : 'text',
             },
           
@@ -82,33 +65,35 @@ export class ProfilsComponent extends Translatable implements OnInit {
         'icon' : 'info',
         'action' : 'detail',
         'tooltip' : this.__('global.tooltip_detail'),
-        'autority' : 'PRM_34',
+        'autority' : 'GSU_1',
     
       },
       {
         'icon' : 'handshake',
         'action' : 'affect',
         'tooltip' : this.__('profil.affect'),
+        'autority' : 'GSU_1',
+
     
       },
       {
         'icon' : 'edit',
         'action' : 'edit',
         'tooltip' : this.__('global.tooltip_edit'),
-        'autority' : 'PRM_33',
+        'autority' : 'GSU_1',
     
       },
       {
         'icon' : 'delete',
         'action' : 'delete',
         'tooltip' : this.__('global.tooltip_delete'),
-        'autority' : 'PRM_35',
+        'autority' : 'GSU_1',
   
     
       },
       {
         'icon' : 'state',
-        'autority' : 'PRM_36',
+        'autority' : 'GSU_1',
       },
     ]
     
@@ -154,7 +139,7 @@ export class ProfilsComponent extends Translatable implements OnInit {
     
     
       async ngOnInit() {
-        this.authService.initAutority("PRM","ADM");
+        this.authService.initAutority("GSU","ADM");
 
         this.titleModal = this.__('profil.title_add_modal');
     
@@ -200,12 +185,10 @@ export class ProfilsComponent extends Translatable implements OnInit {
         });
             this.endpoint = environment.baseUrl + '/' + environment.profil;
         /***************************************** */
-    
+          
             this.profilForm = this.fb.group({
               name: ['', Validators.required],
               code: ['', [Validators.required]],
-              wallet_carte: ['', [Validators.required]],
-              type_profil_id: ['', [Validators.required]]
           });
   
   
@@ -239,10 +222,6 @@ export class ProfilsComponent extends Translatable implements OnInit {
               msg = this.__("global.modifier_donnee_?");
               msg_btn = this.__("global.oui_modifier");
             }
-
-            if(this.wallet_carte == 'W') this.profil.wallet_carte = 0;
-            else if(this.wallet_carte == 'C') this.profil.wallet_carte = 1;
-            else if(this.wallet_carte == 'WC') this.profil.wallet_carte = 2;
       
             Swal.fire({
               title: this.__("global.confirmation"),
@@ -307,12 +286,6 @@ export class ProfilsComponent extends Translatable implements OnInit {
     
           this.recupererDonnee();
 
-          if(this.profil.wallet_carte == 0) this.wallet_carte = 'W';
-          else if(this.profil.wallet_carte == 1) this.wallet_carte = 'C' ;
-          else if(this.profil.wallet_carte == 2) this.wallet_carte = 'WC' ;
-
-          this.actualisationSelect();
-
           // Ouverture de modal
           this.modalRef = this.modalService.show(this.addProfil, { backdrop: 'static',keyboard: false });
         }
@@ -361,7 +334,7 @@ export class ProfilsComponent extends Translatable implements OnInit {
     
                this.ProfilService.supprimerProfil(this.idProfil).subscribe({
                 next: (res) => {
-                    if(res['code'] == 204) {
+                    if(res['code'] == 205) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }
@@ -411,7 +384,7 @@ export class ProfilsComponent extends Translatable implements OnInit {
       
                  this.ProfilService.changementStateProfil(this.profil, state).subscribe({
                   next: (res) => {
-                      if(res['code'] == 201) {
+                      if(res['code'] == 200) {
                         this.toastr.success(res['msg'], this.__("global.success"));
                         this.actualisationTableau();
                       }
@@ -457,24 +430,17 @@ export class ProfilsComponent extends Translatable implements OnInit {
       async openModalAdd(template: TemplateRef<any>) {
         this.titleModal = this.__('profil.title_add_modal');
         this.profil = new profil();
-        this.actualisationSelect();
+        this.profilForm = this.fb.group({
+          name: ['', Validators.required],
+          code: ['', [Validators.required]],
+      });
         this.modalRef = this.modalService.show(template, {
           backdrop: 'static',
           keyboard: false
         });
       }
   
-      async actualisationSelect(){
-        this.types = await this.authService.getSelectList(environment.liste_type_profil_active,['name']);
-        this.filteredTypes = this.types;
-  
-        this.searchControl.valueChanges.subscribe(value => {
-          const lower = value?.toLowerCase() || '';
-          this.filteredTypes = this.types.filter(type =>
-            type.name.toLowerCase().includes(lower)
-          );
-        });
-      }
+     
   
      
       // Actualisation des données

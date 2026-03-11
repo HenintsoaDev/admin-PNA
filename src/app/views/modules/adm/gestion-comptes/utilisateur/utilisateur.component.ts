@@ -49,11 +49,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       "colonneTable" : "name",
       "table" : "profil"
     },
-    {
-      "nomColonne" : this.__('utilisateur.structure'),
-      "colonneTable" : "name",
-      "table" : "structure_sanitaire"
-    },
+
     {
       "nomColonne" : this.__('utilisateur.district'),
       "colonneTable" : "name",
@@ -91,10 +87,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
             'name' : 'profil_name',
             'type' : 'text',
           },
-          {
-            'name' : 'structure_sanitaire_nom',
-            'type' : 'text',
-          },
+         
           {
             'name' : 'district_sanitaire_nom',
             'type' : 'text',
@@ -592,7 +585,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       this.searchControl.valueChanges.subscribe(value => {
         const lower = value?.toLowerCase() || '';
         this.filteredProfils = profils.filter(profil =>
-          profil.nom_profil.toLowerCase().includes(lower)
+          profil.name.toLowerCase().includes(lower)
         );
       });
 

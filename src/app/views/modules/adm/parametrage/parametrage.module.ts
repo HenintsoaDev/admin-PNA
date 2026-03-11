@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ParametrageRoutingModule } from './parametrage-routing.module';
 import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur.component';
 import { ModuleComponent } from './module/module.component';
-import { ProfilsComponent } from './profils/profils.component';
+import { ProfilsComponent } from '../gestion-comptes/profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
 import { TypeProfilComponent } from './type-profil/type-profil.component';
 import { ActionComponent } from './action/action.component';
@@ -22,16 +22,19 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { RegionComponent } from './region/region.component';
+import { DistrictSanitaireComponent } from './district-sanitaire/district-sanitaire.component';
+import { TypeStructureComponent } from './type-structure/type-structure.component';
 
 
 @NgModule({
   declarations: [
     ModuleComponent,
     SousModuleComponent,
-    ProfilsComponent,
     TypeProfilComponent,
     ActionComponent,
     RegionComponent,
+    TypeStructureComponent,
+    DistrictSanitaireComponent,
   ],
   imports: [
     CommonModule,

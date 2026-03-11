@@ -177,6 +177,7 @@
         "title": "Gestion des profils",
         "name": "Libelle",
         "code": "Code",
+        
         "all_wallet_carte": "Tous les comptes",
         "wallet_carte": "Type de compte",
         "type": "Type de profil",
@@ -358,6 +359,19 @@
         "title_edit_modal": "Modification d'une type structure",
         "title_add_modal": "Ajout d'un type structure",
         "title_detail_modal" : "Détails"
+    },
+    "district": {
+        "title_breadcrumb": "Lister les districts",
+        "title": "Gestion des districts",
+        "nom": "Nom",
+        "code": "Code",
+        "email": "Email",
+        "responsable": "Responsable",
+        "add": "Ajouter une district",
+        "title_edit_modal": "Modification d'une district",
+        "title_add_modal": "Ajout d'un district",
+        "title_detail_modal" : "Détails",
+        "region": "Region"
     }
 
 }
