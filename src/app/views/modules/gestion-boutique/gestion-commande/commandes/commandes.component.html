@@ -1,0 +1,189 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+
+                        <div class="button-container">
+                            <div class="left-button"></div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary export-btn excel text-white" (click)="exportExcel()">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png"
+                                        alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white" (click)="exportPdf()">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-content-center">
+                            <div class="form-group col-2">
+                                <label for="dateFonction">{{ __("commande.from") }}</label>
+                                <mat-form-field appearance="fill" style="width: 100%">
+                                    <input matInput [matDatepicker]="pickerDebut" [(ngModel)]="dateDebut"
+                                        placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerDebut></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="dateFonction">{{ __("commande.to") }}</label>
+                                <mat-form-field appearance="fill" style="width: 100%">
+                                    <input matInput [matDatepicker]="pickerFin" [(ngModel)]="dateFin"
+                                        placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerFin></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-2 align-self-center">
+                                <button class="btn btn-primary" (click)="filtreTableau()" style="width: 100%">
+                                    {{ __("global.filter") }}
+                                </button>
+                            </div>
+                        </div>
+                    
+
+                        <div class="table-responsive">
+                            <app-table [endpoint]="endpoint" [headerTable]="header" [body]="objetBody"
+                                [listIcon]="listIcon" [formSearch]="false" [searchGlobal]="searchGlobal"
+                                [triDescDefault]="'date_commande'">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL -->
+<!-- Modal avec Material Design -->
+<ng-template #detailcommande>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du commande">
+                <br>
+
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.reference")}}</b></label>
+                                <h6><b class="bold">{{ commande.reference }}</b></h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.date")}}</b></label>
+                                <h6><b class="bold">{{ commande.date_commande }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.structure")}}</b></label>
+                                <h6><b class="bold">{{ commande.structure_sanitaire_name }}</b></h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.utilisateur")}}</b></label>
+                                <h6><b class="bold">{{ commande.utilisateur_nom_complet }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.montant_total_ht")}}</b></label>
+                                <h6><b class="bold">{{  formatNumber(commande.montant_total_ht, '') }}</b></h6>
+                            </div>
+                        </td>
+                        <td *ngIf="etatSelect == 0 ">
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.montant_total_ttc")}}</b></label>
+                                <h6><b class="bold">{{  formatNumber(commande.montant_total_ttc, '') }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+
+
+                    <tr>
+
+                        <td>
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.commentaire")}}</b></label>
+                                <h6><b class="bold">{{ commande.commentaire }}</b></h6>
+                            </div>
+                        </td>
+                        <td>
+
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("commande.mode_import")}}</b></label>
+                                <h6><b class="bold">{{ commande.mode_import }}</b></h6>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </table>
+
+
+            </mat-tab>
+            <mat-tab label="Information de bénéficiaire">
+
+                <br>
+
+
+
+            </mat-tab>
+
+        </mat-tab-group>
+
+        <div class="modal-footer">
+            <button type="button" *ngIf="commande.statut == 'En attente de validation'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('valider')">{{ __('global.valider')}}</button>
+                <button type="button" *ngIf="commande.statut == 'valider'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('en_preparation')">{{ __('global.en_preparation')}}</button>
+
+                <button type="button" *ngIf="commande.statut == 'En preparation'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('expedie')">{{ __('global.expedie')}}</button>
+                <button type="button" *ngIf="commande.statut == 'Expedier'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('livrer')">{{ __('global.livrer')}}</button>
+                <button type="button" *ngIf="commande.statut == 'Livrer'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('receptionne')">{{ __('global.receptionne')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+
+
+
+
+    </div>
+</ng-template>

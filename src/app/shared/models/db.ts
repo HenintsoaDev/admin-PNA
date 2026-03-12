@@ -200,3 +200,20 @@ export class structure {
     state: number | null ;
 
 }
+
+export class fournisseur {
+    id: number ;
+    raison_sociale: string ;
+    code: string ;
+    adresse: string ;
+    telephone: string;
+    email: string ;
+    ville: string ;
+    pays: string ;
+    fax: string ;
+    site_web: string ;
+    registre_commerce: string ;
+    ninea: string ;
+    state: number | null ;
+
+}

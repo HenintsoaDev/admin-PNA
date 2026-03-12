@@ -42,6 +42,11 @@ export const environment = {
   liste_profil_active: 'admin/gestion_utilisateurs/profils/active',
   profil: 'admin/gestion_utilisateurs/profils',
 
+  //** Gestion fournisseurs */
+  fournisseur: 'admin/gestion_fournisseurs/fournisseurs',
+
+  //** Gestion des commandes */
+  commande: 'admin/gestion_commandes/commandes',
 
   type_profil: 'parametrage/type_profil',
   liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',

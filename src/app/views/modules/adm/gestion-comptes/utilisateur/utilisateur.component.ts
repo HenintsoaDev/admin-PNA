@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UtilisateurService } from 'app/services/admin/parametre/utilisateur.service';
+import { UtilisateurService } from 'app/services/admin/gestion-compte/utilisateur.service';
 import { PassageService } from 'app/services/table/passage.service';
 import { module, profil, utilisateur } from 'app/shared/models/db';
 import { environment } from 'environments/environment';

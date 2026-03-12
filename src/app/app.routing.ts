@@ -34,6 +34,14 @@ const routes: Routes =[
     path: 'admin/gestion_utilisateurs', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
     loadChildren: () => import('./views/modules/adm/gestion-comptes/gestion-comptes.module').then(m => m.GestionComptesModule)
   },
+  {
+    path: 'admin/gestion_fournisseurs', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
+    loadChildren: () => import('./views/modules/gestion-boutique/gestion-fournisseur/gestion-fournisseur.module').then(m => m.GestionFournisseurModule)
+  },
+  {
+    path: 'admin/gestion_commandes', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
+    loadChildren: () => import('./views/modules/gestion-boutique/gestion-commande/gestion-commande.module').then(m => m.GestionCommandeModule)
+  },
 
 
   {

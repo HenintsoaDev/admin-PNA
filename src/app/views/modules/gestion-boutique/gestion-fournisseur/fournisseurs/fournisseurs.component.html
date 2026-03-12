@@ -1,0 +1,342 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('PAC_8')" class="btn btn-secondary" (click)="openModalAdd(addfournisseur)"> {{ __("fournisseur.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addfournisseur>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="fournisseurForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.code')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('fournisseur.code')}}" formControlName="code" name="code">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.raison_sociale')}}</mat-label>
+                                <input matInput type="text" placeholder="{{ __('fournisseur.raison_sociale')}}" formControlName="raison_sociale" name="raison_sociale">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.email')}}</mat-label>
+                                <input matInput type="email"  placeholder="{{ __('fournisseur.email')}}" formControlName="email" name="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __('fournisseur.telephone')}}</label>
+
+
+                            <ngx-intl-tel-input
+                            formControlName="telephone"
+                            [preferredCountries]="['sn','mg']"
+            
+                            [enableAutoCountrySelect]="true"
+                            [enablePlaceholder]="true">
+                          </ngx-intl-tel-input>
+
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.adresse')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.adresse')}}" formControlName="adresse" name="adresse">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.fax')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('fournisseur.fax')}}" formControlName="fax" name="fax">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.ville')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.ville')}}" formControlName="ville" name="ville">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.pays')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('fournisseur.pays')}}" formControlName="pays" name="pays">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.site_web')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.site_web')}}" formControlName="site_web" name="site_web">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.registre_commerce')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('fournisseur.registre_commerce')}}" formControlName="registre_commerce" name="registre_commerce">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('fournisseur.ninea')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.ninea')}}" formControlName="ninea" name="ninea">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                   
+                </div>
+              
+             
+
+               
+
+                
+
+                
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!fournisseur.id" [disabled]="fournisseurForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="fournisseur.id" [disabled]="fournisseurForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailfournisseur>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du fournisseur">
+              <br />
+      
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.code")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.code }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.raison_sociale")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.raison_sociale }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.email")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.email }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.telephone")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.telephone }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.adresse")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.adresse }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.fax")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.fax }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.ville")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.ville }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.pays")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.pays }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.site_web")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.site_web }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.registre_commerce")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.registre_commerce }}</b></h6>
+                            </div>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("fournisseur.ninea")}}</b></label>
+                                <h6><b class="bold">{{  fournisseur.ninea }}</b></h6>
+                            </div>
+                        </td>
+                       
+                       
+                    </tr>
+        
+                
+            
+                </table>
+            </mat-tab>
+
+
+            <!-- <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab> -->
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>
