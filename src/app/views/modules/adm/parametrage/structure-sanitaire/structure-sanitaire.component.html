@@ -209,13 +209,13 @@
                         <td >
                             <div class="alert alert-custom">
                                 <label><b class="fw-800">{{ __("structure.code")}}</b></label>
-                                <h6><b class="bold">{{  structure.code }}</b></h6>
+                                <h6><b class="bold">{{  structure?.code }}</b></h6>
                             </div>
                         </td>
                         <td >
                             <div class="alert alert-custom">
                                 <label><b class="fw-800">{{ __("structure.nom")}}</b></label>
-                                <h6><b class="bold">{{  structure.nom }}</b></h6>
+                                <h6><b class="bold">{{  structure?.nom }}</b></h6>
                             </div>
                         </td>
                     </tr>
@@ -223,25 +223,45 @@
                         <td >
                             <div class="alert alert-custom">
                                 <label><b class="fw-800">{{ __("structure.email")}}</b></label>
-                                <h6><b class="bold">{{  structure.email }}</b></h6>
+                                <h6><b class="bold">{{  structure?.email }}</b></h6>
                             </div>
                         </td>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.responsable")}}</b></label>
-                                <h6><b class="bold">{{  structure.responsable }}</b></h6>
+                                <label><b class="fw-800">{{ __("structure.telephone")}}</b></label>
+                                <h6><b class="bold">{{  structure?.telephone }}</b></h6>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td >
                             <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.famille")}}</b></label>
-                                <h6><b class="bold">{{  structure.famille_produit }}</b></h6>
+                                <label><b class="fw-800">{{ __("structure.adresse")}}</b></label>
+                                <h6><b class="bold">{{  structure?.adresse }}</b></h6>
                             </div>
                         </td>
-                       
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("structure.budget_alloue")}}</b></label>
+                                <h6><b class="bold">{{  formatNumber(structure?.budget_alloue, ' ')  }}</b></h6>
+                            </div>
+                        </td>
                     </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("structure.type")}}</b></label>
+                                <h6><b class="bold">{{  structure?.type_structure_nom }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("structure.district")}}</b></label>
+                                <h6><b class="bold">{{  structure?.district_sanitaire_nom }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                 
         
                 
             

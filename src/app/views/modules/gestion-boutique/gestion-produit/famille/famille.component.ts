@@ -80,7 +80,7 @@ export class FamilleComponent extends Translatable implements OnInit {
     },
     {
       'icon' : 'state',
-      'autority' : 'PRM_6',
+      'autority' : 'GSP_5',
     },
   ]
   
@@ -344,7 +344,7 @@ export class FamilleComponent extends Translatable implements OnInit {
     
                this.familleService.changementStateFamille(this.famille, state).subscribe({
                 next: (res) => {
-                    if(res['code'] == 201) {
+                    if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }

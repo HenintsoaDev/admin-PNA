@@ -236,7 +236,7 @@ export class TableComponent extends Translatable {
 
       const res = toogle.data;
       this.isLoading = false;
-      
+      localStorage.removeItem('data');
       await localStorage.setItem('data', JSON.stringify(res));
 
 

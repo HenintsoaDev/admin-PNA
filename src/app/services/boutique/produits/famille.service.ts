@@ -60,7 +60,7 @@ export class FamilleService {
 
     changementStateFamille(data, state): Observable<any> {
         
-        return this.httpService.get<any>(environment.famille + '/' + data.id + '/state/' + state + '?state=' + state).pipe(
+        return this.httpService.put<any>(environment.famille + '/' + data.id + '/state/' + state, '').pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)

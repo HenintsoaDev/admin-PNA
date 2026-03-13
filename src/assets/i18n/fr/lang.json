@@ -366,6 +366,8 @@
         "nom": "Nom",
         "code": "Code",
         "email": "Email",
+        "fax":"Fax",
+        "telephone":"N° téléphone",
         "responsable": "Responsable",
         "add": "Ajouter une district",
         "title_edit_modal": "Modification d'une district",

@@ -60,7 +60,7 @@ export class SousCategorieService {
 
     changementStatesous_categorie(data, state): Observable<any> {
         
-        return this.httpService.get<any>(environment.sous_categorie + '/' + data.id + '/state/' + state + '?state=' + state).pipe(
+        return this.httpService.put<any>(environment.sous_categorie + '/' + data.id + '/state/' + state, '').pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)

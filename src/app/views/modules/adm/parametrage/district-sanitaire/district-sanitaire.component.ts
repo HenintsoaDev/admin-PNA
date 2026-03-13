@@ -120,7 +120,7 @@ export class DistrictSanitaireComponent extends Translatable implements OnInit {
     district: district = new district();
     listdistricts:district [] = [];
   
-    @ViewChild('adddistricte') adddistrict: TemplateRef<any> | undefined;
+    @ViewChild('adddistrict') adddistrict: TemplateRef<any> | undefined;
     @ViewChild('detaildistrict') detaildistrict: TemplateRef<any> | undefined;
 
     idDistrict : number;

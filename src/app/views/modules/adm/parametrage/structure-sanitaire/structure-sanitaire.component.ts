@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
 import { StructureService } from 'app/services/admin/parametre/structure.service';
+import formatNumber from 'number-handler'
 
 @Component({
   selector: 'app-structure-sanitaire',
@@ -114,7 +115,8 @@ export class StructureSanitaireComponent extends Translatable implements OnInit 
    
     /***************************************** */
   
-  
+    formatNumber: any = formatNumber;
+
   
     structureForm: FormGroup;
     structure: structure = new structure();
@@ -484,10 +486,28 @@ export class StructureSanitaireComponent extends Translatable implements OnInit 
       let result : any;
       if (storedData) result = JSON.parse(storedData);
       this.liststructures = result.data;
-      console.log(this.liststructures);
+      console.log(this.liststructures, "LiSTE STRUCTURE");
+      console.log(this.idstructure);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
       const res = this.liststructures.filter(_ => _.id == this.idstructure);
       this.structure = res[0];
+
+      let tel = this.structure.telephone?.startsWith('00')
+      ? this.structure.telephone.replace('00', '+')
+      : this.structure.telephone;
+
+
+      this.structureForm.patchValue({
+        nom: this.structure.nom,
+        code: this.structure.code,
+        email: this.structure.email,
+        adresse: this.structure.adresse,
+        budget_alloue: this.structure.budget_alloue,
+        telephone: tel,
+        type_structure_id : this.structure.type_structure_id,
+        district_sanitaire_id : this.structure.district_sanitaire_id
+      });
+
     }
   
     // Actualisation des données

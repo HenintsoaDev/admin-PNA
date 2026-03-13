@@ -131,7 +131,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
     },
     {
       'icon' : 'state',
-      'autority' : 'PRM_6',
+      'autority' : 'GSP_10',
     },
   ]
   
@@ -702,7 +702,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
     
                this.produitService.changementStateproduit(this.produit, state).subscribe({
                 next: (res) => {
-                    if(res['code'] == 201) {
+                    if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
                       this.actualisationTableau();
                     }
