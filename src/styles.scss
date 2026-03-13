@@ -208,4 +208,10 @@ ngb-pagination {
     background-color: $primary !important;
     color: #fff;
   }
+
+  .mat-expansion-panel-header {
+    height: 67px !important;
+    border: 1px solid $primary;
+    margin-top: 5px;
+  }
   

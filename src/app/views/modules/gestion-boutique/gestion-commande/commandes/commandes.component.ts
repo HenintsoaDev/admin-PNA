@@ -126,6 +126,20 @@ export class CommandesComponent extends Translatable implements OnInit {
   index: any = 0;
   etatSelect: number = 0;
 
+  products = [
+    {
+      code: 'P001',
+      name: 'Laptop',
+      quantity: 2,
+      price: 1200
+    },
+    {
+      code: 'P002',
+      name: 'Mouse',
+      quantity: 5,
+      price: 25
+    }
+  ];
   constructor(
     private toastr: ToastrService,
     private passageService: PassageService,
@@ -224,6 +238,16 @@ export class CommandesComponent extends Translatable implements OnInit {
 
   }
 
+  downloadDirect(url: string) {
+    const encodedUrl = encodeURI(url);
+    const a = document.createElement('a');
+    a.href = encodedUrl;
+    a.target = '_blank';
+    a.download = ''; // facultatif
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
 
 
@@ -323,19 +347,22 @@ export class CommandesComponent extends Translatable implements OnInit {
   print(commandes: any[]) {
     const tab = commandes.map((commande: any, index: number) => {
       const t: any = {};
-      t[this.__('commande.date')] = commande.date;
-      t[this.__('commande.numcompte_expediteur')] = commande.numcompte_expediteur;
-      t[this.__('commande.nom_expediteur')] = commande.nom_expediteur;
-      t[this.__('commande.prenom_expediteur')] = commande.prenom_expediteur;
-      t[this.__('commande.motif')] = commande.motif;
-      t[this.__('commande.montant')] = commande.montant;
-      t[this.__('commande.type_virement')] = commande.type_virement;
-      t[this.__('commande.state')] = commande.state_name;
+      t[this.__('commande.date')] = commande.date_commande;
+      t[this.__('commande.reference')] = commande.reference;
+      t[this.__('commande.structure')] = commande.structure_sanitaire_name;
+      t[this.__('commande.montant_total_ttc')] = commande.montant_total_ttc;
+      t[this.__('commande.statut')] = commande.motif;
 
       return t;
     });
 
     return tab;
+  }
+
+
+  getTotalMontant(): number {
+    return this.commande.lignes_commande
+      .reduce((total: number, ligne: any) => total + Number(ligne.montant), 0);
   }
 
 
