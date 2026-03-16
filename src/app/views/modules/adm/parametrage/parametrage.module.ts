@@ -25,6 +25,7 @@ import { RegionComponent } from './region/region.component';
 import { DistrictSanitaireComponent } from './district-sanitaire/district-sanitaire.component';
 import { TypeStructureComponent } from './type-structure/type-structure.component';
 import { StructureSanitaireComponent } from './structure-sanitaire/structure-sanitaire.component';
+import { EntrepotComponent } from './entrepot/entrepot.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { StructureSanitaireComponent } from './structure-sanitaire/structure-san
     RegionComponent,
     TypeStructureComponent,
     DistrictSanitaireComponent,
-    StructureSanitaireComponent
+    StructureSanitaireComponent,
+    EntrepotComponent
   ],
   imports: [
     CommonModule,

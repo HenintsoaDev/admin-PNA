@@ -1,0 +1,242 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('PAC_8')" class="btn btn-secondary" (click)="openModalAdd(addentrepot)"> {{ __("entrepot.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addentrepot>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="entrepotForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('entrepot.code')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('entrepot.code')}}" formControlName="code" name="code">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('entrepot.nom')}}</mat-label>
+                                <input matInput type="text" placeholder="{{ __('entrepot.nom')}}" formControlName="nom" name="nom">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('entrepot.adresse')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('entrepot.adresse')}}" formControlName="adresse" name="adresse">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('entrepot.emplacement')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.emplacement')}}" formControlName="emplacement" name="emplacement">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+
+                    
+                </div>
+
+     
+              
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('entrepot.region')}}</mat-label>
+                                <mat-select name="type_entrepot_id"   formControlName="region_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let region of filteredRegions" [value]="region.id"> {{ region.nom }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+
+
+
+                   
+                </div>
+               
+
+               
+
+                
+
+                
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!entrepot.id" [disabled]="entrepotForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="entrepot.id" [disabled]="entrepotForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailentrepot>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du entrepot">
+              <br />
+      
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("entrepot.code")}}</b></label>
+                                <h6><b class="bold">{{  entrepot?.code }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("entrepot.nom")}}</b></label>
+                                <h6><b class="bold">{{  entrepot?.nom }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("entrepot.emplacement")}}</b></label>
+                                <h6><b class="bold">{{  entrepot?.emplacement }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("entrepot.adresse")}}</b></label>
+                                <h6><b class="bold">{{  entrepot?.adresse }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+                  
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("entrepot.region")}}</b></label>
+                                <h6><b class="bold">{{  entrepot?.nom_region }}</b></h6>
+                            </div>
+                        </td>
+                    
+                    </tr>
+                 
+        
+                
+            
+                </table>
+            </mat-tab>
+
+
+            <!-- <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab> -->
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>

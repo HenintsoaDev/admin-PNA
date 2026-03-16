@@ -439,6 +439,19 @@
         "prix_unitaire" :"Prix unitaire",
         "montant" :"Montant",
         "total" : "Montant total"
+    },
+    "entrepot": {
+        "title_breadcrumb": "Lister les entrepots",
+        "title": "Gestion des entrepots",
+        "nom": "Nom",
+        "code": "Code",
+        "emplacement": "Emplacement",
+        "adresse": "Adresse",
+        "add": "Ajouter un entrepot",
+        "title_edit_modal": "Modification d'un entrepot",
+        "title_add_modal": "Ajout d'un entrepot",
+        "title_detail_modal" : "Détails",
+        "region" : "Region"
     }
 
 }

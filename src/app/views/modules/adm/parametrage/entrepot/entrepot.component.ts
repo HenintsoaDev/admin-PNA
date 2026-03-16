@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassageService } from 'app/services/table/passage.service';
-import { fournisseur, region } from 'app/shared/models/db';
+import { entrepot, region } from 'app/shared/models/db';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,14 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { FournisseurService } from 'app/services/boutique/fournisseurs/fournisseur.service';
-
+import formatNumber from 'number-handler'
+import { EntrepotService } from 'app/services/admin/parametre/entrepot.service';
 @Component({
-  selector: 'app-fournisseurs',
-  templateUrl: './fournisseurs.component.html',
-  styleUrls: ['./fournisseurs.component.scss']
+  selector: 'app-entrepot',
+  templateUrl: './entrepot.component.html',
+  styleUrls: ['./entrepot.component.scss']
 })
-export class FournisseursComponent  extends Translatable implements OnInit {
+export class EntrepotComponent extends Translatable implements OnInit {
 
   modalRef?: BsModalRef;
   
@@ -25,30 +25,29 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   header = [
     
     {
-      "nomColonne" : this.__('fournisseur.code'),
+      "nomColonne" : this.__('entrepot.code'),
       "colonneTable" : "code",
-      "table" : "fournisseur"
+      "table" : "entrepot"
     },
     {
-      "nomColonne" : this.__('fournisseur.raison_sociale'),
-      "colonneTable" : "raison_sociale",
-      "table" : "fournisseur"
+      "nomColonne" : this.__('entrepot.nom'),
+      "colonneTable" : "nom",
+      "table" : "entrepot"
     },
     {
-      "nomColonne" : this.__('fournisseur.telephone'),
-      "colonneTable" : "telephone",
-      "table" : "fournisseur"
+      "nomColonne" : this.__('entrepot.adresse'),
+      "colonneTable" : "adresse",
+      "table" : "entrepot"
     },
     {
-      "nomColonne" : this.__('fournisseur.email'),
-      "colonneTable" : "email",
-      "table" : "fournisseur"
+      "nomColonne" : this.__('entrepot.emplacement'),
+      "colonneTable" : "emplacement",
+      "table" : "entrepot"
     },
- 
     {
-      "nomColonne" : this.__('fournisseur.ville'),
-      "colonneTable" : "ville",
-      "table" : "fournisseur"
+      "nomColonne" : this.__('entrepot.region'),
+      "colonneTable" : "nom",
+      "table" : "region"
     },
     
     {
@@ -65,20 +64,19 @@ export class FournisseursComponent  extends Translatable implements OnInit {
             'type' : 'text',
           },
           {
-            'name' : 'raison_sociale',
+            'name' : 'nom',
             'type' : 'text',
           },
           {
-            'name' : 'telephone',
+            'name' : 'adresse',
             'type' : 'text',
           },
           {
-            'name' : 'email',
+            'name' : 'emplacement',
             'type' : 'text',
           },
-         
           {
-            'name' : 'ville',
+            'name' : 'nom_region',
             'type' : 'text',
           },
         
@@ -112,30 +110,30 @@ export class FournisseursComponent  extends Translatable implements OnInit {
     },
   ]
   
-    searchGlobal = [ 'fournisseur.code', 'fournisseur.raison_sociale','fournisseur.telephone','fournisseur.email', 'fournisseur.ville']
+    searchGlobal = [ 'entrepot.code', 'entrepot.nom','entrepot.adresse','entrepot.emplacement', 'region.nom']
    
     /***************************************** */
   
-  
-  
-    fournisseurForm: FormGroup;
-    fournisseur: fournisseur = new fournisseur();
-    listfournisseurs:fournisseur [] = [];
+    formatNumber: any = formatNumber;
 
-    filteredType: any[] = [];
-    filteredDistrict: any[] = [];
+  
+    entrepotForm: FormGroup;
+    entrepot: entrepot = new entrepot();
+    listentrepots:entrepot [] = [];
+
+    filteredRegions: region[] = [];
     searchControl = new FormControl('');
 
-    @ViewChild('addfournisseur') addfournisseur: TemplateRef<any> | undefined;
-    @ViewChild('detailfournisseur') detailfournisseur: TemplateRef<any> | undefined;
+    @ViewChild('addentrepot') addentrepot: TemplateRef<any> | undefined;
+    @ViewChild('detailentrepot') detailentrepot: TemplateRef<any> | undefined;
 
-    idfournisseur : number;
+    identrepot : number;
     titleModal: string = "";
 
   
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private fournisseurService: FournisseurService,     
+                private entrepotService: EntrepotService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -152,7 +150,7 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
       this.authService.initAutority("PAC","ADM");
   
-      this.titleModal = this.__('fournisseur.title_add_modal');
+      this.titleModal = this.__('entrepot.title_add_modal');
   
           this.passageService.appelURL(null);
   
@@ -161,12 +159,12 @@ export class FournisseursComponent  extends Translatable implements OnInit {
           this.subscription = this.passageService.getObservable().subscribe(event => {
   
             if(event.data){
-              this.idfournisseur = event.data.id;
+              this.identrepot = event.data.id;
   
-              if(event.data.action == 'edit') this.openModalEditfournisseur();
-              else if(event.data.action == 'delete') this.openModalDeletefournisseur();
-              else if(event.data.action == 'detail') this.openModalDetailfournisseur();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStatefournisseur();
+              if(event.data.action == 'edit') this.openModalEditentrepot();
+              else if(event.data.action == 'delete') this.openModalDeleteentrepot();
+              else if(event.data.action == 'detail') this.openModalDetailentrepot();
+              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStateentrepot();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -174,7 +172,7 @@ export class FournisseursComponent  extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.fournisseur;
+          this.endpoint = environment.baseUrl + '/' + environment.entrepot;
       /***************************************** */
       
 
@@ -190,62 +188,36 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
 
     initForm(){
-      this.fournisseurForm = this.fb.group({
-        raison_sociale: ['', Validators.required],
+      this.entrepotForm = this.fb.group({
+        nom: ['', Validators.required],
         code: ['', [Validators.required]],
-        email: ['', [Validators.required]],
+        emplacement: ['', [Validators.required]],
         adresse: ['', [Validators.required]],
-        ville : ['', [Validators.required]],
-        pays : ['', [Validators.required]],
-        telephone : ['', [Validators.required]],
-        fax : ['', [Validators.required]],
-        site_web : ['', [Validators.required]],
-        registre_commerce : ['', [Validators.required]],
-        ninea : ['', [Validators.required]]
+        region_id : ['', [Validators.required]],
     });
     }
 
 
 
-    formatTelephone(phone){
-
-      let telephoneForm = phone.number.replace('+', '');
-      let dialCode = phone.dialCode.replace('+', '');
-      let telephoneFinal = "";
-    
-      if (telephoneForm.startsWith(dialCode)) {
-        telephoneFinal = '00' + telephoneForm;
-      } else {
-        if (telephoneForm.startsWith('0')) {
-          telephoneFinal = '00' + dialCode + telephoneForm.replace(/^0/, '');
-        } else {
-          telephoneFinal = '00' + dialCode + telephoneForm;
-        }
-      }
-    
-      return telephoneFinal;
-    
-    }
     
     // Quand on faire l'ajout ou modification
     onSubmit() {
-      if (this.fournisseurForm.valid) {
+      if (this.entrepotForm.valid) {
   
         let msg = "";
         let msg_btn = "";
   
-        if(!this.fournisseur.id){
+        if(!this.entrepot.id){
            msg = this.__("global.enregistrer_donnee_?");
            msg_btn = this.__("global.oui_enregistrer");
         }else{
            msg = this.__("global.modifier_donnee_?");
            msg_btn = this.__("global.oui_modifier");
         }
-        this.fournisseur = {
-          ...this.fournisseur,
-          ...this.fournisseurForm.value
+        this.entrepot = {
+          ...this.entrepot,
+          ...this.entrepotForm.value
         };
-        this.fournisseur.telephone  = this.formatTelephone(this.fournisseur.telephone )
 
           Swal.fire({
             title: this.__("global.confirmation"),
@@ -262,10 +234,10 @@ export class FournisseursComponent  extends Translatable implements OnInit {
             }).then((result) => {
             if (result.isConfirmed) {
   
-              if(!this.fournisseur.id){
+              if(!this.entrepot.id){
                 console.log("add")
   
-                 this.fournisseurService.ajoutfournisseur(this.fournisseur).subscribe({
+                 this.entrepotService.ajoutentrepot(this.entrepot).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -285,7 +257,7 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.fournisseurService.modifierfournisseur(this.fournisseur).subscribe({
+                 this.entrepotService.modifierentrepot(this.entrepot).subscribe({
                   next: (res) => {
                       if(res['code'] == 201) {
                         this.toastr.success(res['msg'], this.__("global.success"));
@@ -315,26 +287,27 @@ export class FournisseursComponent  extends Translatable implements OnInit {
     }
   
     // Ouverture de modal pour modification
-    openModalEditfournisseur() {
+    openModalEditentrepot() {
   
-      this.titleModal = this.__('fournisseur.title_edit_modal');
-      
-      if (this.addfournisseur) {
+      this.titleModal = this.__('entrepot.title_edit_modal');
+  
+      if (this.addentrepot) {
   
         this.recupererDonnee();
+        this.actualisationSelect();
 
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.addfournisseur, { class: 'modal-lg', backdrop: 'static',keyboard: false });
+        this.modalRef = this.modalService.show(this.addentrepot, { class: 'modal-lg', backdrop: 'static',keyboard: false });
       }
     }
   
     // Detail d'un modal
-    async openModalDetailfournisseur() {
+    async openModalDetailentrepot() {
   
   
-      this.titleModal = this.__('fournisseur.title_detail_modal');
+      this.titleModal = this.__('entrepot.title_detail_modal');
   
-      if (this.detailfournisseur) {
+      if (this.detailentrepot) {
   
   
         this.recupererDonnee();
@@ -342,14 +315,14 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
   
         // Ouverture de modal
-        this.modalRef = this.modalService.show(this.detailfournisseur, {
+        this.modalRef = this.modalService.show(this.detailentrepot, {
           class: 'modal-xl',backdrop:"static"
         });
       }
   
     }
      // SUppression d'un modal
-     openModalDeletefournisseur() {
+     openModalDeleteentrepot() {
   
       Swal.fire({
         title: this.__("global.confirmation"),
@@ -366,7 +339,7 @@ export class FournisseursComponent  extends Translatable implements OnInit {
         }).then((result) => {
         if (result.isConfirmed) {
   
-             this.fournisseurService.supprimerfournisseur(this.idfournisseur).subscribe({
+             this.entrepotService.supprimerentrepot(this.identrepot).subscribe({
               next: (res) => {
                   if(res['code'] == 205) {
                     this.toastr.success(res['msg'], this.__("global.success"));
@@ -390,9 +363,20 @@ export class FournisseursComponent  extends Translatable implements OnInit {
     }
 
  
+    async actualisationSelect() {
+      let regions = await this.authService.getSelectList(environment.liste_region_active, ['nom']);
+      this.filteredRegions = regions;
+      console.log(this.filteredRegions);
+      this.searchControl.valueChanges.subscribe(value => {
+        const lower = value?.toLowerCase() || '';
+        this.filteredRegions = regions.filter(reg =>
+          reg.nom.toLowerCase().includes(lower)
+        );
+      });
+    }
 
       // Ouverture de modal pour modification
-      openModalToogleStatefournisseur() {
+      openModalToogleStateentrepot() {
   
        
         this.recupererDonnee();
@@ -412,11 +396,11 @@ export class FournisseursComponent  extends Translatable implements OnInit {
           }).then((result) => {
           if (result.isConfirmed) {
             let state = 0;
-            if(this.fournisseur.state == 1) state = 0;
+            if(this.entrepot.state == 1) state = 0;
             else state = 1;
   
     
-               this.fournisseurService.changementStatefournisseur(this.fournisseur, state).subscribe({
+               this.entrepotService.changementStateentrepot(this.entrepot, state).subscribe({
                 next: (res) => {
                     if(res['code'] == 200) {
                       this.toastr.success(res['msg'], this.__("global.success"));
@@ -443,8 +427,10 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
     // Ouverture du modal pour l'ajout
     openModalAdd(template: TemplateRef<any>) {
-      this.titleModal = this.__('fournisseur.title_add_modal');
-      this.fournisseur = new fournisseur();
+      this.titleModal = this.__('entrepot.title_add_modal');
+      this.entrepot = new entrepot();
+      this.actualisationSelect();
+
       this.initForm();
 
       this.modalRef = this.modalService.show(template, {
@@ -460,30 +446,21 @@ export class FournisseursComponent  extends Translatable implements OnInit {
       const storedData = localStorage.getItem('data');
       let result : any;
       if (storedData) result = JSON.parse(storedData);
-      this.listfournisseurs = result.data;
-      console.log(this.listfournisseurs);
+      this.listentrepots = result.data;
+      console.log(this.listentrepots, "LiSTE entrepot");
+      console.log(this.identrepot);
       // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-      const res = this.listfournisseurs.filter(_ => _.id == this.idfournisseur);
-      this.fournisseur = res[0];
+      const res = this.listentrepots.filter(_ => _.id == this.identrepot);
+      this.entrepot = res[0];
 
-      let tel = this.fournisseur.telephone?.startsWith('00')
-      ? this.fournisseur.telephone.replace('00', '+')
-      : this.fournisseur.telephone;
 
-      this.fournisseurForm.patchValue({
-        raison_sociale: this.fournisseur.raison_sociale,
-        code: this.fournisseur.code,
-        email: this.fournisseur.email,
-        adresse: this.fournisseur.adresse,
-        ville: this.fournisseur.ville,
-        pays: this.fournisseur.pays,
-        telephone: tel,
-        fax: this.fournisseur.fax,
-        site_web: this.fournisseur.site_web,
-        registre_commerce: this.fournisseur.registre_commerce,
-        ninea: this.fournisseur.ninea,
+      this.entrepotForm.patchValue({
+        nom: this.entrepot.nom,
+        code: this.entrepot.code,
+        emplacement: this.entrepot.emplacement,
+        adresse: this.entrepot.adresse,
+        region_id : this.entrepot.region_id,
       });
-
 
     }
   
@@ -496,6 +473,5 @@ export class FournisseursComponent  extends Translatable implements OnInit {
     closeModal() {
       this.modalRef?.hide();
     }
-
 
 }

@@ -10,6 +10,7 @@ import { RegionComponent } from './region/region.component';
 import { TypeStructureComponent } from './type-structure/type-structure.component';
 import { DistrictSanitaireComponent } from './district-sanitaire/district-sanitaire.component';
 import { StructureSanitaireComponent } from './structure-sanitaire/structure-sanitaire.component';
+import { EntrepotComponent } from './entrepot/entrepot.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'type_structures', component: TypeStructureComponent, data: { breadcrumb: 'type_structure.title_breadcrumb' } },
   { path: 'district_sanitaires', component: DistrictSanitaireComponent, data: { breadcrumb: 'district.title_breadcrumb' } },
   { path: 'structure_sanitaires', component: StructureSanitaireComponent, data: { breadcrumb: 'structure.title_breadcrumb' } },
+  { path: 'entrepots', component: EntrepotComponent, data: { breadcrumb: 'entrepot.title_breadcrumb' } },
 
 
 

@@ -200,6 +200,16 @@ export class structure {
     state: number | null ;
 
 }
+export class entrepot {
+    id: number ;
+    nom: string ;
+    code: string ;
+    adresse: string ;
+    emplacement: string;
+    region_id: number ;
+    state: number | null ;
+
+}
 
 export class fournisseur {
     id: number ;

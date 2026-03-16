@@ -36,6 +36,7 @@ export const environment = {
   liste_type_structure_active : 'admin/parametrages/type_structures/active',
   profilage: 'admin/parametrages/profilage',
   structure: 'admin/parametrages/structure_sanitaires',
+  entrepot: 'admin/parametrages/entrepots',
 
   //** Gestion utilisateurs */
   utilisateur: 'admin/gestion_utilisateurs/utilisateurs',
