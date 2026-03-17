@@ -28,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import localeFr from '@angular/common/locales/fr';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
+import { QuillModule } from 'ngx-quill';
 
 
 registerLocaleData(localeFr);
@@ -54,6 +55,7 @@ registerLocaleData(localeFr);
     NgxIntlTelInputModule,
     DataTablesModule,
     ModalModule.forRoot(),
+    QuillModule.forRoot(),
     ToastrModule.forRoot() // configuration globale
   ],
   declarations: [

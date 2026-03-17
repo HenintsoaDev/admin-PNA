@@ -17,11 +17,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
+import { AppelOffreComponent } from './appel-offre/appel-offre.component';
+import { SoumissionsComponent } from './soumissions/soumissions.component';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
   declarations: [
-    FournisseursComponent
+    FournisseursComponent,
+    AppelOffreComponent,
+    SoumissionsComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +46,7 @@ import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-rout
     MatRadioModule,
     MatExpansionModule,
     ModalModule.forRoot(),
+    QuillModule,
     ToastrModule.forRoot()  ]
 })
 export class GestionFournisseurModule { }
