@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import {delay, mergeMap, materialize, dematerialize, tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {ToastrService} from "ngx-toastr";

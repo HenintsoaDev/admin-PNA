@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { valuesys } from 'app/shared/models/options';
-import { Auth, produit } from 'app/shared/models/db';
-import { Router } from '@angular/router';
-import { MenuService } from 'app/shared/models/route-info';
+import { produit } from 'app/shared/models/db';
 import { HttpService } from '../../http.service';
 
 @Injectable({
@@ -14,106 +9,58 @@ import { HttpService } from '../../http.service';
 })
 export class ProduitService {
 
-    constructor(private http: HttpClient, private httpService: HttpService,private  router: Router,private menuService: MenuService) {}
+    constructor(private httpService: HttpService) {}
 
     getproduitActive() : Observable<any> {
-        return this.httpService.get<any>(environment.liste_module_active).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            }
-        ));
+        return this.httpService.get<any>(environment.liste_module_active);
     }
 
     ajoutproduit(credentials: produit): Observable<any> {
         
-        return this.httpService.post<any>(environment.produit, credentials).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.post<any>(environment.produit, credentials);
     }
     modifierproduit(credentials: produit): Observable<any> {
         
-        return this.httpService.put<any>(environment.produit + '/' + credentials.id, credentials).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.put<any>(environment.produit + '/' + credentials.id, credentials);
     }
 
     supprimerproduit(id): Observable<any> {
         
-        return this.httpService.delete<any>(environment.produit + '/' + id,).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.delete<any>(environment.produit + '/' + id,);
     }
 
     changementStateproduit(data, state): Observable<any> {
         
-        return this.httpService.put<any>(environment.produit + '/' + data.id + '/state/' + state , '').pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.put<any>(environment.produit + '/' + data.id + '/state/' + state , '');
     }
 
     ajoutImageProduit(credentials: any): Observable<any> {
         
-        return this.httpService.post<any>(environment.images_produits, credentials).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.post<any>(environment.images_produits, credentials);
     }
 
     ajoutFicheTechniqueProduit(credentials: any): Observable<any> {
         
-        return this.httpService.post<any>(environment.fiche_techniques, credentials).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.post<any>(environment.fiche_techniques, credentials);
     }
 
 
     supprimerImageproduit(id): Observable<any> {
         
-        return this.httpService.delete<any>(environment.images_produits + '/' + id,).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.delete<any>(environment.images_produits + '/' + id,);
     }
 
     supprimerFicheproduit(id): Observable<any> {
         
-        return this.httpService.delete<any>(environment.fiche_techniques + '/' + id,).pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.delete<any>(environment.fiche_techniques + '/' + id,);
     }
 
 
+
+    findProductByName(name: string, page: number = 1, perPage: number = 10): Observable<any> {
+        const safeName = encodeURIComponent(name ?? '');
+        const where = `produit.nom_commercial|l|${safeName}`;
+        return this.httpService.get<any>(`${environment.produit}?page=${page}&where=${where}&per_page=${perPage}`);
+    }
    
 }
