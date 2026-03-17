@@ -470,7 +470,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
                 'user_id' : this.idUtilisateur
               }
   
-             this.utilisateurService.regenererMotDePasse(data).subscribe({
+             this.utilisateurService.regenererMotDePasse(this.idUtilisateur).subscribe({
               next: (res) => {
                   if(res['code'] == 201) {
                     this.toastr.success(res['msg'], this.__("global.success"));
