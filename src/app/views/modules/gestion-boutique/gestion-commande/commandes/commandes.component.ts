@@ -10,6 +10,7 @@ import { AuthService } from 'app/services/auth.service';
 import formatNumber from 'number-handler'
 import moment from 'moment';
 import { CommandeService } from 'app/services/boutique/commandes/commande.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-commandes',
@@ -145,7 +146,8 @@ export class CommandesComponent extends Translatable implements OnInit {
     private passageService: PassageService,
     private modalService: BsModalService,
     private authService: AuthService,
-    private commandeService: CommandeService
+    private commandeService: CommandeService,
+    private datePipe: DatePipe, 
 
   ) {
     super();
@@ -321,7 +323,16 @@ export class CommandesComponent extends Translatable implements OnInit {
     let result: any;
     if (storedData) result = JSON.parse(storedData);
 
-    this.authService.exportExcel(this.print(result.data), this.__("commande.list_commande")).then(
+    const date_debut = this.datePipe.transform(this.dateDebut, 'dd-MM-yyyy');
+    const date_fin = this.datePipe.transform(this.dateFin, 'dd-MM-yyyy');
+
+    let title = this.__("commande.list_commande") + ' ';
+
+    title += (date_debut != null ? " " + this.__("commande.from") + ' ' + date_debut + ' ' : '');       
+    title += (date_fin != null ? " " + this.__("commande.to") + ' ' + date_fin + ' ' : '');  
+
+
+    this.authService.exportExcel(this.print(result.data), title).then(
       (response: any) => {
         const a = document.createElement("a");
         a.href = response.data;
@@ -337,8 +348,15 @@ export class CommandesComponent extends Translatable implements OnInit {
     let result: any;
     if (storedData) result = JSON.parse(storedData);
 
+    const date_debut = this.datePipe.transform(this.dateDebut, 'dd-MM-yyyy');
+    const date_fin = this.datePipe.transform(this.dateFin, 'dd-MM-yyyy');
 
-    this.authService.exportPdf(this.print(result.data), this.__("commande.list_commande")).then(
+    let title = this.__("commande.list_commande") + ' ';
+
+    title += (date_debut != null ? " " + this.__("commande.from") + ' ' + date_debut + ' ' : '');       
+    title += (date_fin != null ? " " + this.__("commande.to") + ' ' + date_fin + ' ' : '');  
+
+    this.authService.exportPdf(this.print(result.data), title).then(
       (response: any) => { },
       (error: any) => { console.log(error) }
     );

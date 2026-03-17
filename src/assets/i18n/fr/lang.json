@@ -278,7 +278,7 @@
         "add": "Ajouter une famille",
         "title_edit_modal": "Modification d'une famille",
         "title_add_modal": "Ajout d'un famille",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "forme": {
         "title_breadcrumb": "Lister les formes pharmaceutiques",
@@ -287,7 +287,7 @@
         "add": "Ajouter une forme ",
         "title_edit_modal": "Modification d'une forme pharmaceutique",
         "title_add_modal": "Ajout d'un forme pharmaceutique",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "categorie": {
         "title_gestion_produit_breadcrumb": "Gestions des produits",
@@ -299,7 +299,7 @@
         "add": "Ajouter une catégorie",
         "title_edit_modal": "Modification d'une catégorie",
         "title_add_modal": "Ajout d'une catégorie",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "sous_categorie": {
         "title_gestion_produit_breadcrumb": "Gestions des produits",
@@ -312,7 +312,7 @@
         "add": "Ajouter une sous catégorie",
         "title_edit_modal": "Modification d'une sous catégorie",
         "title_add_modal": "Ajout d'une sous catégorie",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "produit": {
         "title_breadcrumb": "Lister les produits",
@@ -326,7 +326,7 @@
         "add": "Ajouter un produit ",
         "title_edit_modal": "Modification d'un produit",
         "title_add_modal": "Ajout d'un produit",
-        "title_detail_modal" : "Détails",
+        "title_detail_modal" : "Voir les détails",
         "sous_categorie" : "Sous categorie",
         "categorie" :"Catégorie",
         "famille" :"Famille",
@@ -348,7 +348,7 @@
         "add": "Ajouter une region",
         "title_edit_modal": "Modification d'une region",
         "title_add_modal": "Ajout d'un region",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "type_structure": {
         "title_breadcrumb": "Lister les types structures",
@@ -358,7 +358,7 @@
         "add": "Ajouter une type structure",
         "title_edit_modal": "Modification d'une type structure",
         "title_add_modal": "Ajout d'un type structure",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "district": {
         "title_breadcrumb": "Lister les districts",
@@ -372,7 +372,7 @@
         "add": "Ajouter une district",
         "title_edit_modal": "Modification d'une district",
         "title_add_modal": "Ajout d'un district",
-        "title_detail_modal" : "Détails",
+        "title_detail_modal" : "Voir les détails",
         "region": "Region"
     },
     "structure": {
@@ -387,7 +387,7 @@
         "add": "Ajouter une structure",
         "title_edit_modal": "Modification d'une structure",
         "title_add_modal": "Ajout d'une structure",
-        "title_detail_modal" : "Détails",
+        "title_detail_modal" : "Voir les détails",
         "district": "Direction régional",
         "type" : "Type sanitaire"
     },
@@ -409,9 +409,10 @@
         "add": "Ajouter une fournisseur",
         "title_edit_modal": "Modification d'une fournisseur",
         "title_add_modal": "Ajout d'une fournisseur",
-        "title_detail_modal" : "Détails"
+        "title_detail_modal" : "Voir les détails"
     },
     "commande": {
+        "list_commande": "Liste des comandes",
         "title_breadcrumb": "Lister les commandes",
         "title": "Gestion des commandes",
         "date":"Date",
@@ -431,7 +432,7 @@
         "add": "Ajouter une commande",
         "title_edit_modal": "Modification d'une commande",
         "title_add_modal": "Ajout d'une commande",
-        "title_detail_modal" : "Détails",
+        "title_detail_modal" : "Voir les détails",
         "statut" :"Statut",
         "mode_import" : "Mode import",
         "produit" : "Nom du produit",
@@ -450,7 +451,7 @@
         "add": "Ajouter un entrepot",
         "title_edit_modal": "Modification d'un entrepot",
         "title_add_modal": "Ajout d'un entrepot",
-        "title_detail_modal" : "Détails",
+        "title_detail_modal" : "Voir les détails",
         "region" : "Region"
     }
 
