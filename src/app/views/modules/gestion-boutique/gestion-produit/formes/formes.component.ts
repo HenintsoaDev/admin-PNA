@@ -58,17 +58,17 @@ export class FormesComponent extends Translatable implements OnInit {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_4'
+      'autority' : 'GSP_22'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_5'
+      'autority' : 'GSP_23'
     },
     {
       'icon' : 'state',
-      'autority' : 'GSP_5',
+      'autority' : 'GSP_24',
     },
   ]
   

@@ -71,24 +71,24 @@ export class CategorieComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'GSP_7',
+      'autority' : 'GSP_8',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_9'
+      'autority' : 'GSP_10'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_10'
+      'autority' : 'GSP_11'
     },
     {
       'icon' : 'state',
-      'autority' : 'GSP_10',
+      'autority' : 'GSP_12',
     },
   ]
   
