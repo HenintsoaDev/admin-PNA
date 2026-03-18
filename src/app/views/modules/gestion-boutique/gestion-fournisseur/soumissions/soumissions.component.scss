@@ -1,0 +1,45 @@
+/* Details modal: boxed table on white surface (same spirit as appel-offre) */
+.ao-surface {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(18, 38, 63, 0.06);
+  padding: 12px;
+}
+
+.ao-lines-table {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.ao-lines-thead th {
+  background: #f5f7fb;
+  color: #334155;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 0;
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+.ao-lines-tbody td {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 12px 14px;
+  vertical-align: top;
+  color: #0f172a;
+}
+
+.ao-lines-tbody tr:hover td {
+  background: #fbfdff;
+}
+
+.ao-qty {
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}

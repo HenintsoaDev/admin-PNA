@@ -1,16 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-//import { valuesys } from '../../../../../../options';
 import { PassageService } from '../../services/table/passage.service';
-import formatNumber from 'number-handler'
+import formatNumber from 'number-handler';
 import { Subscription } from 'rxjs';
 import { valuesys } from 'app/shared/models/options';
 import { Translatable } from 'shared/constants/Translatable';
-import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'app/services/auth.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-table',
@@ -73,11 +69,9 @@ export class TableComponent extends Translatable {
       private http: HttpClient,
       private passageService: PassageService,
       private datePipe: DatePipe,
-      private authService : AuthService,
       private toast :ToastrService
       ) { 
         super();
-        //this.authService.initAutority("PRM","ADM");
     }
 
     subscription: Subscription;
@@ -89,8 +83,6 @@ export class TableComponent extends Translatable {
         if (!event || typeof event !== 'object') return;
       
         const { type, data: filtre, endpoint } = event;
-
-        console.log("xxeventxx", event);
 
         if(event.endpoint) this.endpoint = event.endpoint;
       
@@ -385,6 +377,11 @@ export class TableComponent extends Translatable {
           else if(post[0] == 0) return this.__('global.en_attente');
           else if(post[0] == 2) return this.__('global.not_valide');
 
+      } else if(post[1] == 'statut_ao') {
+          const key = this.getAppelOffreStatusKey(post[0]);
+          if (key) return this.__(`appel_offres.status.${key}`);
+          return post[0];
+
       } else if(post[1] == 'state') {
           if(post[0] == 1) return this.__('global.traiter');
           else if(post[0] == 0) return this.__('global.en_attente_traiter');
@@ -489,7 +486,25 @@ export class TableComponent extends Translatable {
           'border-radius': '5px',
           
         };
-      }else if(post[1] == 'etat') {
+      } else if(post[1] == 'statut_ao') {
+        const key = this.getAppelOffreStatusKey(post[0]);
+        const colorMap: Record<string, string> = {
+          brouillon: '#6c757d',     // gris
+          publier: '#0d6efd',       // bleu
+          en_attente: '#f0ad4e',    // orange
+          attribuer: '#6f42c1',     // violet
+          clos: '#5cb85c',          // vert
+          annule: '#d9534f'         // rouge
+        };
+        const bg = (key && colorMap[key]) ? colorMap[key] : '#6c757d';
+        return {
+          'color': 'white',
+          'background-color': bg,
+          'font-weight': 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+      } else if(post[1] == 'etat') {
         if(post[0] == 4) return {
           'color': 'white',
           'background-color' : '#5cb85c',
@@ -585,6 +600,49 @@ export class TableComponent extends Translatable {
         default:
           return '';
       }
+    }
+
+    private getAppelOffreStatusKey(statut: string | null | undefined): string {
+      if (statut === null || statut === undefined) return '';
+
+      const numeric = Number(statut);
+      if (!Number.isNaN(numeric)) {
+        const numericMap: Record<number, string> = {
+          0: 'brouillon',
+          1: 'publier',
+          2: 'en_attente',
+          3: 'attribuer',
+          4: 'clos',
+          5: 'annule',
+        };
+        return numericMap[numeric] ?? '';
+      }
+
+      const normalized = statut
+        .toString()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '_');
+
+      const statusMap: Record<string, string> = {
+        brouillon: 'brouillon',
+        publier: 'publier',
+        publie: 'publier',
+        publiee: 'publier',
+        en_attente: 'en_attente',
+        en_attente_validation: 'en_attente',
+        en_attente_de_validation: 'en_attente',
+        attribuer: 'attribuer',
+        attribue: 'attribuer',
+        attribuee: 'attribuer',
+        clos: 'clos',
+        close: 'clos',
+        annule: 'annule',
+        annulee: 'annule',
+      };
+
+      return statusMap[normalized] ?? '';
     }
     
 

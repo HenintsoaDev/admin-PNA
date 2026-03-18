@@ -1,1 +1,129 @@
-<p>soumissions works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-plain">
+          <div class="card-header card-header-primary">
+            <div class="button-container">
+              <div class="left-buttons"></div>
+              <div class="right-button"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <app-table
+                [endpoint]="endpoint"
+                [headerTable]="header"
+                [body]="objetBody"
+                [listIcon]="listIcon"
+                [searchGlobal]="searchGlobal">
+              </app-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL détails -->
+<ng-template #detailsoumission>
+  <div class="modal-header btn-primary">
+    <h5 class="modal-title" id="myModalLabel"><b>{{ titleModal }}</b></h5>
+    <button type="button" class="close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="soumission as s">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.reference') }}:</label>
+          <h6><span class="bold">{{ s.reference }}</span></h6>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.statut') }}:</label>
+          <h6><span class="bold">{{ s.statut }}</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.fournisseur') }}:</label>
+          <h6><span class="bold">{{ s.fournisseur }}</span></h6>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.montant') }}:</label>
+          <h6><span class="bold">{{ s.montant }}</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.date_soumission') }}:</label>
+          <h6><span class="bold">{{ s.date_soumission | date: 'dd/MM/yyyy HH:mm' }}</span></h6>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('soumissions.delai') }}:</label>
+          <h6><span class="bold">{{ s.delai }}</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="s.appel_offre">
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('appel_offres.reference') }}:</label>
+          <h6><span class="bold">{{ s.appel_offre?.reference || '-' }}</span></h6>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="alert alert-custom">
+          <label class="fw-800">{{ __('appel_offres.titre') }}:</label>
+          <h6><span class="bold">{{ s.appel_offre?.titre || '-' }}</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="ao-surface mt-2" *ngIf="s.lignes?.length">
+      <div class="table-responsive">
+        <table class="table ao-lines-table">
+          <thead class="ao-lines-thead">
+            <tr>
+              <th>{{ __('soumissions.ligne_appel_offre') }}</th>
+              <th class="text-right">{{ __('soumissions.qte_proposee') }}</th>
+              <th class="text-right">{{ __('soumissions.prix_unitaire_propose') }}</th>
+              <th class="text-right">{{ __('soumissions.montant_ligne') }}</th>
+            </tr>
+          </thead>
+          <tbody class="ao-lines-tbody">
+            <tr *ngFor="let l of s.lignes">
+              <td>{{ l.ligne_appel_offre?.designation || '-' }}</td>
+              <td class="text-right">{{ l.quantite_proposee }}</td>
+              <td class="ao-qty">{{ l.prix_unitaire_propose }}</td>
+              <td class="ao-qty">{{ l.montant_ligne }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>

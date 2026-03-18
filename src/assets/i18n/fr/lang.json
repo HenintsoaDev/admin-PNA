@@ -434,11 +434,36 @@
         "date_creation": "Date création",
         "date_modification": "Date modification",
         "statut": "Statut",
+        "next_status": "Passer au statut suivant",
         "createur": "Créateur",
         "ligne_designation": "Désignation",
         "ligne_produit": "Produit",
         "ligne_quantite": "Quantité",
-        "ligne_specifications": "Spécifications"
+        "ligne_specifications": "Spécifications",
+        "status":{
+            "brouillon": "Brouillon",
+            "publier": "Publier",
+            "en_attente": "En attente",
+            "attribuer": "Attribuer",
+            "clos": "Clos",
+            "annule": "Annulé"
+        }
+    },
+    "soumissions":{
+        "title_breadcrumb": "Lister les soumissions",
+        "title_detail_modal": "Détails",
+        "reference": "Référence",
+        "date_soumission": "Date soumission",
+        "date_creation": "Date création",
+        "montant": "Montant",
+        "delai": "Délai",
+        "fournisseur": "Fournisseur",
+        "statut": "Statut",
+        "nombre_lignes": "Nombre de lignes",
+        "qte_proposee": "Qté proposée",
+        "prix_unitaire_propose": "Prix unitaire",
+        "montant_ligne": "Montant ligne",
+        "ligne_appel_offre": "Ligne appel d'offre"
     },
     "commande": {
         "list_commande": "Liste des comandes",

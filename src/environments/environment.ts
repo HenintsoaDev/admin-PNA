@@ -46,6 +46,7 @@ export const environment = {
   //** Gestion fournisseurs */
   fournisseur: 'admin/gestion_fournisseurs/fournisseurs',
   appel_offre: 'admin/gestion_fournisseurs/appel-offres',
+  soumission: 'admin/gestion_fournisseurs/soumissions',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
