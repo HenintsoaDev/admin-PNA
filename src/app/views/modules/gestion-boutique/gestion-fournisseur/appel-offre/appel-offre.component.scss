@@ -112,17 +112,18 @@
   box-shadow: 0 10px 24px rgba(18, 38, 63, 0.05);
 }
 
-.ao-quill-host {
-  margin-top: 8px;
-}
-
-:host ::ng-deep .ao-quill-host .ql-toolbar.ql-snow {
+:host ::ng-deep .ao-quill quill-editor .ql-toolbar.ql-snow {
   border-radius: 10px 10px 0 0;
   border-color: rgba(0, 0, 0, 0.08);
 }
 
-:host ::ng-deep .ao-quill-host .ql-container.ql-snow {
+:host ::ng-deep .ao-quill quill-editor .ql-container.ql-snow {
   border-radius: 0 0 10px 10px;
   border-color: rgba(0, 0, 0, 0.08);
-  min-height: 180px;
+  min-height: 280px;
+}
+
+::ng-deep .ql-editor {
+  min-height: 260px;
+  line-height: 1.6;
 }

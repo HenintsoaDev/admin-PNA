@@ -420,6 +420,7 @@
         "step_info": "Informations",
         "step_produits": "Produits demandés",
         "nombre_lignes": "Nombre de lignes",
+        "ligne_appel_offre": "Ligne de l'appel d'offre",
         "step2_placeholder": "Étape 2 (produits) : à implémenter.",
         "produit_search": "Produit",
         "produit_search_placeholder": "Rechercher un produit (nom commercial)...",
