@@ -90,24 +90,24 @@ export class StructureSanitaireComponent extends Translatable implements OnInit 
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'PAC_7',
+      'autority' : 'PAC_34',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'PAC_9'
+      'autority' : 'PAC_35'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'PAC_10'
+      'autority' : 'PAC_36'
     },
     {
       'icon' : 'state',
-      'autority' : 'PAC_1',
+      'autority' : 'PAC_37',
     },
   ]
   

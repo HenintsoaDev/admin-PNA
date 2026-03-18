@@ -103,7 +103,7 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'GSU_1',
+      'autority' : 'GSU_9',
   
     },
     
@@ -111,27 +111,27 @@ export class UtilisateurComponent extends Translatable implements OnInit {
       'icon' : 'lock_reset',
       'action' : 'regenerer_mdp',
       'tooltip' : 'Régeneration de mot de passe',
-      'autority' : 'GSU_1',
+      'autority' : 'GSU_13',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSU_1',
+      'autority' : 'GSU_10',
   
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSU_1',
+      'autority' : 'GSU_11',
 
   
     },
     {
       'icon' : 'state',
-      'autority' : 'GSU_1',
+      'autority' : 'GSU_12',
     },
   ]
     searchGlobal = [ 'utilisateur.nom', 'utilisateur.prenom', 'utilisateur.email',  'utilisateur.telephone', 'profil.nom_profil', 'structure_sanitaire.nom', 'district_sanitaire.nom']

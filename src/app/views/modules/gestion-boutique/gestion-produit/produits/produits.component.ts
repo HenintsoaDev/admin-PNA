@@ -114,24 +114,24 @@ export class ProduitsComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'GSP_7',
+      'autority' : 'GSP_26',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_9'
+      'autority' : 'GSP_28'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_10'
+      'autority' : 'GSP_29'
     },
     {
       'icon' : 'state',
-      'autority' : 'GSP_10',
+      'autority' : 'GSP_30',
     },
   ]
   

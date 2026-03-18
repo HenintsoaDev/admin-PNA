@@ -102,7 +102,7 @@ export class CommandesComponent extends Translatable implements OnInit {
       'icon': 'info',
       'action': 'detail',
       'tooltip': this.__('global.tooltip_detail'),
-      'autority': 'GSC_1',
+      'autority': 'GSC_2',
 
     },
 

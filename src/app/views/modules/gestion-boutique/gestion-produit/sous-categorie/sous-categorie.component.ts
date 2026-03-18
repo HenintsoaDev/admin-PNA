@@ -72,24 +72,24 @@ export class SousCategorieComponent extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'GSP_7',
+      'autority' : 'GSP_14',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'GSP_9'
+      'autority' : 'GSP_16'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'GSP_10'
+      'autority' : 'GSP_17'
     },
     {
       'icon' : 'state',
-      'autority' : 'GSP_10',
+      'autority' : 'GSP_18',
     },
   ]
   

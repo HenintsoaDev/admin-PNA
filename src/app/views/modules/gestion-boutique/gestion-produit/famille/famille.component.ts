@@ -80,7 +80,7 @@ export class FamilleComponent extends Translatable implements OnInit {
     },
     {
       'icon' : 'state',
-      'autority' : 'GSP_5',
+      'autority' : 'GSP_6',
     },
   ]
   

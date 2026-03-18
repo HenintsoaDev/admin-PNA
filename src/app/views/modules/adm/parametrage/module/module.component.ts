@@ -72,7 +72,7 @@ listIcon = [
     'icon' : 'edit',
     'action' : 'edit',
     'tooltip' : this.__('global.tooltip_edit'),
-    'autority' : 'PAC_3'
+    'autority' : 'PAC_4'
   },
   {
     'icon' : 'delete',

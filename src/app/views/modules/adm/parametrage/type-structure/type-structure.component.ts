@@ -55,17 +55,17 @@ export class TypeStructureComponent extends Translatable implements OnInit {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'PAC_4'
+      'autority' : 'PAC_29'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'PAC_5'
+      'autority' : 'PAC_30'
     },
     {
       'icon' : 'state',
-      'autority' : 'PAC_1',
+      'autority' : 'PAC_31',
     },
   ]
   

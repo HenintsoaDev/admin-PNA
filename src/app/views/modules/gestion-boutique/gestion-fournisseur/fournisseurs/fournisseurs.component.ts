@@ -91,24 +91,24 @@ export class FournisseursComponent  extends Translatable implements OnInit {
       'icon' : 'info',
       'action' : 'detail',
       'tooltip' : this.__('global.tooltip_detail'),
-      'autority' : 'PAC_7',
+      'autority' : 'GSF_3',
   
     },
     {
       'icon' : 'edit',
       'action' : 'edit',
       'tooltip' : this.__('global.tooltip_edit'),
-      'autority' : 'PAC_9'
+      'autority' : 'GSF_4'
     },
     {
       'icon' : 'delete',
       'action' : 'delete',
       'tooltip' : this.__('global.tooltip_delete'),
-      'autority' : 'PAC_10'
+      'autority' : 'GSF_5'
     },
     {
       'icon' : 'state',
-      'autority' : 'PAC_1',
+      'autority' : 'GSF_6',
     },
   ]
   
@@ -150,7 +150,7 @@ export class FournisseursComponent  extends Translatable implements OnInit {
   
     async ngOnInit() {
   
-      this.authService.initAutority("PAC","ADM");
+      this.authService.initAutority("GSF","GSB");
   
       this.titleModal = this.__('fournisseur.title_add_modal');
   

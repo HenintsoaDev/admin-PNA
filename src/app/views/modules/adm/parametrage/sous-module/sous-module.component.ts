@@ -76,7 +76,7 @@ export class SousModuleComponent extends Translatable implements OnInit {
       'icon': 'edit',
       'action': 'edit',
       'tooltip': 'Modification',
-      'autority': 'PAC_9',
+      'autority': 'PAC_10',
     },
     {
       'icon': 'delete',
@@ -86,7 +86,7 @@ export class SousModuleComponent extends Translatable implements OnInit {
     },
     {
       'icon' : 'state',
-      'autority' : 'PAC_6',
+      'autority' : 'PAC_12',
     },
   ]
 

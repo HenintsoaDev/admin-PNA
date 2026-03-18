@@ -80,20 +80,20 @@ export class ProfilsComponent extends Translatable implements OnInit {
         'icon' : 'edit',
         'action' : 'edit',
         'tooltip' : this.__('global.tooltip_edit'),
-        'autority' : 'GSU_1',
+        'autority' : 'GSU_4',
     
       },
       {
         'icon' : 'delete',
         'action' : 'delete',
         'tooltip' : this.__('global.tooltip_delete'),
-        'autority' : 'GSU_1',
+        'autority' : 'GSU_5',
   
     
       },
       {
         'icon' : 'state',
-        'autority' : 'GSU_1',
+        'autority' : 'GSU_6',
       },
     ]
     
