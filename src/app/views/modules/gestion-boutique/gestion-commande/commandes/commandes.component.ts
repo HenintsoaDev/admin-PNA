@@ -69,7 +69,7 @@ export class CommandesComponent extends Translatable implements OnInit {
   objetBody = [
     {
       'name': 'date_commande',
-      'type': 'date',
+      'type': 'text',
     },
     {
       'name': 'reference',
