@@ -271,34 +271,22 @@
            
                 <td >
                     <div class="alert alert-custom">
-                        <label><b class="fw-800">{{ __("utilisateur.structure")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.structure_sanitaire_nom }}</b></h6>
+                        <label><b class="fw-800">{{ __("utilisateur.identifiant")}}</b></label>
+                        <h6><b class="bold">{{  utilisateur.identifiant }}</b></h6>
                      </div>
                 </td>
-            </tr>
-
-            <tr>
-                <td >
-                    <div class="alert alert-custom">
-                        <label><b class="fw-800">{{ __("utilisateur.user_creation")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.user_creation  }} <span class="bold">{{ __("utilisateur.le")}}</span>   {{  utilisateur.date_creation  }} </b></h6>
-                     </div>
-                </td>
-                <td >
-                    <div class="alert alert-custom">
-                        <label><b class="fw-800">{{ __("utilisateur.user_modification")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.user_modification	 }} <span class="bold">{{ __("utilisateur.le")}}</span>   {{  utilisateur.date_modification	 }}</b></h6>
-                     </div>
-                </td>
-            </tr>
-
-            <tr>
                 <td >
                     <div class="alert alert-custom">
                         <label><b class="fw-800">{{ __("utilisateur.state")}}</b></label>
-                        <h6><b class="bold">{{  utilisateur.state }}</b></h6>
+                        <h6><b class="bold">{{  utilisateur.state == 1 ? __("global.activer") : __("global.desactiver") }}</b></h6>
                      </div>
                 </td>
+            </tr>
+
+         
+
+            <tr>
+               
                
             </tr>
 

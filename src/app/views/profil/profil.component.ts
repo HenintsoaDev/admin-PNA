@@ -92,7 +92,7 @@ export class ProfilComponent extends Translatable implements OnInit {
           this.authService.resetPassword({ old_password: this.passwordForm.value.oldPassword, new_password: this.passwordForm.value.newPassword }).subscribe({
             next: (res) => {
 
-              if (res['code'] == 201) {
+              if (res['code'] == 200) {
                 this.toastr.success(res['msg'], this.__("global.success"));
                 this.authService.logout();
               } else {
