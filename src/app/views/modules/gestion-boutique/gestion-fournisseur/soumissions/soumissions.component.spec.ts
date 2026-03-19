@@ -5,6 +5,8 @@ import { PassageService } from 'app/services/table/passage.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { of } from 'rxjs';
 import { SoumissionService } from 'app/services/boutique/fournisseurs/soumission.service';
+import { AppelOffreService } from 'app/services/boutique/fournisseurs/appel-offre.service';
+import { ToastrService } from 'ngx-toastr';
 
 import { SoumissionsComponent } from './soumissions.component';
 
@@ -28,6 +30,14 @@ describe('SoumissionsComponent', () => {
         {
           provide: SoumissionService,
           useValue: { getDetailsSoumission: () => of({ data: { id: 1 } }) }
+        },
+        {
+          provide: AppelOffreService,
+          useValue: { getDetailsAppelOffre: () => of({ data: { id: 1 } }) }
+        },
+        {
+          provide: ToastrService,
+          useValue: { error: () => {} }
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]

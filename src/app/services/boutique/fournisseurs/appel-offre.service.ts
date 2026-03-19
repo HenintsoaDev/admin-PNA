@@ -90,7 +90,8 @@ export class AppelOffreService {
   }
 
 
-  private normalizeStatusKey(statut: string | null | undefined): string {
+
+  public normalizeStatusKey(statut: string | null | undefined): string {
     if (statut === null || statut === undefined) return '';
 
     const numeric = Number(statut);

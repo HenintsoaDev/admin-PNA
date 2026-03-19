@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { SoumissionService } from 'app/services/boutique/fournisseurs/soumission.service';
+import { AppelOffreService } from 'app/services/boutique/fournisseurs/appel-offre.service';
 import { PassageService } from 'app/services/table/passage.service';
 import { soumission } from 'shared/interfaces/soumission';
 import { environment } from 'environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { Translatable } from 'shared/constants/Translatable';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-soumissions',
@@ -81,8 +83,12 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   soumission: soumission | null = null;
   idSoumission!: number;
   titleModal = '';
+  appelOffreDetail: any = null;
+  appelOffreTitleModal = '';
+  appelOffreModalRef?: BsModalRef;
 
   @ViewChild('detailsoumission') detailsoumission!: TemplateRef<any>;
+  @ViewChild('detailappeloffreModal') detailappeloffreModal!: TemplateRef<any>;
 
   private subscription?: Subscription;
 
@@ -90,7 +96,9 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
     private passageService: PassageService,
     private authService: AuthService,
     private modalService: BsModalService,
-    private soumissionService: SoumissionService
+    private soumissionService: SoumissionService,
+    private appelOffreService: AppelOffreService,
+    private toastr: ToastrService
   ) {
     super();
   }
@@ -135,6 +143,30 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
 
   closeModal(): void {
     this.modalRef?.hide();
+  }
+
+  openAppelOffre(id: number): void {
+    if (!id) return;
+
+    this.appelOffreTitleModal = this.__('appel_offres.title_detail_modal');
+    this.appelOffreService.getDetailsAppelOffre(id).subscribe({
+      next: (res) => {
+        const data = (res as any)?.data ?? res;
+        this.appelOffreDetail = data;
+        this.appelOffreModalRef = this.modalService.show(this.detailappeloffreModal, {
+          class: 'modal-xl',
+          backdrop: 'static',
+          keyboard: false
+        });
+      },
+      error: () => {
+        this.toastr.error(this.__('global.tableError'), this.__('global.error'));
+      }
+    });
+  }
+
+  closeAppelOffreModal(): void {
+    this.appelOffreModalRef?.hide();
   }
 
 }

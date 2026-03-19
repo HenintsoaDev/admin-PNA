@@ -1,0 +1,61 @@
+/* Box on white surface + styled table (same look as appel-offre) */
+.ao-surface {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(18, 38, 63, 0.06);
+  padding: 12px;
+}
+
+.ao-lines-table {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.ao-lines-thead th {
+  background: #f5f7fb;
+  color: #334155;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 0;
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+.ao-lines-tbody td {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 12px 14px;
+  vertical-align: top;
+  color: #0f172a;
+}
+
+.ao-lines-tbody tr:hover td {
+  background: #fbfdff;
+}
+
+.ao-product-name {
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.ao-product-meta {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.ao-qty {
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ao-cell {
+  color: #1f2937;
+}

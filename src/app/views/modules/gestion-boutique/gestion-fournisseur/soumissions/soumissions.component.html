@@ -91,14 +91,15 @@
     <div class="row" *ngIf="s.appel_offre">
       <div class="col-lg-6">
         <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.reference') }}:</label>
-          <h6><span class="bold">{{ s.appel_offre?.reference || '-' }}</span></h6>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.titre') }}:</label>
-          <h6><span class="bold">{{ s.appel_offre?.titre || '-' }}</span></h6>
+          <label class="fw-800">{{ __('appel_offres.reference_ao') }}:</label>
+          <h6>
+            <span class="bold">
+              {{ s.appel_offre?.titre || '-' }}
+              <a href="javascript:void(0)" (click)="openAppelOffre(s.appel_offre?.id)">
+                ({{ s.appel_offre?.reference || '-' }})
+              </a>
+            </span>
+          </h6>
         </div>
       </div>
     </div>
@@ -108,10 +109,10 @@
         <table class="table ao-lines-table">
           <thead class="ao-lines-thead">
             <tr>
-              <th>{{ __('soumissions.ligne_appel_offre') }}</th>
+              <th>{{ __('soumissions.designation') }}</th>
               <th class="text-right">{{ __('soumissions.qte_proposee') }}</th>
               <th class="text-right">{{ __('soumissions.prix_unitaire_propose') }}</th>
-              <th class="text-right">{{ __('soumissions.montant_ligne') }}</th>
+              <th class="text-right">{{ __('soumissions.total') }}</th>
             </tr>
           </thead>
           <tbody class="ao-lines-tbody">
@@ -125,5 +126,19 @@
         </table>
       </div>
     </div>
+  </div>
+</ng-template>
+
+<!-- MODAL détails appel d'offre (depuis une soumission) -->
+<ng-template #detailappeloffreModal>
+  <div class="modal-header btn-primary">
+    <h5 class="modal-title" id="myModalLabel"><b>{{ appelOffreTitleModal }}</b></h5>
+    <button type="button" class="close" (click)="closeAppelOffreModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <app-appel-offre-detail [appelOffre]="appelOffreDetail"></app-appel-offre-detail>
   </div>
 </ng-template>
