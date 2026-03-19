@@ -61,7 +61,7 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
     { name: 'montant', type: 'montant' },
     { name: 'delai', type: 'text' },
     { name: 'date_soumission', type: 'date' },
-    { name: 'statut', type: 'text' },
+    { name: 'statut', type: 'statut' },
     { name: 'id' }
   ];
 
@@ -86,6 +86,8 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   appelOffreDetail: any = null;
   appelOffreTitleModal = '';
   appelOffreModalRef?: BsModalRef;
+  tableTypeFormatters: Record<string, (value: any) => string> = {};
+  tableTypeStyleResolvers: Record<string, (value: any) => { [key: string]: string } | ''> = {};
 
   @ViewChild('detailsoumission') detailsoumission!: TemplateRef<any>;
   @ViewChild('detailappeloffreModal') detailappeloffreModal!: TemplateRef<any>;
@@ -106,6 +108,7 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   ngOnInit(): void {
     this.authService.initAutority('PAC', 'ADM');
     this.titleModal = this.__('soumissions.title_detail_modal');
+    this.initTableStatusRender();
 
     this.endpoint = `${environment.baseUrl}/${environment.soumission}`;
     this.passageService.appelURL(null, this.endpoint);
@@ -167,6 +170,38 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
 
   closeAppelOffreModal(): void {
     this.appelOffreModalRef?.hide();
+  }
+
+  private initTableStatusRender(): void {
+    this.tableTypeFormatters = {
+      statut: (value: any) => {
+        const key = this.soumissionService.normalizeStatusKey(value);
+        return key ? this.__(`soumissions.status.${key}`) : (value ?? '');
+      }
+    };
+
+    this.tableTypeStyleResolvers = {
+      statut: (value: any) => {
+        const key = this.soumissionService.normalizeStatusKey(value);
+        if (!key) return '';
+
+        const colorMap: Record<string, string> = {
+          soumise: '#0d6efd',        // bleu
+          en_evaluation: '#f0ad4e',  // orange
+          acceptee: '#5cb85c',       // vert
+          rejetee: '#d9534f'         // rouge
+        };
+        const bg = colorMap[key] ?? '#6c757d';
+
+        return {
+          'color': 'white',
+          'background-color': bg,
+          'font-weight': 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+      }
+    };
   }
 
 }

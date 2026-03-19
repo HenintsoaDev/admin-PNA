@@ -19,3 +19,10 @@ export interface ligne_soumission{
     montant_ligne: string,
     ligne_appel_offre: any
 }
+
+export enum statut_soumission{
+    "Soumise",
+    "En_Evaluation",
+    "Accepteee",
+    "Rejetee"
+}

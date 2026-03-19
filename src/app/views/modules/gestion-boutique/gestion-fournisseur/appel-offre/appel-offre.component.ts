@@ -83,7 +83,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     { name: 'date_publication', type: 'date' },
     { name: 'date_limite_soumission', type: 'date' },
     { name: 'nombre_lignes', type: 'text' },
-    { name: 'statut', type: 'statut_ao' },
+    { name: 'statut', type: 'statut' },
     { name: 'id' }
   ];
 
@@ -119,6 +119,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   idAppelOffre!: number;
   titleModal = '';
   currentStep = 1;
+  tableTypeFormatters: Record<string, (value: any) => string> = {};
+  tableTypeStyleResolvers: Record<string, (value: any) => { [key: string]: string } | ''> = {};
 
   productQuery = '';
   productQty: number = 1;
@@ -156,6 +158,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
     this.titleModal = this.__('appel_offres.title_add_modal');
     this.initForm();
+    this.initTableStatusRender();
 
     this.subscription = this.passageService.getObservable().subscribe(event => {
       if (!event?.data) return;
@@ -507,6 +510,40 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
   private getNowDatetimeLocal(): string {
     return moment().format('YYYY-MM-DDTHH:mm');
+  }
+
+  private initTableStatusRender(): void {
+    this.tableTypeFormatters = {
+      statut: (value: any) => {
+        const key = this.normalizeStatusKey(value);
+        return key ? this.__(`appel_offres.status.${key}`) : (value ?? '');
+      }
+    };
+
+    this.tableTypeStyleResolvers = {
+      statut: (value: any) => {
+        const key = this.normalizeStatusKey(value);
+        if (!key) return '';
+
+        const colorMap: Record<string, string> = {
+          brouillon: '#6c757d',     // gris
+          publier: '#0d6efd',       // bleu
+          en_attente: '#f0ad4e',    // orange
+          attribuer: '#6f42c1',     // violet
+          clos: '#5cb85c',          // vert
+          annule: '#d9534f'         // rouge
+        };
+        const bg = colorMap[key] ?? '#6c757d';
+
+        return {
+          'color': 'white',
+          'background-color': bg,
+          'font-weight': 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+      }
+    };
   }
 
   get nextStatusLabel(): string {

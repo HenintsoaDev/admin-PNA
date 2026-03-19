@@ -56,6 +56,8 @@ export class TableComponent extends Translatable {
     @Input() searchGlobal : any;
     @Input() formSearch: any = true;
     @Input() triDescDefault: any = '';
+    @Input() typeFormatters: Record<string, (value: any) => string> = {};
+    @Input() typeStyleResolvers: Record<string, (value: any) => { [key: string]: string } | ''> = {};
     @Output() dataEmitter = new EventEmitter<any>();
 
 
@@ -364,6 +366,10 @@ export class TableComponent extends Translatable {
       //** si la donnée est null */
       if(post[0] == "null") return '';
 
+      const type = post[1];
+      const customFormatter = this.typeFormatters?.[type];
+      if (customFormatter) return customFormatter(post[0]);
+
       //** si le type de donnée est date */
       if(post[1] == 'date') return this.datePipe.transform(post[0], 'dd/MM/YYYY HH:mm:ss');
       else if(post[1] == 'montant') {
@@ -376,11 +382,6 @@ export class TableComponent extends Translatable {
           if(post[0] == 1) return this.__('global.validate');
           else if(post[0] == 0) return this.__('global.en_attente');
           else if(post[0] == 2) return this.__('global.not_valide');
-
-      } else if(post[1] == 'statut_ao') {
-          const key = this.getAppelOffreStatusKey(post[0]);
-          if (key) return this.__(`appel_offres.status.${key}`);
-          return post[0];
 
       } else if(post[1] == 'state') {
           if(post[0] == 1) return this.__('global.traiter');
@@ -461,6 +462,10 @@ export class TableComponent extends Translatable {
       //** si la donnée est null */
       if(post[0] == "null") return '';
 
+      const type = post[1];
+      const customStyle = this.typeStyleResolvers?.[type];
+      if (customStyle) return customStyle(post[0]) || '';
+
       if(post[1] == 'statut' || post[1] == 'state' || post[1] == 'statut_transfert') {
         if(post[0] == 1) return {
           'color': 'white',
@@ -485,24 +490,6 @@ export class TableComponent extends Translatable {
           'padding': '5px',
           'border-radius': '5px',
           
-        };
-      } else if(post[1] == 'statut_ao') {
-        const key = this.getAppelOffreStatusKey(post[0]);
-        const colorMap: Record<string, string> = {
-          brouillon: '#6c757d',     // gris
-          publier: '#0d6efd',       // bleu
-          en_attente: '#f0ad4e',    // orange
-          attribuer: '#6f42c1',     // violet
-          clos: '#5cb85c',          // vert
-          annule: '#d9534f'         // rouge
-        };
-        const bg = (key && colorMap[key]) ? colorMap[key] : '#6c757d';
-        return {
-          'color': 'white',
-          'background-color': bg,
-          'font-weight': 'bold',
-          'padding': '5px',
-          'border-radius': '5px',
         };
       } else if(post[1] == 'etat') {
         if(post[0] == 4) return {
@@ -601,50 +588,6 @@ export class TableComponent extends Translatable {
           return '';
       }
     }
-
-    private getAppelOffreStatusKey(statut: string | null | undefined): string {
-      if (statut === null || statut === undefined) return '';
-
-      const numeric = Number(statut);
-      if (!Number.isNaN(numeric)) {
-        const numericMap: Record<number, string> = {
-          0: 'brouillon',
-          1: 'publier',
-          2: 'en_attente',
-          3: 'attribuer',
-          4: 'clos',
-          5: 'annule',
-        };
-        return numericMap[numeric] ?? '';
-      }
-
-      const normalized = statut
-        .toString()
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, '_');
-
-      const statusMap: Record<string, string> = {
-        brouillon: 'brouillon',
-        publier: 'publier',
-        publie: 'publier',
-        publiee: 'publier',
-        en_attente: 'en_attente',
-        en_attente_validation: 'en_attente',
-        en_attente_de_validation: 'en_attente',
-        attribuer: 'attribuer',
-        attribue: 'attribuer',
-        attribuee: 'attribuer',
-        clos: 'clos',
-        close: 'clos',
-        annule: 'annule',
-        annulee: 'annule',
-      };
-
-      return statusMap[normalized] ?? '';
-    }
-    
 
     public tabListCheck : any = [];
 

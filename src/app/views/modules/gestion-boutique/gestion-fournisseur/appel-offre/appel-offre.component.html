@@ -23,7 +23,8 @@
 					<div class="card-body">
 						<div class="table-responsive">
 							<app-table [endpoint]="endpoint" [headerTable]="header" [body]="objetBody"
-								[listIcon]="listIcon" [searchGlobal]="searchGlobal">
+								[listIcon]="listIcon" [searchGlobal]="searchGlobal"
+								[typeFormatters]="tableTypeFormatters" [typeStyleResolvers]="tableTypeStyleResolvers">
 							</app-table>
 						</div>
 					</div>

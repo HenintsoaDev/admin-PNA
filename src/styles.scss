@@ -214,4 +214,9 @@ ngb-pagination {
     border: 1px solid $primary;
     margin-top: 5px;
   }
-  
+
+  .link{
+    text-decoration: none;
+    font-weight: bold;
+    color: $primary !important;
+  }

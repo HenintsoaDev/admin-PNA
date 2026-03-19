@@ -23,7 +23,9 @@
                 [headerTable]="header"
                 [body]="objetBody"
                 [listIcon]="listIcon"
-                [searchGlobal]="searchGlobal">
+                [searchGlobal]="searchGlobal"
+                [typeFormatters]="tableTypeFormatters"
+                [typeStyleResolvers]="tableTypeStyleResolvers">
               </app-table>
             </div>
           </div>
@@ -95,7 +97,7 @@
           <h6>
             <span class="bold">
               {{ s.appel_offre?.titre || '-' }}
-              <a href="javascript:void(0)" (click)="openAppelOffre(s.appel_offre?.id)">
+              <a href="javascript:void(0)" class="link" (click)="openAppelOffre(s.appel_offre?.id)">
                 ({{ s.appel_offre?.reference || '-' }})
               </a>
             </span>

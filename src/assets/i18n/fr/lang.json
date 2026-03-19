@@ -461,6 +461,12 @@
         "delai": "Délai",
         "fournisseur": "Fournisseur",
         "statut": "Statut",
+        "status": {
+            "soumise": "Soumise",
+            "en_evaluation": "En évaluation",
+            "acceptee": "Acceptée",
+            "rejetee": "Rejetée"
+        },
         "nombre_lignes": "Nombre de lignes",
         "qte_proposee": "Qté proposée",
         "prix_unitaire_propose": "Prix unitaire proposé",
