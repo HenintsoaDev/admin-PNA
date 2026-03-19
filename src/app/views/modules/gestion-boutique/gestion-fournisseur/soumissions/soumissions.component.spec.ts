@@ -1,4 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AuthService } from 'app/services/auth.service';
+import { PassageService } from 'app/services/table/passage.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { of } from 'rxjs';
+import { SoumissionService } from 'app/services/boutique/fournisseurs/soumission.service';
+import { AppelOffreService } from 'app/services/boutique/fournisseurs/appel-offre.service';
+import { ToastrService } from 'ngx-toastr';
 
 import { SoumissionsComponent } from './soumissions.component';
 
@@ -8,7 +16,31 @@ describe('SoumissionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SoumissionsComponent ]
+      declarations: [SoumissionsComponent],
+      providers: [
+        PassageService,
+        {
+          provide: AuthService,
+          useValue: { initAutority: () => {} }
+        },
+        {
+          provide: BsModalService,
+          useValue: { show: () => ({ hide: () => {} }) }
+        },
+        {
+          provide: SoumissionService,
+          useValue: { getDetailsSoumission: () => of({ data: { id: 1 } }) }
+        },
+        {
+          provide: AppelOffreService,
+          useValue: { getDetailsAppelOffre: () => of({ data: { id: 1 } }) }
+        },
+        {
+          provide: ToastrService,
+          useValue: { error: () => {} }
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
 

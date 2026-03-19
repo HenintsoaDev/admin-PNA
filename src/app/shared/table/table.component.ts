@@ -1,16 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-//import { valuesys } from '../../../../../../options';
 import { PassageService } from '../../services/table/passage.service';
-import formatNumber from 'number-handler'
+import formatNumber from 'number-handler';
 import { Subscription } from 'rxjs';
 import { valuesys } from 'app/shared/models/options';
 import { Translatable } from 'shared/constants/Translatable';
-import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'app/services/auth.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-table',
@@ -60,6 +56,8 @@ export class TableComponent extends Translatable {
     @Input() searchGlobal : any;
     @Input() formSearch: any = true;
     @Input() triDescDefault: any = '';
+    @Input() typeFormatters: Record<string, (value: any) => string> = {};
+    @Input() typeStyleResolvers: Record<string, (value: any) => { [key: string]: string } | ''> = {};
     @Output() dataEmitter = new EventEmitter<any>();
 
 
@@ -73,11 +71,9 @@ export class TableComponent extends Translatable {
       private http: HttpClient,
       private passageService: PassageService,
       private datePipe: DatePipe,
-      private authService : AuthService,
       private toast :ToastrService
       ) { 
         super();
-        //this.authService.initAutority("PRM","ADM");
     }
 
     subscription: Subscription;
@@ -89,8 +85,6 @@ export class TableComponent extends Translatable {
         if (!event || typeof event !== 'object') return;
       
         const { type, data: filtre, endpoint } = event;
-
-        console.log("xxeventxx", event);
 
         if(event.endpoint) this.endpoint = event.endpoint;
       
@@ -372,6 +366,10 @@ export class TableComponent extends Translatable {
       //** si la donnée est null */
       if(post[0] == "null") return '';
 
+      const type = post[1];
+      const customFormatter = this.typeFormatters?.[type];
+      if (customFormatter) return customFormatter(post[0]);
+
       //** si le type de donnée est date */
       if(post[1] == 'date') return this.datePipe.transform(post[0], 'dd/MM/YYYY HH:mm:ss');
       else if(post[1] == 'montant') {
@@ -464,6 +462,10 @@ export class TableComponent extends Translatable {
       //** si la donnée est null */
       if(post[0] == "null") return '';
 
+      const type = post[1];
+      const customStyle = this.typeStyleResolvers?.[type];
+      if (customStyle) return customStyle(post[0]) || '';
+
       if(post[1] == 'statut' || post[1] == 'state' || post[1] == 'statut_transfert') {
         if(post[0] == 1) return {
           'color': 'white',
@@ -489,7 +491,7 @@ export class TableComponent extends Translatable {
           'border-radius': '5px',
           
         };
-      }else if(post[1] == 'etat') {
+      } else if(post[1] == 'etat') {
         if(post[0] == 4) return {
           'color': 'white',
           'background-color' : '#5cb85c',
@@ -586,7 +588,6 @@ export class TableComponent extends Translatable {
           return '';
       }
     }
-    
 
     public tabListCheck : any = [];
 

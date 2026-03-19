@@ -53,3 +53,9 @@ export interface productImage {
     url: string;
     est_principal: number;
 }
+
+enum Statut_Ao {
+    publie = 'publie',
+    en_attente = 'en attente',
+    cloturer = 'cloturer'
+}

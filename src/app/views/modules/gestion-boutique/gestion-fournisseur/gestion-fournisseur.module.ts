@@ -20,13 +20,15 @@ import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-rout
 import { AppelOffreComponent } from './appel-offre/appel-offre.component';
 import { SoumissionsComponent } from './soumissions/soumissions.component';
 import { QuillModule } from 'ngx-quill';
+import { AppelOffreDetailComponent } from './appel-offre-detail/appel-offre-detail.component';
 
 
 @NgModule({
   declarations: [
     FournisseursComponent,
     AppelOffreComponent,
-    SoumissionsComponent
+    SoumissionsComponent,
+    AppelOffreDetailComponent
   ],
   imports: [
     CommonModule,

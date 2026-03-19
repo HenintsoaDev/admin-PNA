@@ -39,6 +39,7 @@ type AppelOffreLineDraft = {
 export class AppelOffreComponent extends Translatable implements OnInit, OnDestroy {
   modalRef?: BsModalRef;
   endpoint = '';
+  isStatusChanging = false;
 
   header = [
     {
@@ -82,7 +83,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     { name: 'date_publication', type: 'date' },
     { name: 'date_limite_soumission', type: 'date' },
     { name: 'nombre_lignes', type: 'text' },
-    { name: 'statut', type: 'text' },
+    { name: 'statut', type: 'statut' },
     { name: 'id' }
   ];
 
@@ -118,6 +119,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   idAppelOffre!: number;
   titleModal = '';
   currentStep = 1;
+  tableTypeFormatters: Record<string, (value: any) => string> = {};
+  tableTypeStyleResolvers: Record<string, (value: any) => { [key: string]: string } | ''> = {};
 
   productQuery = '';
   productQty: number = 1;
@@ -155,6 +158,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
     this.titleModal = this.__('appel_offres.title_add_modal');
     this.initForm();
+    this.initTableStatusRender();
 
     this.subscription = this.passageService.getObservable().subscribe(event => {
       if (!event?.data) return;
@@ -216,7 +220,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       this.lignesDraft = this.appelOffre.lignes ?? [];
 
       this.modalRef = this.modalService.show(this.addappeloffre, {
-        class: 'modal-lg',
+        class: 'modal-xl',
         backdrop: 'static',
         keyboard: false
       });
@@ -362,6 +366,16 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     this.currentStep = 1;
   }
 
+  goToStep(step: number): void {
+    if (step === 1) {
+      this.prevStep();
+      return;
+    }
+    if (step === 2) {
+      this.nextStep();
+    }
+  }
+
   onProductQueryChange(value: string): void {
     this.productQuery = value;
     this.selectedProduct = null;
@@ -431,7 +445,17 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   updateQuantity(line: AppelOffreLineDraft, delta: number): void {
     if (!line) return;
     const next = Number(line.quantite_demandee ?? 0) + Number(delta ?? 0);
-    line.quantite_demandee = Math.max(1, next);
+    line.quantite_demandee = Math.min(1000, Math.max(1, next));
+  }
+
+  onQuantityChange(line: AppelOffreLineDraft, value: any): void {
+    if (!line) return;
+    const parsed = Number(`${value}`.replace(/[^\d]/g, ''));
+    if (!parsed || parsed < 1) {
+      line.quantite_demandee = 1;
+      return;
+    }
+    line.quantite_demandee = Math.min(1000, parsed);
   }
 
   private resetStep2Draft(): void {
@@ -486,6 +510,160 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
   private getNowDatetimeLocal(): string {
     return moment().format('YYYY-MM-DDTHH:mm');
+  }
+
+  private initTableStatusRender(): void {
+    this.tableTypeFormatters = {
+      statut: (value: any) => {
+        const key = this.normalizeStatusKey(value);
+        return key ? this.__(`appel_offres.status.${key}`) : (value ?? '');
+      }
+    };
+
+    this.tableTypeStyleResolvers = {
+      statut: (value: any) => {
+        const key = this.normalizeStatusKey(value);
+        if (!key) return '';
+
+        const colorMap: Record<string, string> = {
+          brouillon: '#6c757d',     // gris
+          publier: '#0d6efd',       // bleu
+          en_attente: '#f0ad4e',    // orange
+          attribuer: '#6f42c1',     // violet
+          clos: '#5cb85c',          // vert
+          annule: '#d9534f'         // rouge
+        };
+        const bg = colorMap[key] ?? '#6c757d';
+
+        return {
+          'color': 'white',
+          'background-color': bg,
+          'font-weight': 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+      }
+    };
+  }
+
+  get nextStatusLabel(): string {
+    const key = this.getNextStatusKey(this.appelOffre?.statut);
+    return key ? this.__(`appel_offres.status.${key}`) : '';
+  }
+
+  canGoNextStatus(): boolean {
+    if (!this.appelOffre?.id) return false;
+    return !!this.getNextStatusKey(this.appelOffre?.statut);
+  }
+
+  getStatusLabel(statut: any): string {
+    const key = this.normalizeStatusKey(statut);
+    return key ? this.__(`appel_offres.status.${key}`) : (statut ?? '-');
+  }
+
+  getStatusBadgeClass(statut: any): string {
+    const key = this.normalizeStatusKey(statut);
+    return key ? `ao-status-${key}` : 'ao-status-brouillon';
+  }
+
+  goNextStatus(): void {
+    if (!this.appelOffre?.id) return;
+    const current = this.appelOffre?.statut ?? '';
+    const nextKey = this.getNextStatusKey(current);
+    if (!nextKey) return;
+
+    Swal.fire({
+      title: this.__('global.confirmation'),
+      text: `${this.__('appel_offres.next_status')} : ${this.__(`appel_offres.status.${nextKey}`)}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.__('global.oui_changer'),
+      cancelButtonText: this.__('global.cancel'),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.isStatusChanging = true;
+      this.appelOffreService.NextStatus(this.appelOffre!.id!, current).subscribe({
+        next: (res) => {
+          this.isStatusChanging = false;
+          if (res?.code === 200 || res?.code === 201 || res?.code === 205) {
+            this.toastr.success(res?.msg ?? this.__('global.success'), this.__('global.success'));
+            this.appelOffre.statut = nextKey;
+            this.actualisationTableau();
+          } else {
+            this.toastr.error(res?.msg ?? this.__('global.error'), this.__('global.error'));
+          }
+        },
+        error: () => {
+          this.isStatusChanging = false;
+          this.toastr.error(this.__('global.error'), this.__('global.error'));
+        }
+      });
+    });
+  }
+
+  private getNextStatusKey(statut: any): string {
+    const key = this.normalizeStatusKey(statut);
+    switch (key) {
+      case 'brouillon':
+        return 'publier';
+      case 'publier':
+        return 'en_attente';
+      case 'en_attente':
+        return 'attribuer';
+      case 'attribuer':
+        return 'clos';
+      default:
+        return '';
+    }
+  }
+
+  private normalizeStatusKey(statut: string | null | undefined): string {
+    if (statut === null || statut === undefined) return '';
+
+    const numeric = Number(statut);
+    if (!Number.isNaN(numeric)) {
+      const numericMap: Record<number, string> = {
+        0: 'brouillon',
+        1: 'publier',
+        2: 'en_attente',
+        3: 'attribuer',
+        4: 'clos',
+        5: 'annule',
+      };
+      return numericMap[numeric] ?? '';
+    }
+
+    const normalized = statut
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '_');
+
+    const statusMap: Record<string, string> = {
+      brouillon: 'brouillon',
+      publier: 'publier',
+      publie: 'publier',
+      publiee: 'publier',
+      en_attente: 'en_attente',
+      attribuer: 'attribuer',
+      attribue: 'attribuer',
+      attribuee: 'attribuer',
+      clos: 'clos',
+      close: 'clos',
+      cloturer: 'clos',
+      cloture: 'clos',
+      annule: 'annule',
+      annulee: 'annule',
+    };
+
+    return statusMap[normalized] ?? '';
   }
 
 }
