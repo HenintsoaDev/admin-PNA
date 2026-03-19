@@ -48,8 +48,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
       "table" : "produit"
     }, */
     {
-      "nomColonne" : this.__('produit.nom_commercial'),
-      "colonneTable" : "nom_commercial",
+      "nomColonne" : this.__('produit.dci'),
+      "colonneTable" : "dci",
       "table" : "produit"
     },
 /*     {
@@ -92,7 +92,7 @@ export class ProduitsComponent extends Translatable implements OnInit {
           },
      
           {
-            'name' : 'nom_commercial',
+            'name' : 'dci',
             'type' : 'text',
           },
       

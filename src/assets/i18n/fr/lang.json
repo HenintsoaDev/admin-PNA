@@ -219,6 +219,7 @@
         "structure" : "Structure",
         "district" : "Direction régional",
         "type_structure" : "Type sctructure",
+        "identifiant" : "identifiant",
         "password": {
             "old_password_placeholder": "Votre ancien mot de passe",
             "new_password_placeholder": "Votre nouveau mot de passe",

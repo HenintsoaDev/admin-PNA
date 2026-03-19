@@ -131,7 +131,7 @@ export class AuthService {
     } 
 
     resetPassword(credentials: { old_password: string, new_password: string }): Observable<any> {
-        return this.httpService.post<any>(`parametrage/user/updateUserPassword`, credentials).pipe(
+        return this.httpService.put<any>(`admin/auth/change-password`, credentials).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     localStorage.setItem(environment.authItemName, response['data']['access_token']);
