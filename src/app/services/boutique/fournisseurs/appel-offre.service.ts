@@ -89,6 +89,9 @@ export class AppelOffreService {
     return this.httpService.put<any>(`${environment.appel_offre}/${id}/attribuer`, {});
   }
 
+  annulerAppelOffre(id: number): Observable<any> {
+    return this.httpService.delete<any>(`${environment.appel_offre}/${id}`);
+  }
 
 
   public normalizeStatusKey(statut: string | null | undefined): string {

@@ -269,10 +269,12 @@ export class TableComponent extends Translatable {
           }
           
           // affichage de 1er image
-          if(col.type === "image") return row[col.name];
+          if(col.type === "image") return this.resolveRowValue(row, col.name);
 
          // Si ce n'est pas "state#id" ni "state#rowid"
-          return `${row[col.name]}###${col.type}`;
+          const value = this.resolveRowValue(row, col.name);
+          if (value !== null && typeof value === 'object') return `###${col.type}`;
+          return `${value}###${col.type}`;
         })
       );
     
@@ -402,6 +404,19 @@ export class TableComponent extends Translatable {
       else return post[0]
 
     }
+
+    private resolveRowValue(row: any, path: string): any {
+      if (!row || !path) return null;
+      if (path.includes('#')) return row[path];
+
+      const parts = String(path).split('.');
+      let current = row;
+      for (const part of parts) {
+        if (current == null) return null;
+        current = current[part];
+      }
+      return current ?? null;
+    }
   
     formatNumberMontant(valeur)
     {
@@ -436,6 +451,8 @@ export class TableComponent extends Translatable {
     //** Verification pour le couleur de l'icon
     verifColorIcon(dataIcon: any): string {
       
+      if (dataIcon?.color) return dataIcon.color;
+
       // Si "state" est présent
       if ('state' in dataIcon) {
         switch (dataIcon.state) {

@@ -14,6 +14,17 @@ export class SoumissionService {
     return this.httpService.get<{ data: soumission } | soumission>(`${environment.soumission}/${id}`);
   }
 
+  mettreEnAttente(id: number): Observable<{ data: soumission } | soumission> {
+    return this.httpService.put<{ data: soumission } | soumission>(`${environment.soumission}/${id}/en_attente`, '');
+  }
+
+  ValidateSoumission(id: number): Observable<{ data: soumission } | soumission> {
+    return this.httpService.put<{ data: soumission } | soumission>(`${environment.soumission}/${id}/valider`, '');
+  }
+
+  RejeterSoumission(id: number): Observable<{ data: soumission } | soumission> {
+    return this.httpService.delete<{ data: soumission } | soumission>(`${environment.soumission}/${id}`);
+  }
 
   public normalizeStatusKey(statut: string | null | undefined): string {
     if (statut === null || statut === undefined) return '';

@@ -9,6 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { Translatable } from 'shared/constants/Translatable';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-soumissions',
@@ -26,6 +27,11 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       table: 'soumission'
     },
     {
+      nomColonne: this.__('soumissions.appel_offre'),
+       colonneTable: 'reference',
+      table: 'appel_offre'
+    },
+    {
       nomColonne: this.__('soumissions.fournisseur'),
       colonneTable: 'fournisseur',
       table: 'soumission'
@@ -35,11 +41,7 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       colonneTable: 'montant',
       table: 'soumission'
     },
-    {
-      nomColonne: this.__('soumissions.delai'),
-      colonneTable: 'delai',
-      table: 'soumission'
-    },
+   
     {
       nomColonne: this.__('soumissions.date_soumission'),
       colonneTable: 'date_soumission',
@@ -57,9 +59,9 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
 
   objetBody = [
     { name: 'reference', type: 'text' },
+    { name: 'appel_offre.reference', type: 'text' },
     { name: 'fournisseur', type: 'text' },
     { name: 'montant', type: 'montant' },
-    { name: 'delai', type: 'text' },
     { name: 'date_soumission', type: 'date' },
     { name: 'statut', type: 'statut' },
     { name: 'id' }
@@ -71,11 +73,27 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       action: 'detail',
       tooltip: this.__('global.tooltip_detail'),
       autority: 'PAC_7'
+    },
+    {
+      icon: 'check_circle',
+      action: 'validation',
+      tooltip: this.__('global.valider'),
+      autority: 'PAC_7',
+      color: '#5cb85c'
+    },
+    {
+      icon: 'cancel',
+      action: 'rejeter',
+      tooltip: this.__('global.rejeter'),
+      autority: 'PAC_7',
+      color: '#d9534f'
     }
   ];
 
   searchGlobal = [
     'soumission.reference',
+    'appel_offre.titre',
+    'appel_offre.reference',
     'soumission.fournisseur',
     'soumission.statut'
   ];
@@ -118,6 +136,8 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       this.idSoumission = event.data.id;
 
       if (event.data.action === 'detail') this.openModalDetailSoumission();
+      else if (event.data.action === 'validation') this.validateSoumission(this.idSoumission);
+      else if (event.data.action === 'rejeter') this.rejectSoumission(this.idSoumission);
 
       this.passageService.clear();
     });
@@ -146,6 +166,139 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
 
   closeModal(): void {
     this.modalRef?.hide();
+  }
+
+  getSoumissionStatusLabel(statut: any): string {
+    const key = this.soumissionService.normalizeStatusKey(statut);
+    return key ? this.__(`soumissions.status.${key}`) : (statut ?? '-');
+  }
+
+  canValidate(s: soumission | null): boolean {
+    const key = this.soumissionService.normalizeStatusKey(s?.statut as any);
+    return !!s?.id && key === 'en_evaluation';
+  }
+
+  canReject(s: soumission | null): boolean {
+    const key = this.soumissionService.normalizeStatusKey(s?.statut as any);
+    return !!s?.id && (key === 'soumise' || key === 'en_evaluation');
+  }
+
+  canPasserEnEvaluation(s: soumission | null): boolean {
+    const key = this.soumissionService.normalizeStatusKey(s?.statut as any);
+    return !!s?.id && key === 'soumise';
+  }
+
+  passerEnEvaluation(id: number): void {
+    if (!id) return;
+
+    Swal.fire({
+      title: this.__('global.confirmation'),
+      text: `${this.__('soumissions.passer_en_evaluation')} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.__('global.oui_changer'),
+      cancelButtonText: this.__('global.cancel'),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.soumissionService.mettreEnAttente(id).subscribe({
+        next: (res) => {
+          const data: any = (res as any)?.data ?? res;
+          const code = (res as any)?.code;
+
+          if (code === undefined || code === 200 || code === 201 || code === 205) {
+            this.toastr.success((res as any)?.msg ?? this.__('global.success'), this.__('global.success'));
+            if (this.soumission?.id === id && data) this.soumission = data as soumission;
+            this.passageService.appelURL('');
+          } else {
+            this.toastr.error((res as any)?.msg ?? this.__('global.error'), this.__('global.error'));
+          }
+        },
+        error: () => {
+          this.toastr.error(this.__('global.error'), this.__('global.error'));
+        }
+      });
+    });
+  }
+
+  validateSoumission(id: number): void {
+    if (!id) return;
+
+    Swal.fire({
+      title: this.__('global.confirmation'),
+      text: this.__('global.valider_?'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.__('global.oui_valider'),
+      cancelButtonText: this.__('global.cancel'),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.soumissionService.ValidateSoumission(id).subscribe({
+        next: (res) => {
+          const data: any = (res as any)?.data ?? res;
+          const code = (res as any)?.code;
+
+          if (code === undefined || code === 200 || code === 201 || code === 205) {
+            this.toastr.success((res as any)?.msg ?? this.__('global.success'), this.__('global.success'));
+            if (this.soumission?.id === id && data) this.soumission = data as soumission;
+            this.passageService.appelURL('');
+          } else {
+            this.toastr.error((res as any)?.msg ?? this.__('global.error'), this.__('global.error'));
+          }
+        },
+        error: () => {
+          this.toastr.error(this.__('global.error'), this.__('global.error'));
+        }
+      });
+    });
+  }
+
+  rejectSoumission(id: number): void {
+    if (!id) return;
+
+    Swal.fire({
+      title: this.__('global.confirmation'),
+      text: `${this.__('global.rejeter')} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.__('global.oui_supprimer'),
+      cancelButtonText: this.__('global.cancel'),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.soumissionService.RejeterSoumission(id).subscribe({
+        next: (res) => {
+          const code = (res as any)?.code;
+          if (code === undefined || code === 200 || code === 201 || code === 205) {
+            this.toastr.success((res as any)?.msg ?? this.__('global.success'), this.__('global.success'));
+          } else {
+            this.toastr.error((res as any)?.msg ?? this.__('global.error'), this.__('global.error'));
+            return;
+          }
+          if (this.soumission?.id === id) this.closeModal();
+          this.passageService.appelURL('');
+        },
+        error: () => {
+          this.toastr.error(this.__('global.error'), this.__('global.error'));
+        }
+      });
+    });
   }
 
   openAppelOffre(id: number): void {

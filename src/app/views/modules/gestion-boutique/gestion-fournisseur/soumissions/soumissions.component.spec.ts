@@ -29,7 +29,13 @@ describe('SoumissionsComponent', () => {
         },
         {
           provide: SoumissionService,
-          useValue: { getDetailsSoumission: () => of({ data: { id: 1 } }) }
+          useValue: {
+            getDetailsSoumission: () => of({ data: { id: 1 } }),
+            normalizeStatusKey: () => 'soumise',
+            ValidateSoumission: () => of({ code: 200, data: { id: 1 }, msg: 'ok' }),
+            RejeterSoumission: () => of({ code: 200, msg: 'ok' }),
+            mettreEnAttente: () => of({ code: 200, data: { id: 1 }, msg: 'ok' })
+          }
         },
         {
           provide: AppelOffreService,

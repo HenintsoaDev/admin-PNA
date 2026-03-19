@@ -1,5 +1,5 @@
 <mat-tab-group>
-  <mat-tab label="Information">
+  <mat-tab label="{{ __('appel_offres.step_info')}}">
     <br />
     <div class="row mb-1">
       <div class="col-lg-6 px-1">
@@ -50,7 +50,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Lignes">
+  <mat-tab label="{{ __('appel_offres.lignes') }}">
     <br />
     <div class="ao-surface" *ngIf="appelOffre?.lignes?.length; else noLines">
       <div class="table-responsive">

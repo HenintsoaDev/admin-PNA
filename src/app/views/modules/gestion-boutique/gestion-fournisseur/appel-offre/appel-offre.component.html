@@ -54,12 +54,19 @@
 					</span>
 				</div>
 
-				<button type="button" class="btn btn-sm btn-outline-primary ao-next-status-btn"
-					(click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()">
-					<i class="fa fa-arrow-right mr-1"></i>
-					{{ __('appel_offres.next_status') }}
-					<span *ngIf="nextStatusLabel">: <b>{{ nextStatusLabel }}</b></span>
-				</button>
+				<div class="d-flex align-items-center flex-wrap">
+					<button type="button" class="btn btn-sm btn-outline-danger ao-next-status-btn mr-2"
+						(click)="annulerAppelOffre()" [disabled]="isStatusChanging || !canAnnulerAppelOffre()">
+						<i class="fa fa-times mr-1"></i>
+						{{ __('appel_offres.annuler') }}
+					</button>
+					<button type="button" class="btn btn-sm btn-outline-primary ao-next-status-btn"
+						(click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()">
+						<i class="fa fa-arrow-right mr-1"></i>
+						{{ __('appel_offres.next_status') }}
+						<span *ngIf="nextStatusLabel">: <b>{{ nextStatusLabel }}</b></span>
+					</button>
+				</div>
 			</div>
 		</div>
 

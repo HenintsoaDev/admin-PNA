@@ -101,10 +101,11 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       autority: 'PAC_9'
     },
     {
-      icon: 'delete',
+      icon: 'cancel',
       action: 'delete',
-      tooltip: this.__('global.tooltip_delete'),
-      autority: 'PAC_10'
+      tooltip: this.__('appel_offres.annuler'),
+      autority: 'PAC_10',
+      color: '#d9534f'
     }
   ];
 
@@ -166,7 +167,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       this.idAppelOffre = event.data.id;
 
       if (event.data.action === 'edit') this.openModalEditAppelOffre();
-      else if (event.data.action === 'delete') this.openModalDeleteAppelOffre();
+      else if (event.data.action === 'annuler') this.openModalAnnulerAppelOffre();
       else if (event.data.action === 'detail') this.openModalDetailAppelOffre();
 
       this.passageService.clear();
@@ -242,13 +243,13 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     });
   }
 
-  openModalDeleteAppelOffre(): void {
+  openModalAnnulerAppelOffre(): void {
     Swal.fire({
       title: this.__('global.confirmation'),
-      text: this.__('global.supprimer_donnee_?'),
+      text: this.__('appel_offres.annuler_?'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__('global.oui_supprimer'),
+      confirmButtonText: this.__('appel_offres.annuler'),
       cancelButtonText: this.__('global.cancel'),
       allowOutsideClick: false,
       customClass: {
@@ -258,7 +259,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     }).then(result => {
       if (!result.isConfirmed) return;
 
-      this.appelOffreService.supprimerAppelOffre(this.idAppelOffre).subscribe({
+      this.appelOffreService.annulerAppelOffre(this.idAppelOffre).subscribe({
         next: res => {
           if (res?.code === 205 || res?.code === 200) {
             this.toastr.success(res?.msg, this.__('global.success'));
@@ -556,6 +557,12 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     return !!this.getNextStatusKey(this.appelOffre?.statut);
   }
 
+  canAnnulerAppelOffre(): boolean {
+    if (!this.appelOffre?.id) return false;
+    const key = this.normalizeStatusKey(this.appelOffre?.statut);
+    return key !== 'annule' && key !== 'clos';
+  }
+
   getStatusLabel(statut: any): string {
     const key = this.normalizeStatusKey(statut);
     return key ? this.__(`appel_offres.status.${key}`) : (statut ?? '-');
@@ -594,6 +601,45 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
           if (res?.code === 200 || res?.code === 201 || res?.code === 205) {
             this.toastr.success(res?.msg ?? this.__('global.success'), this.__('global.success'));
             this.appelOffre.statut = nextKey;
+            this.actualisationTableau();
+          } else {
+            this.toastr.error(res?.msg ?? this.__('global.error'), this.__('global.error'));
+          }
+        },
+        error: () => {
+          this.isStatusChanging = false;
+          this.toastr.error(this.__('global.error'), this.__('global.error'));
+        }
+      });
+    });
+  }
+
+  annulerAppelOffre(): void {
+    if (!this.appelOffre?.id) return;
+    if (!this.canAnnulerAppelOffre()) return;
+
+    Swal.fire({
+      title: this.__('global.confirmation'),
+      text: this.__('appel_offres.annuler_?'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.__('appel_offres.annuler'),
+      cancelButtonText: this.__('global.cancel'),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.isStatusChanging = true;
+      this.appelOffreService.annulerAppelOffre(this.appelOffre!.id!).subscribe({
+        next: (res) => {
+          this.isStatusChanging = false;
+          if (res?.code === 200 || res?.code === 201 || res?.code === 205 || res?.code === undefined) {
+            this.toastr.success(res?.msg ?? this.__('global.success'), this.__('global.success'));
+            this.appelOffre.statut = 'annule';
             this.actualisationTableau();
           } else {
             this.toastr.error(res?.msg ?? this.__('global.error'), this.__('global.error'));
