@@ -126,6 +126,51 @@
 
             <mat-tab label="Liste des catégories">
                 <br />
+
+                <mat-accordion>
+                
+                    <mat-expansion-panel *ngFor="let categorie of famille.categories">
+                
+                    <mat-expansion-panel-header>
+                        <div class="panel-header ">
+                
+                        <div class="col name">
+                            <label><b class="fw-800">{{ __("famille.categorie")}}</b></label>
+                            <h6><b class="bold">{{categorie.nom}} ({{categorie.code}})</b></h6>
+                        </div>
+                      
+                
+                        </div>
+                    </mat-expansion-panel-header>
+                    <br>
+                    <div class="details" *ngIf="categorie.sous_categories.length > 0">
+                        <table style="width: 100%;">
+
+                            <tr *ngFor="let sous of categorie.sous_categories">
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("famille.sous_categorie")}}</b></label>
+                                        <h6><b class="bold">{{  sous.nom }} ({{  sous.code }})</b></h6>
+                                    </div>
+                                </td>
+                                                           
+                            </tr>
+        
+                          
+                     
+                        
+                    
+                        </table>
+                    </div>
+                
+                    </mat-expansion-panel>
+
+              
+                
+                </mat-accordion>
+
+
+
         
                 <div class="categories-container">
                     <div class="categorie-card" *ngFor="let categorie of famille.categories">
