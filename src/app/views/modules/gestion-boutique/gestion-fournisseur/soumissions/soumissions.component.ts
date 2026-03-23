@@ -3,7 +3,7 @@ import { AuthService } from 'app/services/auth.service';
 import { SoumissionService } from 'app/services/boutique/fournisseurs/soumission.service';
 import { AppelOffreService } from 'app/services/boutique/fournisseurs/appel-offre.service';
 import { PassageService } from 'app/services/table/passage.service';
-import { soumission } from 'shared/interfaces/soumission';
+import { soumission, soumissionPj } from 'shared/interfaces/soumission';
 import { environment } from 'environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
@@ -172,6 +172,36 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   getHistoriqueUserLabel(h: any): string {
     const user = h?.user_responsable;
     return user?.nom || user?.email || this.__('soumissions.systeme');
+  }
+
+  getDocuments(s: soumission | null): soumissionPj[] {
+    return (s?.pieceJointe ?? []) as soumissionPj[];
+  }
+
+  getDocTypeClass(typeDocument: any): string {
+    const t = String(typeDocument ?? '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '_');
+
+    if (t.includes('tech')) return 'so-doc-type-technique';
+    if (t.includes('fin')) return 'so-doc-type-financier';
+    if (t.includes('admin')) return 'so-doc-type-administratif';
+    return 'so-doc-type-neutral';
+  }
+
+  getDocIconClass(typeDocument: any): string {
+    const t = String(typeDocument ?? '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '_');
+
+    if (t.includes('tech')) return 'fa fa-book';
+    if (t.includes('fin')) return 'fa fa-money';
+    if (t.includes('admin')) return 'fa fa-paperclip';
+    return 'fa fa-file';
   }
 
   canValidate(s: soumission | null): boolean {

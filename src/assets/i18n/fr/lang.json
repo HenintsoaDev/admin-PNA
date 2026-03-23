@@ -493,6 +493,10 @@
         "par": "Par",
         "systeme": "Système",
         "no_historique": "Aucun historique disponible.",
+        "documents_soumis": "document(s) soumis",
+        "telecharger": "Télécharger",
+        "ajouter_document_complementaire": "Ajouter un document complémentaire",
+        "no_documents": "Aucun document soumis.",
         "feature_future": "Fonctionnalité à venir.",
         "ligne_appel_offre": "Ligne appel d'offre"
     },
