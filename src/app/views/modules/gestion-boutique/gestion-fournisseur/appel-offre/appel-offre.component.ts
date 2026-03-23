@@ -249,8 +249,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       text: this.__('appel_offres.annuler_?'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__('appel_offres.annuler'),
-      cancelButtonText: this.__('global.cancel'),
+      confirmButtonText: this.__('appel_offres.oui'),
+      cancelButtonText: this.__('global.non'),
       allowOutsideClick: false,
       customClass: {
         confirmButton: 'swal-button--confirm-custom',
@@ -623,8 +623,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       text: this.__('appel_offres.annuler_?'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__('appel_offres.annuler'),
-      cancelButtonText: this.__('global.cancel'),
+      confirmButtonText: this.__('global.oui'),
+      cancelButtonText: this.__('global.non'),
       allowOutsideClick: false,
       customClass: {
         confirmButton: 'swal-button--confirm-custom',

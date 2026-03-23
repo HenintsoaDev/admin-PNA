@@ -22,4 +22,9 @@ export class AppelOffreDetailComponent extends Translatable {
     return key ? this.__(`appel_offres.status.${key}`) : (statut ?? '-');
   }
 
+  getStatusBadgeClass(statut: any): string {
+    const key = this.AppelOffreService.normalizeStatusKey(statut);
+    return key ? `ao-status-${key}` : 'ao-status-brouillon';
+  }
+
 }

@@ -6,9 +6,11 @@ export interface soumission{
     delai: string,
     statut: string,
     fournisseur: string,
+    fournisseur_pays: string,
     appel_offre: any,
     lignes: ligne_soumission[],
     date_soumission: string,
+    historiques: soumissionHistorique[],
     nombre_lignes: number
 }
 
@@ -18,6 +20,19 @@ export interface ligne_soumission{
     prix_unitaire_propose: string,
     montant_ligne: string,
     ligne_appel_offre: any
+}
+
+export interface soumissionHistorique{
+    id: number;
+    action: string;
+    ancien_statut: string;
+    nouveau_statut: string;
+    user_responsable: {
+        id: number,
+        nom: string,
+        email: string
+    };
+    created_at: string
 }
 
 export enum statut_soumission{

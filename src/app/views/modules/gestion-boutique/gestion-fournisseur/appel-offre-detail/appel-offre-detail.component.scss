@@ -59,3 +59,20 @@
 .ao-cell {
   color: #1f2937;
 }
+
+.ao-status-badge {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.ao-status-brouillon { background: #6c757d; }
+.ao-status-publier { background: #0d6efd; }
+.ao-status-en_attente { background: #f0ad4e; }
+.ao-status-attribuer { background: #6f42c1; }
+.ao-status-clos { background: #5cb85c; }
+.ao-status-annule { background: #d9534f; }

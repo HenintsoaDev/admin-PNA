@@ -74,20 +74,6 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       tooltip: this.__('global.tooltip_detail'),
       autority: 'PAC_7'
     },
-    {
-      icon: 'check_circle',
-      action: 'validation',
-      tooltip: this.__('global.valider'),
-      autority: 'PAC_7',
-      color: '#5cb85c'
-    },
-    {
-      icon: 'cancel',
-      action: 'rejeter',
-      tooltip: this.__('global.rejeter'),
-      autority: 'PAC_7',
-      color: '#d9534f'
-    }
   ];
 
   searchGlobal = [
@@ -171,6 +157,21 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   getSoumissionStatusLabel(statut: any): string {
     const key = this.soumissionService.normalizeStatusKey(statut);
     return key ? this.__(`soumissions.status.${key}`) : (statut ?? '-');
+  }
+
+  getSoumissionStatusBadgeClass(statut: any): string {
+    const key = this.soumissionService.normalizeStatusKey(statut);
+    return key ? `so-status-${key}` : 'so-status-soumise';
+  }
+
+  getSoumissionStatusDotClass(statut: any): string {
+    const key = this.soumissionService.normalizeStatusKey(statut);
+    return key ? `so-dot-${key}` : 'so-dot-soumise';
+  }
+
+  getHistoriqueUserLabel(h: any): string {
+    const user = h?.user_responsable;
+    return user?.nom || user?.email || this.__('soumissions.systeme');
   }
 
   canValidate(s: soumission | null): boolean {

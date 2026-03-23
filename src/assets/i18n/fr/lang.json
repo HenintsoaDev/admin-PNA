@@ -15,6 +15,7 @@
     },
   
     "global": {
+        "close": "Fermer",
         "print": "Imprimer",
         "save": "Enregistrer",
         "cancel": "Annuler",
@@ -85,6 +86,7 @@
         "encours_traitement" : "Encours de traitement",
         "en_attente_traitement" : "En attente",
         "a_traiter" : "A traiter",
+        "accept": "Accepter",
         "rejeter" : "Rejeter",
         "oui": "Oui",
         "non": "Non",
@@ -483,6 +485,11 @@
         "tab_documents": "Documents",
         "tab_evaluation": "Évaluation",
         "tab_historique": "Historique",
+        "section_appel_offre": "APPEL D'OFFRES",
+        "pays": "Pays",
+        "par": "Par",
+        "systeme": "Système",
+        "no_historique": "Aucun historique disponible.",
         "feature_future": "Fonctionnalité à venir.",
         "ligne_appel_offre": "Ligne appel d'offre"
     },

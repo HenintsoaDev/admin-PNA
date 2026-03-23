@@ -45,72 +45,96 @@
   </div>
 
   <div class="modal-body" *ngIf="soumission as s">
-    <mat-tab-group>
-      <mat-tab label="{{ __('soumissions.tab_information') }}">
+    <mat-tab-group class="so-tabs">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-info-circle mr-2"></i>{{ __('soumissions.tab_information') }}
+        </ng-template>
         <br />
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.reference') }}:</label>
-              <h6><span class="bold">{{ s.reference }}</span></h6>
+        <div class="so-surface">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.reference') }}</div>
+                <div class="so-v">{{ s.reference || '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.fournisseur') }}</div>
+                <div class="so-v">{{ s.fournisseur || '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.montant') }}</div>
+                <div class="so-v so-v-amount">{{ s.montant || '-' }} <small *ngIf="__('global.currency')">{{ __('global.currency') }}</small></div>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.statut') }}:</label>
-              <h6><span class="bold">{{ getSoumissionStatusLabel(s.statut) }}</span></h6>
+
+            <div class="col-md-6">
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.statut') }}</div>
+                <div class="so-v">
+                  <span class="so-status-badge" [ngClass]="getSoumissionStatusBadgeClass(s.statut)">
+                    {{ getSoumissionStatusLabel(s.statut) }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.pays') }}</div>
+                <div class="so-v">{{ s.fournisseur_pays || '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.date_soumission') }}</div>
+                <div class="so-v">{{ s.date_soumission ? (s.date_soumission | date: 'dd/MM/yyyy HH:mm') : '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('soumissions.delai') }}</div>
+                <div class="so-v">{{ s.delai || '-' }}</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.fournisseur') }}:</label>
-              <h6><span class="bold">{{ s.fournisseur }}</span></h6>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.montant') }}:</label>
-              <h6><span class="bold">{{ s.montant }}</span></h6>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.date_soumission') }}:</label>
-              <h6><span class="bold">{{ s.date_soumission | date: 'dd/MM/yyyy HH:mm' }}</span></h6>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('soumissions.delai') }}:</label>
-              <h6><span class="bold">{{ s.delai }}</span></h6>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="s.appel_offre">
-          <div class="col-lg-6">
-            <div class="alert alert-custom">
-              <label class="fw-800">{{ __('appel_offres.reference_ao') }}:</label>
-              <h6>
-                <span class="bold">
-                  {{ s.appel_offre?.titre || '-' }}
-                  <a href="javascript:void(0)" class="link" (click)="openAppelOffre(s.appel_offre?.id)">
-                    ({{ s.appel_offre?.reference || '-' }})
+        <div class="so-section-title">{{ __('soumissions.section_appel_offre') }}</div>
+        <div class="so-surface" *ngIf="s.appel_offre; else noAO">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="so-kv">
+                <div class="so-k">{{ __('appel_offres.reference') }}</div>
+                <div class="so-v">
+                  <a href="javascript:void(0)" class="so-link" (click)="openAppelOffre(s.appel_offre?.id)">
+                    {{ s.appel_offre?.reference || '-' }}
                   </a>
-                </span>
-              </h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="so-kv">
+                <div class="so-k">{{ __('appel_offres.date_limite_soumission') }}</div>
+                <div class="so-v">{{ s.appel_offre?.date_limite_soumission ? (s.appel_offre?.date_limite_soumission | date: 'dd/MM/yyyy') : '-' }}</div>
+              </div>
             </div>
           </div>
+
+          <div class="so-kv mt-2">
+            <div class="so-k">{{ __('appel_offres.titre') }}</div>
+            <div class="so-v">{{ s.appel_offre?.titre || '-' }}</div>
+          </div>
         </div>
+        <ng-template #noAO>
+          <div class="so-surface">
+            <div class="so-empty">{{ __('table.aucun_donnee') }}</div>
+          </div>
+        </ng-template>
       </mat-tab>
 
-      <mat-tab label="{{ __('soumissions.tab_lignes') }}">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-cube mr-2"></i>{{ __('soumissions.tab_lignes') }}
+        </ng-template>
         <br />
         <div class="ao-surface mt-2" *ngIf="s.lignes?.length; else noLines">
           <div class="table-responsive">
@@ -139,25 +163,53 @@
         </ng-template>
       </mat-tab>
 
-      <mat-tab label="{{ __('soumissions.tab_documents') }}">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-paperclip mr-2"></i>{{ __('soumissions.tab_documents') }}
+        </ng-template>
         <br />
         <p>{{ __('soumissions.feature_future') }}</p>
       </mat-tab>
 
-      <mat-tab label="{{ __('soumissions.tab_evaluation') }}">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-balance-scale mr-2"></i>{{ __('soumissions.tab_evaluation') }}
+        </ng-template>
         <br />
         <p>{{ __('soumissions.feature_future') }}</p>
       </mat-tab>
 
-      <mat-tab label="{{ __('soumissions.tab_historique') }}">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-history mr-2"></i>{{ __('soumissions.tab_historique') }}
+        </ng-template>
         <br />
-        <p>{{ __('soumissions.feature_future') }}</p>
+        <div class="so-timeline" *ngIf="s.historiques?.length; else noHistorique">
+          <div class="so-timeline-item" *ngFor="let h of s.historiques">
+            <div class="so-dot" [ngClass]="getSoumissionStatusDotClass(h.nouveau_statut)"></div>
+            <div class="so-timeline-content mt-2">
+              <div class="so-timeline-title">{{ h.action || '-' }}</div>
+              <div class="so-timeline-meta">
+               <span *ngIf="h.created_at">
+                 {{ h.created_at ? (h.created_at) : '-' }}
+               </span>
+                <span class="mx-1">•</span>
+                {{ __('soumissions.par') }} : <span class="so-muted">{{ getHistoriqueUserLabel(h) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noHistorique>
+          <div class="so-surface">
+            <div class="so-empty">{{ __('soumissions.no_historique') }}</div>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </div>
 
   <div class="modal-footer" *ngIf="soumission as s">
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel') }}</button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close') }}</button>
     <button type="button" class="btn btn-danger" (click)="rejectSoumission(s.id)" *ngIf="canReject(s)">
       {{ __('global.rejeter') }}
     </button>
@@ -165,7 +217,7 @@
       {{ __('soumissions.passer_en_evaluation') }}
     </button>
     <button type="button" class="btn btn-primary" (click)="validateSoumission(s.id)" *ngIf="canValidate(s)">
-      {{ __('global.valider') }}
+      {{ __('global.accept') }}
     </button>
   </div>
 </ng-template>
