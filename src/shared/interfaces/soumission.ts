@@ -11,7 +11,16 @@ export interface soumission{
     lignes: ligne_soumission[],
     date_soumission: string,
     historiques: soumissionHistorique[],
+    pieceJointe: soumissionPj[],
     nombre_lignes: number
+}
+
+export interface soumissionPj{
+    id: number,
+    nom_fichier: string,
+    url: string,
+    type_document: string,
+    date_creation: string
 }
 
 export interface ligne_soumission{
