@@ -281,7 +281,10 @@
         "add": "Ajouter une famille",
         "title_edit_modal": "Modification d'une famille",
         "title_add_modal": "Ajout d'un famille",
-        "title_detail_modal" : "Voir les détails"
+        "title_detail_modal" : "Voir les détails",
+        "code_sous_categorie" : "Code sous catégorie",
+        "sous_categorie" : "Sous catégorie",
+        "categorie":"Catégorie"
     },
     "forme": {
         "title_breadcrumb": "Lister les formes pharmaceutiques",
