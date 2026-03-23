@@ -172,19 +172,7 @@
 
 
         
-                <div class="categories-container">
-                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
-                      <b class="gras">{{ categorie.code }}</b><br>
-                      {{ categorie.nom }}
-                
-                      <!-- Sous-catégories -->
-                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
-                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
-                          {{ sous.code }} - {{ sous.nom }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              
               </mat-tab>
       
                    
