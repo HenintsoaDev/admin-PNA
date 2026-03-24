@@ -49,7 +49,7 @@ export class AppelOffreService {
     switch (actionOrStatus) {
       case 'publier':
         return this.publierAppelOffre(id);
-      case 'en_attente':
+      case 'en_attente_evaluation':
         return this.mettreEnAttenteAppelOffre(id);
       case 'attribuer':
         return this.attribuerAppelOffre(id);
@@ -64,7 +64,7 @@ export class AppelOffreService {
         return this.publierAppelOffre(id);
       case 'publier':
         return this.mettreEnAttenteAppelOffre(id);
-      case 'en_attente':
+      case 'en_attente_evaluation':
         return this.attribuerAppelOffre(id);
       case 'attribuer':
         return this.CloturerAppelOffre(id);

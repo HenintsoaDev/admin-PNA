@@ -364,85 +364,58 @@
         <mat-tab-group>
             <mat-tab label="Informations du produit">
               <br />
-      
-                <table style="width: 100%;">
+                <div class="so-surface mb-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.code")}}</div>
+                                <div class="so-v">{{ produit.code || '-' }}</div>
+                            </div>
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.code")}}</b></label>
-                                <h6><span class="bold">{{  produit.code }}</span></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.nom_commercial")}}</div>
+                                <div class="so-v">{{ produit.nom_commercial || '-' }}</div>
                             </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.dci")}}</b></label>
-                                <h6><b class="bold">{{  produit.dci }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.nom_commercial")}}</b></label>
-                                <h6><b class="bold">{{  produit.nom_commercial }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.conditionnement")}}</div>
+                                <div class="so-v">{{ produit.conditionnement || '-' }}</div>
                             </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
-                                <h6><b class="bold">{{  produit.prix_unitaire }}</b></h6>
-                            </div>
-                        </td>
-                      
-                    </tr>
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.conditionnement")}}</b></label>
-                                <h6><b class="bold">{{  produit.conditionnement }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.dosage")}}</div>
+                                <div class="so-v">{{ produit.dosage || '-' }}</div>
                             </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
-                                <h6><b class="bold">{{  produit.forme }}</b></h6>
-                            </div>
-                        </td>
-                       
-                    </tr>
+                        </div>
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
-                                <h6><b class="bold">{{  produit.dosage }}</b></h6>
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.dci")}}</div>
+                                <div class="so-v">{{ produit.dci || '-' }}</div>
                             </div>
-                        </td>
-                     
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
-                                <h6><b class="bold">{{  produit.sous_categorie }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td colspan="2">
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("produit.description")}}</b></label>
-                                <h6><b class="bold">{{  produit.description }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.prix_unitaire")}}</div>
+                                <div class="so-v so-v-amount">{{ (produit.prix_unitaire | number: '1.2-2': 'fr-FR') || '-' }} <small *ngIf="__('global.currency')">{{ __('global.currency') }}</small></div>
                             </div>
-                        </td>
-                       
-                    </tr>
-        
-                
-            
-                </table>
+
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.forme")}}</div>
+                                <div class="so-v">{{ produit.forme || '-' }}</div>
+                            </div>
+
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("produit.sous_categorie")}}</div>
+                                <div class="so-v">{{ produit.sous_categorie || '-' }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="so-kv mt-3">
+                        <div class="so-k">{{ __("produit.description")}}</div>
+                        <div >{{ produit.description || '-' }}</div>
+                    </div>
+                </div>
             </mat-tab>
 
             <mat-tab label="Images">
@@ -643,7 +616,7 @@
       
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
         </div>
        
     </div>

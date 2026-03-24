@@ -462,7 +462,7 @@
         "status":{
             "brouillon": "Brouillon",
             "publier": "Publié",
-            "en_attente": "En attente",
+            "en_attente_evaluation": "En attente d'évaluation",
             "attribuer": "Attribué",
             "clos": "Clos",
             "annule": "Annulé"
