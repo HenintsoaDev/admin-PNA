@@ -12,6 +12,7 @@ import { AuthService } from 'app/services/auth.service';
 import { MatSelectChange } from '@angular/material/select';
 import { ProduitService } from 'app/services/boutique/produits/produit.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import formatNumber from 'number-handler'
 
 interface UploadedFile {
   file: File;
@@ -140,7 +141,8 @@ export class ProduitsComponent extends Translatable implements OnInit {
     /***************************************** */
   
   
-  
+    formatNumber: any = formatNumber;
+
     produitForm: FormGroup;
     produit: produit = new produit();
     listproduits:produit [] = [];
