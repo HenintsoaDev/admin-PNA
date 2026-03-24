@@ -99,28 +99,23 @@
 
         <mat-tab-group>
             <mat-tab label="Information du famille">
-              <br />
-      
-                <table style="width: 100%;">
-
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("famille.code")}}</b></label>
-                                <h6><b class="bold">{{  famille.code }}</b></h6>
+                <br />
+                <div class="so-surface">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("famille.code")}}</div>
+                                <div class="so-v">{{ famille.code || '-' }}</div>
                             </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("famille.nom")}}</b></label>
-                                <h6><b class="bold">{{  famille.nom }}</b></h6>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("famille.nom")}}</div>
+                                <div class="so-v">{{ famille.nom || '-' }}</div>
                             </div>
-                        </td>
-                    </tr>
-        
-                
-            
-                </table>
+                        </div>
+                    </div>
+                </div>
             </mat-tab>
 
 
@@ -182,7 +177,7 @@
       
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
         </div>
        
     </div>

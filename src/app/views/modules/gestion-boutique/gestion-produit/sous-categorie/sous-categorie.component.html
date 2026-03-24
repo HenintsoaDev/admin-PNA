@@ -131,36 +131,28 @@
         <mat-tab-group>
             <mat-tab label="Information du sous categorie">
               <br />
-      
-                <table style="width: 100%;">
+              <div class="so-surface">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="so-kv">
+                      <div class="so-k">{{ __("sous_categorie.code")}}</div>
+                      <div>{{ sous_categorie.code || '-' }}</div>
+                    </div>
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("sous_categorie.code")}}</b></label>
-                                <h6><b class="bold">{{  sous_categorie.code }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("sous_categorie.nom")}}</b></label>
-                                <h6><b class="bold">{{  sous_categorie.nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("sous_categorie.categorie")}}</b></label>
-                                <h6><b class="bold">{{  sous_categorie.categorie_produit }}</b></h6>
-                            </div>
-                        </td>
-                       
-                    </tr>
-        
-                
-            
-                </table>
+                    <div class="so-kv">
+                      <div class="so-k">{{ __("sous_categorie.nom")}}</div>
+                      <div>{{ sous_categorie.nom || '-' }}</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="so-kv">
+                      <div class="so-k">{{ __("sous_categorie.categorie")}}</div>
+                      <div>{{ sous_categorie.categorie_produit || '-' }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </mat-tab>
 
 
@@ -172,7 +164,7 @@
       
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
         </div>
        
     </div>

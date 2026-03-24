@@ -529,7 +529,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
         const colorMap: Record<string, string> = {
           brouillon: '#6c757d',     // gris
           publier: '#0d6efd',       // bleu
-          en_attente: '#f0ad4e',    // orange
+          en_attente_evaluation: '#f0ad4e',    // orange
           attribuer: '#6f42c1',     // violet
           clos: '#5cb85c',          // vert
           annule: '#d9534f'         // rouge
@@ -659,8 +659,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       case 'brouillon':
         return 'publier';
       case 'publier':
-        return 'en_attente';
-      case 'en_attente':
+        return 'en_attente_evaluation';
+      case 'en_attente_evaluation':
         return 'attribuer';
       case 'attribuer':
         return 'clos';
@@ -677,7 +677,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       const numericMap: Record<number, string> = {
         0: 'brouillon',
         1: 'publier',
-        2: 'en_attente',
+        2: 'en_attente_evaluation',
         3: 'attribuer',
         4: 'clos',
         5: 'annule',
@@ -697,7 +697,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       publier: 'publier',
       publie: 'publier',
       publiee: 'publier',
-      en_attente: 'en_attente',
+      en_attente_evaluation: 'en_attente_evaluation',
       attribuer: 'attribuer',
       attribue: 'attribuer',
       attribuee: 'attribuer',

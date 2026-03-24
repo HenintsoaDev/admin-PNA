@@ -66,7 +66,7 @@
 
               <div class="so-kv">
                 <div class="so-k">{{ __('soumissions.montant') }}</div>
-                <div class="so-v so-v-amount">{{ s.montant || '-' }} <small *ngIf="__('global.currency')">{{ __('global.currency') }}</small></div>
+                <div class="so-v so-v-amount">{{ (s.montant | number: '1.2-2': 'fr-FR') || '-' }} <small *ngIf="__('global.currency')">{{ __('global.currency') }}</small></div>
               </div>
             </div>
 
