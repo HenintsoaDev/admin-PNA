@@ -136,6 +136,8 @@
         "update": "Modifier",
         "desactiver": "Désactiver",
         "activer": "Activer",
+        "active": "Activé",
+        "desactive": "Désactivé",
         "numherit": "Numherit",
         "agence": "Bureau",   
         "matricule": "Matricule",
