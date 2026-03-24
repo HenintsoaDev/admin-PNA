@@ -85,75 +85,59 @@
             <mat-tab label="Informations de la commande">
                 <br>
 
-                <table style="width: 100%;">
 
-                    <tr>
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.reference")}}</b></label>
-                                <h6><b class="bold">{{ commande.reference }}</b></h6>
+                <div class="so-surface mb-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.reference")}}</div>
+                                <div class="so-v">{{ commande.reference || '-' }}</div>
                             </div>
-                        </td>
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.date")}}</b></label>
-                                <h6><b class="bold">{{ commande.date_commande | date : "dd/MM/YYYY HH:mm:ss" }}</b></h6>
+
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.structure")}}</div>
+                                <div class="so-v">{{ commande.structure_sanitaire_name || '-' }}</div>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.structure")}}</b></label>
-                                <h6><b class="bold">{{ commande.structure_sanitaire_name }}</b></h6>
+
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.montant_total_ht")}}</div>
+                                <div class="so-v">{{ formatNumber(commande.montant_total_ht, ' ') || '-' }}</div>
                             </div>
-                        </td>
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.utilisateur")}}</b></label>
-                                <h6><b class="bold">{{ commande.utilisateur_nom_complet }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.commentaire")}}</div>
+                                <div class="so-v">{{ commande.commentaire || '-' }}</div>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.montant_total_ht")}}</b></label>
-                                <h6><b class="bold">{{  formatNumber(commande.montant_total_ht, ' ') }}</b></h6>
+                           
+
+                           
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.date")}}</div>
+                                <div class="so-v">{{ commande.date_commande | date : "dd/MM/YYYY HH:mm:ss" }}</div>
                             </div>
-                        </td>
-                        <td *ngIf="etatSelect == 0 ">
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.montant_total_ttc")}}</b></label>
-                                <h6><b class="bold">{{  formatNumber(commande.montant_total_ttc, ' ') }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.utilisateur")}}</div>
+                                <div class="so-v">{{ commande.utilisateur_nom_complet || '-' }}</div>
                             </div>
-                        </td>
-                    </tr>
 
-
-
-
-
-
-                    <tr>
-
-                        <td>
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.commentaire")}}</b></label>
-                                <h6><b class="bold">{{ commande.commentaire }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.montant_total_ttc")}}</div>
+                                <div class="so-v">{{ formatNumber(commande.montant_total_ttc, ' ') || '-' }}</div>
                             </div>
-                        </td>
-                        <td>
-
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("commande.statut")}}</b></label>
-                                <h6><b class="bold">{{ commande.statut }}</b></h6>
+                            <div class="so-kv">
+                                <div class="so-k">{{ __("commande.statut")}}</div>
+                                <div class="so-v">{{ commande.statut || '-' }}</div>
                             </div>
-                        </td>
+                           
+                        </div>
+                    </div>
 
-                    </tr>
+                   
+                </div>
 
-                </table>
+
 
 
             </mat-tab>
