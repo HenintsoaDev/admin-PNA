@@ -89,7 +89,7 @@ export class CommandesComponent extends Translatable implements OnInit {
 
     {
       'name': 'statut',
-      'type': 'text',
+      'type': 'statut',
     },
 
 
