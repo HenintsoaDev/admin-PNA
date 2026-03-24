@@ -396,7 +396,7 @@
 
                             <div class="so-kv">
                                 <div class="so-k">{{ __("produit.prix_unitaire")}}</div>
-                                <div class="so-v so-v-amount">{{ (produit.prix_unitaire | number: '1.2-2': 'fr-FR') || '-' }} <small *ngIf="__('global.currency')">{{ __('global.currency') }}</small></div>
+                                <div class="so-v so-v-amount">{{ formatNumber(produit.prix_unitaire, ' ') || '-' }}</div>
                             </div>
 
                             <div class="so-kv">

@@ -381,9 +381,14 @@ export class TableComponent extends Translatable {
         return this.formatNumber(valeur, ' ');
       }
       else if(post[1] == 'statut') {
-          if(post[0] == 1) return this.__('global.validate');
-          else if(post[0] == 0) return this.__('global.en_attente');
-          else if(post[0] == 2) return this.__('global.not_valide');
+          if(post[0] == 'EN_ATTENTE_VALIDATION') return this.__('global.en_attente_validation');
+          else if(post[0] == 'VALIDEE') return this.__('global.validee');
+          else if(post[0] == 'EN_PREPARATION') return this.__('global.en_preparation');
+          else if(post[0] == 'EXPEDIEE') return this.__('global.expediee');
+          else if(post[0] == 'LIVREE') return this.__('global.livree');
+          else if(post[0] == 'COLISAGE') return this.__('global.colisage');
+          else if(post[0] == 'RECEPTIONNEE') return this.__('global.receptionnee');
+          else if(post[0] == 'EN_TRANSIT') return this.__('global.en_transit');
 
       } else if(post[1] == 'state') {
           if(post[0] == 1) return this.__('global.traiter');
@@ -483,7 +488,7 @@ export class TableComponent extends Translatable {
       const customStyle = this.typeStyleResolvers?.[type];
       if (customStyle) return customStyle(post[0]) || '';
 
-      if(post[1] == 'statut' || post[1] == 'state' || post[1] == 'statut_transfert') {
+      if(post[1] == 'state' || post[1] == 'statut_transfert') {
         if(post[0] == 1) return {
           'color': 'white',
           'background-color' : '#5cb85c',
@@ -508,44 +513,69 @@ export class TableComponent extends Translatable {
           'border-radius': '5px',
           
         };
-      } else if(post[1] == 'etat') {
-        if(post[0] == 4) return {
-          'color': 'white',
-          'background-color' : '#5cb85c',
-          'font-weight' : 'bold',
-          'padding': '5px',
-          'border-radius': '5px',
-        };
-        else if(post[0] == 3) return {
-          'color': 'white',
-          'background-color' : '#d9534f',
-          'font-weight' : 'bold',
-          'padding': '5px',
-          'border-radius': '5px',
-          
-        };
-        else if(post[0] == 2) return {
-          'color': 'white',
-          'background-color' : '#333394',
-          'font-weight' : 'bold',
-          'padding': '5px',
-          'border-radius': '5px',
-          
-        };
-        else if(post[0] == 1) return {
+      } else if(post[1] == 'statut') {
+        if(post[0] == 'EN_ATTENTE_VALIDATION') return {
           'color': 'white',
           'background-color' : '#f0ad4e',
           'font-weight' : 'bold',
           'padding': '5px',
           'border-radius': '5px',
-          
         };
-        else if(post[0] == 0) return {
-          'color': '#333394',
-          'background-color' : 'yellow',
+        else if(post[0] == 'VALIDEE') return {
+          'color': 'white',
+          'background-color' : '#5cb85c',
+          'font-weight' : 'bold',
           'padding': '5px',
           'border-radius': '5px',
           
+        };
+        else if(post[0] == 'COLISAGE') return {
+          'color': 'white',
+          'background-color' : '#5cb85c',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+          
+        };
+        else if(post[0] == 'EN_PREPARATION') return {
+          'color': 'white',
+          'background-color' : '#0B7238',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+          
+        };
+        else if(post[0] == 'EN_TRANSIT') return {
+          'color': 'white',
+          'background-color' : '#000000',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+          
+        };
+
+        
+        else if(post[0] == 'EXPEDIEE') return {
+          'color': 'white',
+          'background-color' : '#B41D01',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+          
+        };
+        if(post[0] == 'LIVREE') return {
+          'color': 'white',
+          'background-color' : '#44BEDF',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+        if(post[0] == 'RECEPTIONNEE') return {
+          'color': 'white',
+          'background-color' : '#0B57D0',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
         };
 
        

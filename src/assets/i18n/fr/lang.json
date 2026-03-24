@@ -73,6 +73,7 @@
         "add_action_?": "Souhaitez-vous vraiment ajouter un action ? ",
         "generer_action_?": "Souhaitez-vous vraiment générer l'action ? ",
         "valider_?": "Souhaitez-vous vraiment valider ? ",
+        "valider_commande_?": "Souhaitez-vous vraiment valider ce commande ? ",
         "clique_pour_activer": "Cliquez pour activer",
         "clique_pour_desactiver": "Cliquez pour désactiver",
         "oui_rejeter" :"Oui, rejeter",
@@ -143,7 +144,15 @@
         "retirer" : "Retiré",
         "btn_envoyer" : "Envoyer",
         "checkbox" : "checkbox",
-        "aucun_document": "Aucun document n’est disponible actuellement."
+        "aucun_document": "Aucun document n’est disponible actuellement.",
+        "en_attente_validation" : "En attente de validation",
+        "validee" : "Validé",
+        "en_preparation" : "En preparation",
+        "expediee" : "Expédié",
+        "livree" : "Livré",
+        "receptionnee" : "Réceptionné",
+        "colisage" : "Colisage",
+        "en_transit" : "En transit"
     },
 
     "auth": {
