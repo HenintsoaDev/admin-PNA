@@ -148,11 +148,14 @@
         "en_attente_validation" : "En attente de validation",
         "validee" : "Validé",
         "en_preparation" : "En preparation",
-        "expediee" : "Expédié",
-        "livree" : "Livré",
-        "receptionnee" : "Réceptionné",
+        "expediee" : "Expédiée",
+        "livree" : "Livrée",
+        "receptionnee" : "Réceptionnée",
         "colisage" : "Colisage",
-        "en_transit" : "En transit"
+        "en_transit" : "En transit",
+        "expedier" : "Expédier",
+        "livrer" : "Livrer",
+        "receptionner" : "Réceptionner"
     },
 
     "auth": {

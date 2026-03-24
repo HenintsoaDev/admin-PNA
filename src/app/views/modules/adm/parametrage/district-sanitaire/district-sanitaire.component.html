@@ -182,63 +182,45 @@
             <mat-tab label="Information du district">
               <br />
       
-                <table style="width: 100%;">
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.code")}}</b></label>
-                                <h6><b class="bold">{{  district.code }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.nom")}}</b></label>
-                                <h6><b class="bold">{{  district.nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.email")}}</b></label>
-                                <h6><b class="bold">{{  district.email }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.responsable")}}</b></label>
-                                <h6><b class="bold">{{  district.responsable }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.telephone")}}</b></label>
-                                <h6><b class="bold">{{  district.telephone }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.fax")}}</b></label>
-                                <h6><b class="bold">{{  district.fax }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("district.region")}}</b></label>
-                                <h6><b class="bold">{{  district.region }}</b></h6>
-                            </div>
-                        </td>
-                       
-                    </tr>
-        
-                
-            
-                </table>
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.code")}}</div>
+                            <div class="so-v">{{ district.code  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.email")}}</div>
+                            <div class="so-v">{{ district.email  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.telephone")}}</div>
+                            <div class="so-v">{{ district.telephone  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.region")}}</div>
+                            <div class="so-v">{{ district.region  }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.nom")}}</div>
+                            <div class="so-v">{{ district.nom  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.responsable")}}</div>
+                            <div class="so-v">{{ district.responsable  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("district.fax")}}</div>
+                            <div class="so-v">{{  district?.fax  }}</div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
             </mat-tab>
 
 

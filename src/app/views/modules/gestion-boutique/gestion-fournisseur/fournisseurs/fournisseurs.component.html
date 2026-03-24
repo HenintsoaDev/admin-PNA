@@ -218,96 +218,64 @@
         <mat-tab-group>
             <mat-tab label="Information du fournisseur">
               <br />
+
+
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.code")}}</div>
+                            <div class="so-v">{{ fournisseur.code  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.email")}}</div>
+                            <div class="so-v">{{ fournisseur.email  }}</div>
+                        </div>
+                      
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.adresse")}}</div>
+                            <div class="so-v">{{ fournisseur.adresse  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.ville")}}</div>
+                            <div class="so-v">{{ fournisseur.ville  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.site_web")}}</div>
+                            <div class="so-v">{{  fournisseur?.site_web  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.ninea")}}</div>
+                            <div class="so-v">{{  fournisseur?.ninea  }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.raison_sociale")}}</div>
+                            <div class="so-v">{{ fournisseur.raison_sociale  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.telephone")}}</div>
+                            <div class="so-v">{{ fournisseur.telephone  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.fax")}}</div>
+                            <div class="so-v">{{ fournisseur.fax  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.pays")}}</div>
+                            <div class="so-v">{{  fournisseur?.pays  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("fournisseur.registre_commerce")}}</div>
+                            <div class="so-v">{{  fournisseur?.registre_commerce  }}</div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
       
-                <table style="width: 100%;">
-
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.code")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.code }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.raison_sociale")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.raison_sociale }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.email")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.email }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.telephone")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.telephone }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.adresse")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.adresse }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.fax")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.fax }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.ville")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.ville }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.pays")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.pays }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.site_web")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.site_web }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.registre_commerce")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.registre_commerce }}</b></h6>
-                            </div>
-                        </td>
-                       
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("fournisseur.ninea")}}</b></label>
-                                <h6><b class="bold">{{  fournisseur.ninea }}</b></h6>
-                            </div>
-                        </td>
-                       
-                       
-                    </tr>
-        
-                
-            
-                </table>
             </mat-tab>
 
 

@@ -220,8 +220,50 @@
     </div>
     <div class="modal-body">
 
+        <div class="so-surface mb-2">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.nom")}}</div>
+                        <div class="so-v">{{ utilisateur.nom  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.email")}}</div>
+                        <div class="so-v">{{ utilisateur.email  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.profil")}}</div>
+                        <div class="so-v">{{ utilisateur.profil_name  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.identifiant")}}</div>
+                        <div class="so-v">{{ utilisateur.identifiant  }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.prenom")}}</div>
+                        <div class="so-v">{{ utilisateur.prenoms  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.telephone")}}</div>
+                        <div class="so-v">{{ utilisateur.telephone  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.district")}}</div>
+                        <div class="so-v">{{ utilisateur.district_sanitaire_nom  }}</div>
+                    </div>
+                    <div class="so-kv">
+                        <div class="so-k">{{ __("utilisateur.state")}}</div>
+                        <div class="so-v">{{ utilisateur.state == 1 ? __("global.activer") : __("global.desactiver") }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
 
-        <table style="width: 100%;">
+
+        <!-- <table style="width: 100%;">
 
             <tr>
                 <td >
@@ -292,7 +334,7 @@
 
 
      
-        </table>
+        </table> -->
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>

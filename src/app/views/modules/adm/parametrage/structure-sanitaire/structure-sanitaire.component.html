@@ -202,70 +202,52 @@
         <mat-tab-group>
             <mat-tab label="Information du structure">
               <br />
-      
-                <table style="width: 100%;">
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.code")}}</b></label>
-                                <h6><b class="bold">{{  structure?.code }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.nom")}}</b></label>
-                                <h6><b class="bold">{{  structure?.nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.email")}}</b></label>
-                                <h6><b class="bold">{{  structure?.email }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.telephone")}}</b></label>
-                                <h6><b class="bold">{{  structure?.telephone }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.adresse")}}</b></label>
-                                <h6><b class="bold">{{  structure?.adresse }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.budget_alloue")}}</b></label>
-                                <h6><b class="bold">{{  formatNumber(structure?.budget_alloue, ' ')  }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.type")}}</b></label>
-                                <h6><b class="bold">{{  structure?.type_structure_nom }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("structure.district")}}</b></label>
-                                <h6><b class="bold">{{  structure?.district_sanitaire_nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                 
-        
-                
-            
-                </table>
+
+
+
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.code")}}</div>
+                            <div class="so-v">{{ structure.code  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.email")}}</div>
+                            <div class="so-v">{{ structure.email  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.adresse")}}</div>
+                            <div class="so-v">{{ structure.adresse  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.type")}}</div>
+                            <div class="so-v">{{ structure.type_structure_nom  }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.nom")}}</div>
+                            <div class="so-v">{{ structure.nom  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.telephone")}}</div>
+                            <div class="so-v">{{ structure.telephone  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.budget_alloue")}}</div>
+                            <div class="so-v">{{  formatNumber(structure?.budget_alloue, ' ')  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("structure.district")}}</div>
+                            <div class="so-v">{{ structure.district_sanitaire_nom  }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+      
             </mat-tab>
 
 

@@ -162,52 +162,40 @@
         <mat-tab-group>
             <mat-tab label="Information du entrepot">
               <br />
-      
-                <table style="width: 100%;">
 
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("entrepot.code")}}</b></label>
-                                <h6><b class="bold">{{  entrepot?.code }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("entrepot.nom")}}</b></label>
-                                <h6><b class="bold">{{  entrepot?.nom }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("entrepot.emplacement")}}</b></label>
-                                <h6><b class="bold">{{  entrepot?.emplacement }}</b></h6>
-                            </div>
-                        </td>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("entrepot.adresse")}}</b></label>
-                                <h6><b class="bold">{{  entrepot?.adresse }}</b></h6>
-                            </div>
-                        </td>
-                    </tr>
-                  
-                    <tr>
-                        <td >
-                            <div class="alert alert-custom">
-                                <label><b class="fw-800">{{ __("entrepot.region")}}</b></label>
-                                <h6><b class="bold">{{  entrepot?.nom_region }}</b></h6>
-                            </div>
-                        </td>
-                    
-                    </tr>
-                 
-        
-                
-            
-                </table>
+
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("entrepot.code")}}</div>
+                            <div class="so-v">{{ entrepot.code  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("entrepot.emplacement")}}</div>
+                            <div class="so-v">{{ entrepot.emplacement  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("entrepot.nom_region")}}</div>
+                            <div class="so-v">{{ entrepot.nom_region  }}</div>
+                        </div>
+                     
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("entrepot.nom")}}</div>
+                            <div class="so-v">{{ entrepot.nom  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("entrepot.adresse")}}</div>
+                            <div class="so-v">{{ entrepot.adresse  }}</div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+      
+              
             </mat-tab>
 
 
