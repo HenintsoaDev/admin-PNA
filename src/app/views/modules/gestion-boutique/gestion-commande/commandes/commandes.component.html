@@ -128,7 +128,14 @@
                             </div>
                             <div class="so-kv">
                                 <div class="so-k">{{ __("commande.statut")}}</div>
-                                <div class="so-v">{{ commande.statut || '-' }}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'EN_ATTENTE_VALIDATION' ">{{ __("global.en_attente_validation")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'VALIDEE' ">{{ __("global.validee")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'EN_PREPARATION' ">{{ __("global.en_preparation")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'EXPEDIEE' ">{{ __("global.expediee")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'LIVREE' ">{{ __("global.livree")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'COLISAGE' ">{{ __("global.colisage")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'RECEPTIONNEE' ">{{ __("global.receptionnee")}}</div>
+                                <div class="so-v" *ngIf="commande.statut == 'EN_TRANSIT' ">{{ __("global.en_transit")}}</div>
                             </div>
                            
                         </div>
