@@ -5,6 +5,7 @@ import { CategorieComponent } from './categorie/categorie.component';
 import { SousCategorieComponent } from './sous-categorie/sous-categorie.component';
 import { FormesComponent } from './formes/formes.component';
 import { ProduitsComponent } from './produits/produits.component';
+import { PrixPersonnalisesComponent } from './prix-personnalises/prix-personnalises.component';
 
 const routes: Routes = [
   { path: 'familles', component: FamilleComponent, data: { breadcrumb: 'famille.title_breadcrumb' } },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'sous_categories', component: SousCategorieComponent, data: { breadcrumb: 'sous_categorie.title_breadcrumb' } },
   { path: 'formes', component: FormesComponent, data: { breadcrumb: 'forme.title_breadcrumb' } },
   { path: 'produits', component: ProduitsComponent, data: { breadcrumb: 'produit.title_breadcrumb' } },
+  { path: 'prix_personnalises', component: PrixPersonnalisesComponent, data: { breadcrumb: 'prix.title_breadcrumb' } },
 
 ];
 

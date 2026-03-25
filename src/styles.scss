@@ -226,3 +226,14 @@ ngb-pagination {
     border-bottom: 3px solid $primary;
     z-index: 100;
   }
+
+  .mat-radio-label-content {
+    -webkit-user-select: auto;
+    user-select: auto;
+    display: inline-block;
+    order: 0;
+    line-height: inherit;
+    padding-left: 8px;
+    padding-right: 0;
+    width: 100%;
+  }

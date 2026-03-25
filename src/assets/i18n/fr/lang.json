@@ -157,7 +157,10 @@
         "en_transit" : "En transit",
         "expedier" : "Expédier",
         "livrer" : "Livrer",
-        "receptionner" : "Réceptionner"
+        "receptionner" : "Réceptionner",
+        "expirer" : "Expiré",
+        "non_expirer" : "",
+        "etat" : "Etat"
     },
 
     "auth": {
@@ -556,6 +559,26 @@
         "title_add_modal": "Ajout d'un entrepot",
         "title_detail_modal" : "Voir les détails",
         "region" : "Region"
+    },
+    "prix": {
+        "title_breadcrumb": "Lister les prix",
+        "title": "Gestion des prix",
+        "date_debut": "Validé du",
+        "date_fin": "au",
+        "produit": "Produit",
+        "prix_personnalise": "Prix pérsonnalisé",
+        "prix_perso" : "Prix perso.",
+        "prix_pna" : "Prix PNA.",
+        "prix_unitaire" : "Prix public PNA (reference).",
+        "structure": "Structure sanitaire",
+        "add": "Ajouter un prix",
+        "title_edit_modal": "Modification d'un prix",
+        "title_add_modal": "Ajout d'un prix",
+        "title_detail_modal" : "Voir les détails",
+        "type_structure" : "Type sctructure",
+        "search_structure" : "Rechercher le structure sanitaire",
+        "search_produit" : "Rechercher le produit",
+        "activer_prix": "Activer ce prix personnalisé"
     }
 
 }

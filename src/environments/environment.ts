@@ -79,5 +79,8 @@ export const environment = {
   liste_forme_active: 'admin/gestion_produits/formes/active',
   produit: 'admin/gestion_produits/produits',
   images_produits: 'admin/images_produits',
-  fiche_techniques: 'admin/gestion_produits/fiche_techniques'
+  fiche_techniques: 'admin/gestion_produits/fiche_techniques',
+  prix: 'admin/gestion_produits/prix_personnalises',
+  liste_produit_active: 'admin/gestion_produits/produits/active'
+
 };

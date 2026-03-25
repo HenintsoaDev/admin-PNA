@@ -22,6 +22,8 @@ import { SousCategorieComponent } from './sous-categorie/sous-categorie.componen
 import { FormesComponent } from './formes/formes.component';
 import { ProduitsComponent } from './produits/produits.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { PrixPersonnalisesComponent } from './prix-personnalises/prix-personnalises.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     CategorieComponent,
     SousCategorieComponent,
     FormesComponent,
-    ProduitsComponent
+    ProduitsComponent,
+    PrixPersonnalisesComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +53,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatExpansionModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot(),
-    MatStepperModule
+    MatStepperModule,
+    MatCheckboxModule
   ]
 })
 export class GestionProduitModule { }

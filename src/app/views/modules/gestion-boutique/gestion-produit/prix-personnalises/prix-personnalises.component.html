@@ -1,0 +1,244 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('GSP_32')" class="btn btn-secondary" (click)="openModalAdd(addprix)"> {{ __("prix.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [formSearch] = "false"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addprix>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" [formGroup]="prixForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+
+
+                   <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('prix.search_structure')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('prix.search_structure')}}" (keyup.enter)="rechercherStructure()" formControlName="search_structure" name="search_structure">
+                            </mat-form-field>
+
+                            <div class="list" *ngIf="filteredStructure.length !=0">
+                                <mat-radio-group formControlName="structure_sanitaire_id" >
+                                    <mat-radio-button 
+                                      *ngFor="let structure of filteredStructure" 
+                                      [value]="structure.id"
+                                      class="radio-item" >
+                                      
+                                      <b>{{ structure.nom }}</b><br>
+                                      {{ structure.code }} - {{ structure.type_structure_nom }} - {{ structure.district_sanitaire_nom }}
+                                      
+                                    </mat-radio-button>
+                                  </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('prix.search_produit')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('prix.search_produit')}}" (keyup.enter)="rechercherProduit()"  formControlName="search_produit" name="search_produit">
+                            </mat-form-field>
+
+                            <div class="list" *ngIf="filteredProduits.length !=0">
+                                <mat-radio-group formControlName="produit_id">
+                                    <mat-radio-button 
+                                      *ngFor="let produit of filteredProduits" 
+                                      [value]="produit.id"
+                                      class="radio-item"
+                                      (change)="recupererPrix(produit.id)">
+                                  
+                                      <div class="radio-content">
+                                        
+                                        <!-- gauche -->
+                                        <div class="left">
+                                          <b>{{ produit.dci }}</b> {{ produit.dosage }}<br>
+                                          {{ produit.code }} - {{ produit.conditionnement }}
+                                        </div>
+                                  
+                                        <!-- droite -->
+                                        <div class="right">
+                                          {{ formatNumber(produit.prix_unitaire, ' ') }}
+                                        </div>
+                                  
+                                      </div>
+                                  
+                                    </mat-radio-button>
+                                  </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> 
+
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('prix.prix_personnalise')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('prix.prix_personnalise')}}" formControlName="prix" name="prix_personnalise">
+                            </mat-form-field>
+                        </div>
+                    </div> 
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('prix.prix_unitaire')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('prix.prix_unitaire')}}" formControlName="prix_unitaire" name="prix_unitaire">
+                            </mat-form-field>
+                        </div>
+                    </div>          
+                </div>
+              
+               
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __("commande.from") }}</label>
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input matInput [matDatepicker]="pickerDebut" name="date_debut" formControlName="date_debut"
+                                    placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                                <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerDebut></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                      
+                    </div>
+                    <div class="col-lg-6">
+                        
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __("commande.to") }}</label>
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input matInput [matDatepicker]="pickerFin" name="date_fin" formControlName="date_fin"
+                                    placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                                <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerFin></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+               
+       
+                
+             
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!prix.id" [disabled]="prixForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="prix.id" [disabled]="prixForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailprix>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du prix">
+              <br />
+      
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("prix.code")}}</b></label>
+                                <h6><b class="bold">{{  prix.code }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("prix.nom")}}</b></label>
+                                <h6><b class="bold">{{  prix.nom }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+        
+                
+            
+                </table>
+            </mat-tab>
+
+
+         
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>

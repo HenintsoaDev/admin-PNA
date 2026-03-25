@@ -1,0 +1,38 @@
+::ng-deep .cdk-overlay-container,
+::ng-deep .cdk-overlay-pane {
+    z-index: 2000 !important;
+    /* Assure-toi que c'est supérieur à celui du modal Bootstrap (généralement 1050) */
+}
+
+/****/
+.wrapper {
+    margin-bottom: 20px;
+}
+
+.radio-item {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .radio-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .left {
+    max-width: 70%;
+  }
+  
+  .right {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .list{
+    max-height: 175px;
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid gray;
+  }

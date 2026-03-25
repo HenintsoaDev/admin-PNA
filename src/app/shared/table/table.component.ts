@@ -394,16 +394,10 @@ export class TableComponent extends Translatable {
           if(post[0] == 1) return this.__('global.traiter');
           else if(post[0] == 0) return this.__('global.en_attente_traiter');
 
-      }else if(post[1] == 'statut_transfert') {
-          if(post[0] == 0) return this.__('global.envoyer');
-          else if(post[0] == 1) return this.__('global.retirer');
-
-      } else if(post[1] == 'etat') {
-          if(post[0] == 0) return this.__('global.a_traiter');
-          else if(post[0] == 1) return this.__('global.encours_traitement');
-          else if(post[0] == 2) return this.__('global.en_attente_traitement');
-          else if(post[0] == 3) return this.__('global.rejeter');
-          else if(post[0] == 4) return this.__('global.traiter');
+      }else if(post[1] == 'expire') {
+          if(post[0] == 0) return this.__('global.non_expirer');
+          else if(post[0] == 1) return this.__('global.expirer');
+         
       }
      
       else return post[0]
@@ -579,6 +573,17 @@ export class TableComponent extends Translatable {
         };
 
        
+        
+      }
+      else if(post[1] == 'expire') {
+        if(post[0] == 1) return {
+          'color': 'white',
+          'background-color' : '#B41D01',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+        };
+        
         
       }else return '';
 

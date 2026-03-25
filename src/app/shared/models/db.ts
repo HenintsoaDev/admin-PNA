@@ -227,3 +227,16 @@ export class fournisseur {
     state: number | null ;
 
 }
+
+export class prix {
+    id: number ;
+    prix: string ;
+    date_debut: string ;
+    date_fin: string ;
+    etat: number;
+    produit_id: number ;
+    structure_sanitaire_id: number | null ;
+    state: number | null ;
+    check_prix: any;
+
+}
