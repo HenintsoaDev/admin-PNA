@@ -34,8 +34,8 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
     },
     {
       nomColonne: this.__('soumissions.fournisseur'),
-      colonneTable: 'fournisseur',
-      table: 'soumission'
+      colonneTable: 'raison_sociale',
+      table: 'fournisseur'
     },
     {
       nomColonne: this.__('soumissions.montant'),
@@ -81,7 +81,7 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
     'soumission.reference',
     'appel_offre.titre',
     'appel_offre.reference',
-    'soumission.fournisseur',
+    'fournisseur.raison_sociale',
     'soumission.statut'
   ];
 
