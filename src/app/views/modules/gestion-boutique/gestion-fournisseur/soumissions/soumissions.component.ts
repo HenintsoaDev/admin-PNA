@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Translatable } from 'shared/constants/Translatable';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-soumissions',
@@ -97,25 +98,39 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
   @ViewChild('detailappeloffreModal') detailappeloffreModal!: TemplateRef<any>;
 
   private subscription?: Subscription;
-
+  whereAO = '';
+  
   constructor(
     private passageService: PassageService,
     private authService: AuthService,
     private modalService: BsModalService,
     private soumissionService: SoumissionService,
     private appelOffreService: AppelOffreService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.authService.initAutority('PAC', 'ADM');
+    this.whereAO = null;
+    this.route.queryParams.subscribe(params => {
+      const idAppelOffre = params['id']; // mety null raha tsy misy
+      console.log("-------------------", idAppelOffre);
+      if(idAppelOffre){
+        this.whereAO = "&where=soumission.appel_offre_id|e|" + idAppelOffre
+      }
+
+    });
+
+    console.log(this.whereAO);
+
     this.titleModal = this.__('soumissions.title_detail_modal');
     this.initTableStatusRender();
 
     this.endpoint = `${environment.baseUrl}/${environment.soumission}`;
-    this.passageService.appelURL(null, this.endpoint);
+    this.passageService.appelURL(this.whereAO, this.endpoint);
 
     this.subscription = this.passageService.getObservable().subscribe(event => {
       if (!event?.data) return;
@@ -125,7 +140,7 @@ export class SoumissionsComponent extends Translatable implements OnInit, OnDest
       else if (event.data.action === 'validation') this.validateSoumission(this.idSoumission);
       else if (event.data.action === 'rejeter') this.rejectSoumission(this.idSoumission);
 
-      this.passageService.clear();
+      //this.passageService.clear();
     });
   }
 

@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'fournisseurs', component: FournisseursComponent, data: { breadcrumb: 'fournisseur.title_breadcrumb' } }, 
   { path: 'appel-offres', component: AppelOffreComponent, data: { breadcrumb: 'appel_offres.title_breadcrumb' } },
   { path: 'soumissions', component: SoumissionsComponent, data: { breadcrumb: 'soumissions.title_breadcrumb' } },
+  { path: 'soumissions/:id', component: SoumissionsComponent, data: { breadcrumb: 'soumissions.title_breadcrumb' } },
 
 ];
 

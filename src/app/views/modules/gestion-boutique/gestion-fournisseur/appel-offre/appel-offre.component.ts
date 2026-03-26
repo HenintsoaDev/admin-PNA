@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { Router } from '@angular/router';
 
 type AppelOffreRow = Partial<AppelOffrePayload> & {
   id?: number;
@@ -63,8 +64,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       table: 'appel_offre'
     },
     {
-      nomColonne: this.__('appel_offres.nombre_lignes'),
-      colonneTable: 'nombre_lignes',
+      nomColonne: this.__('appel_offres.nombre_soumissions'),
+      colonneTable: 'nombre_soumissions',
       table: 'appel_offre'
     },
     {
@@ -82,7 +83,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     { name: 'titre', type: 'text' },
     { name: 'date_publication', type: 'date' },
     { name: 'date_limite_soumission', type: 'date' },
-    { name: 'nombre_lignes', type: 'text' },
+    { name: 'nombre_soumissions', type: 'text' },
     { name: 'statut', type: 'statut' },
     { name: 'id' }
   ];
@@ -104,6 +105,13 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       icon: 'cancel',
       action: 'delete',
       tooltip: this.__('appel_offres.annuler'),
+      autority: 'PAC_10',
+      color: '#d9534f'
+    },
+    {
+      icon: 'visibility',
+      action: 'voir_soumissions',
+      tooltip: this.__('appel_offres.voir_soumissions'),
       autority: 'PAC_10',
       color: '#d9534f'
     }
@@ -144,7 +152,8 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     private toastr: ToastrService,
     private modalService: BsModalService,
     private appelOffreService: AppelOffreService,
-    private produitService: ProduitService
+    private produitService: ProduitService,
+    private router: Router
   ) {
     super();
   }
@@ -169,6 +178,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       if (event.data.action === 'edit') this.openModalEditAppelOffre();
       else if (event.data.action === 'annuler') this.openModalAnnulerAppelOffre();
       else if (event.data.action === 'detail') this.openModalDetailAppelOffre();
+      else if (event.data.action === 'voir_soumissions') this.openSoumissions();
 
       this.passageService.clear();
     });
@@ -241,6 +251,40 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
         keyboard: false
       });
     });
+  }
+
+  openSoumissions(){
+
+        // Récupérer la liste affichée dans le tableau depuis le localStorage.
+        const storedData = localStorage.getItem('data');
+        let result: any;
+        if (storedData) result = JSON.parse(storedData);
+       let appelOffres = result.data;
+
+        
+     // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
+     const res = appelOffres.filter(_ => _.id == this.idAppelOffre);
+     if (res.length != 0) {
+       
+      if(res[0].nombre_soumissions > 0){
+        this.router.navigate(
+          ['/admin/gestion_fournisseurs/soumissions'],
+          { queryParams: this.idAppelOffre ? { id: this.idAppelOffre } : {} }
+        );
+      }else{
+        this.toastr.error(this.__('appel_offres.aucun_soumission'), this.__('global.error'));
+      }
+     
+
+
+     }
+
+
+
+  
+  
+  
+  
   }
 
   openModalAnnulerAppelOffre(): void {

@@ -86,6 +86,9 @@ export class TableComponent extends Translatable {
       
         const { type, data: filtre, endpoint } = event;
 
+        console.log(event, "XXXTTTXXXTTTXXX")
+        console.log(this.endpoint, "XXXTTTXXXTTTXXX")
+
         if(event.endpoint) this.endpoint = event.endpoint;
       
         // Vérifie si c'est un événement pertinent

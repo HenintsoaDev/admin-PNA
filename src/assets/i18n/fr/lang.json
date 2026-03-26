@@ -467,6 +467,9 @@
         "ligne_produit": "Produit",
         "ligne_quantite": "Quantité",
         "ligne_specifications": "Spécifications",
+        "nombre_soumissions" : "Nombre soumissions",
+        "voir_soumissions" : "Voir les soumissions",
+        "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offre",
         "status":{
             "brouillon": "Brouillon",
             "publier": "Publié",
