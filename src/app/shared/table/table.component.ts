@@ -469,7 +469,8 @@ export class TableComponent extends Translatable {
         case 'delete': return '#ec6a31';
         case 'edit': return '#2eab67';
         case 'rejeter': return '#d9534f';
-        case 'validation': return '#5cb85c';
+        case 'voir_soumissions': return 'blue';
+        
         default: return '#2eab67';
       }
     }

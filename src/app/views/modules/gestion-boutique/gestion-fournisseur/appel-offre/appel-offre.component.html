@@ -54,7 +54,7 @@
 					</span>
 				</div>
 
-				<div class="d-flex align-items-center flex-wrap">
+				 <!-- <div class="d-flex align-items-center flex-wrap">
 					<button type="button" class="btn btn-sm btn-outline-danger ao-next-status-btn mr-2"
 						(click)="annulerAppelOffre()" [disabled]="isStatusChanging || !canAnnulerAppelOffre()">
 						<i class="fa fa-times mr-1"></i>
@@ -66,7 +66,7 @@
 						{{ __('appel_offres.next_status') }}
 						<span *ngIf="nextStatusLabel">: <b>{{ nextStatusLabel }}</b></span>
 					</button>
-				</div>
+				</div>  -->
 			</div>
 		</div>
 
@@ -276,4 +276,17 @@
 	<div class="modal-body">
 		<app-appel-offre-detail [appelOffre]="appelOffre"></app-appel-offre-detail>
 	</div>
+
+	<div class="modal-footer">
+			<button type="button" 
+			class="btn btn-light" (click)="annulerAppelOffre()" [disabled]="isStatusChanging || !canAnnulerAppelOffre()" >{{ __('global.cancel')}}</button>
+			<button type="button" 
+			class="btn btn-primary" (click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()" *ngIf="nextStatusLabel" ><span > <b>{{ nextStatusLabel }}</b></span></button>
+
+			
+			<button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
+
+	</div>
+
+
 </ng-template>

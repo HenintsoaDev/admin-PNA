@@ -101,19 +101,18 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       tooltip: this.__('global.tooltip_edit'),
       autority: 'PAC_9'
     },
-    {
+  /*   {
       icon: 'cancel',
       action: 'delete',
       tooltip: this.__('appel_offres.annuler'),
       autority: 'PAC_10',
       color: '#d9534f'
-    },
+    }, */
     {
       icon: 'visibility',
       action: 'voir_soumissions',
       tooltip: this.__('appel_offres.voir_soumissions'),
       autority: 'PAC_10',
-      color: '#d9534f'
     }
   ];
 
@@ -293,7 +292,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       text: this.__('appel_offres.annuler_?'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__('appel_offres.oui'),
+      confirmButtonText: this.__('global.oui_annuler'),
       cancelButtonText: this.__('global.non'),
       allowOutsideClick: false,
       customClass: {
@@ -620,8 +619,10 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   goNextStatus(): void {
     if (!this.appelOffre?.id) return;
     const current = this.appelOffre?.statut ?? '';
+    console.log(current, "current status");
     const nextKey = this.getNextStatusKey(current);
     if (!nextKey) return;
+    console.log(nextKey, "next status");
 
     Swal.fire({
       title: this.__('global.confirmation'),
@@ -646,6 +647,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
             this.toastr.success(res?.msg ?? this.__('global.success'), this.__('global.success'));
             this.appelOffre.statut = nextKey;
             this.actualisationTableau();
+            this.closeModal();
           } else {
             this.toastr.error(res?.msg ?? this.__('global.error'), this.__('global.error'));
           }
@@ -667,7 +669,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
       text: this.__('appel_offres.annuler_?'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__('global.oui'),
+      confirmButtonText: this.__('global.oui_annuler'),
       cancelButtonText: this.__('global.non'),
       allowOutsideClick: false,
       customClass: {

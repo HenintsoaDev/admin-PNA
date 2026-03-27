@@ -39,27 +39,30 @@ export class AppelOffreService {
   supprimerAppelOffre(id: number): Observable<any> {
     return this.httpService.delete<any>(`${environment.appel_offre}/${id}`);
   }
-  NextStatus(id: number, status: string): Observable<any> {
-    const key = this.normalizeStatusKey(status);
+  NextStatus(id: number, statusCurrent: string): Observable<any> {
+
+    console.log(statusCurrent, "current");
+   // const key = this.normalizeStatusKey(status);
 
     // Si on reçoit une action "cloturer" on la mappe sur le statut final "clos"
-    const actionOrStatus = key === 'clos' && this.isCloturerAction(status) ? 'cloturer' : key;
+   // const actionOrStatus = key === 'clos' && this.isCloturerAction(status) ? 'cloturer' : key;
 
-    // Mode "action directe"
+   const actionOrStatus = statusCurrent;
+
+   // Mode "action directe"
     switch (actionOrStatus) {
-      case 'publier':
+      case 'BROUILLON':
         return this.publierAppelOffre(id);
-      case 'en_attente_evaluation':
+      case 'PUBLIE':
         return this.mettreEnAttenteAppelOffre(id);
-      case 'attribuer':
+      case 'EN_ATTENTE_EVALUATION':
         return this.attribuerAppelOffre(id);
-      case 'cloturer':
-      case 'clos':
+      case 'ATTRIBUE':
         return this.CloturerAppelOffre(id);
     }
 
     // Mode "transition depuis statut courant"
-    switch (key) {
+   /*  switch (key) {
       case 'brouillon':
         return this.publierAppelOffre(id);
       case 'publier':
@@ -70,7 +73,7 @@ export class AppelOffreService {
         return this.CloturerAppelOffre(id);
       default:
         return throwError(() => new Error(`NextStatus: statut/action non supporté: ${status}`));
-    }
+    } */
   }
 
   publierAppelOffre(id: number): Observable<any> {
@@ -90,7 +93,7 @@ export class AppelOffreService {
   }
 
   annulerAppelOffre(id: number): Observable<any> {
-    return this.httpService.delete<any>(`${environment.appel_offre}/${id}`);
+    return this.httpService.put<any>(`${environment.appel_offre}/${id}/annuler`, {});
   }
 
 
@@ -102,7 +105,7 @@ export class AppelOffreService {
       const numericMap: Record<number, string> = {
         0: 'brouillon',
         1: 'publier',
-        2: 'en_attente',
+        2: 'en_attente_evaluation',
         3: 'attribuer',
         4: 'clos',
         5: 'annule',
@@ -122,7 +125,7 @@ export class AppelOffreService {
       publier: 'publier',
       publie: 'publier',
       publiee: 'publier',
-      en_attente: 'en_attente',
+      en_attente: 'en_attente_evaluation',
       attribuer: 'attribuer',
       attribue: 'attribuer',
       attribuee: 'attribuer',

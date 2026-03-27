@@ -18,13 +18,17 @@ export class AppelOffreDetailComponent extends Translatable {
   }
 
   getStatusLabel(statut: any): string {
-    const key = this.AppelOffreService.normalizeStatusKey(statut);
-    return key ? this.__(`appel_offres.status.${key}`) : (statut ?? '-');
+    return statut ? this.__(`appel_offres.status.${statut}`) : (statut ?? '-');
   }
 
   getStatusBadgeClass(statut: any): string {
-    const key = this.AppelOffreService.normalizeStatusKey(statut);
-    return key ? `ao-status-${key}` : 'ao-status-brouillon';
+    console.log(statut, "statu")
+/* const key = this.AppelOffreService.normalizeStatusKey(statut);
+    console.log(key, "keyyyyy") */
+    return statut ? `ao-status-${statut}` : 'ao-status-brouillon';
   }
+
+
+  
 
 }

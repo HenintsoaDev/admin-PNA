@@ -160,7 +160,9 @@
         "receptionner" : "Réceptionner",
         "expirer" : "Expiré",
         "non_expirer" : "",
-        "etat" : "Etat"
+        "etat" : "Etat",
+        "cancel_appel" : "Annuler cet appel d'offre",
+        "oui_annuler" : "Oui, annuler"
     },
 
     "auth": {
@@ -472,10 +474,16 @@
         "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offre",
         "status":{
             "brouillon": "Brouillon",
+            "BROUILLON": "Brouillon",
             "publier": "Publié",
+            "PUBLIE": "Publié",
             "en_attente_evaluation": "En attente d'évaluation",
+            "EN_ATTENTE_EVALUATION": "En attente d'évaluation",
             "attribuer": "Attribué",
+            "ATTRIBUE": "Attribué",
             "clos": "Clos",
+            "CLOS": "Clos",
+            "ANNULE": "Annulé",
             "annule": "Annulé"
         }
     },

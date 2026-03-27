@@ -1,57 +1,61 @@
 <mat-tab-group>
   <mat-tab label="{{ __('appel_offres.step_info')}}">
     <br />
-    <div class="row mb-1">
-      <div class="col-lg-6 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.reference') }}:</label>
-          <h6><span class="bold">{{ appelOffre?.reference }}</span></h6>
-        </div>
-      </div>
-      <div class="col-lg-6 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.titre') }}:</label>
-          <h6><span class="bold">{{ appelOffre?.titre }}</span></h6>
-        </div>
-      </div>
-    </div>
 
-    <div class="row mb-1">
-      <div class="col-lg-12 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.description') }}:</label>
-          <h6><span class="bold" [innerHTML]="appelOffre?.description"></span></h6>
-        </div>
-      </div>
-    </div>
 
-    <div class="row mb-1">
-      <div class="col-lg-6 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.date_publication') }}:</label>
-          <h6><span class="bold">{{ appelOffre?.date_publication | date: 'dd/MM/yyyy HH:mm' }}</span></h6>
-        </div>
+    <div class="so-surface mb-2">
+      <div class="row mb-3">
+          <div class="col-md-6">
+              <div class="so-kv">
+                  <div class="so-k">{{ __("appel_offres.reference")}}</div>
+                  <div class="so-v">{{ appelOffre.reference  }}</div>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="so-kv">
+                  <div class="so-k">{{ __("appel_offres.titre")}}</div>
+                  <div class="so-v">{{ appelOffre.titre  }}</div>
+              </div>
+            
+            
+          </div>
       </div>
-      <div class="col-lg-6 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.date_limite_soumission') }}:</label>
-          <h6><span class="bold">{{ appelOffre?.date_limite_soumission | date: 'dd/MM/yyyy HH:mm' }}</span></h6>
-        </div>
-      </div>
-    </div>
 
-    <div class="row mb-1">
-      <div class="col-lg-6 px-1">
-        <div class="alert alert-custom">
-          <label class="fw-800">{{ __('appel_offres.statut') }}:</label>
-          <h6>
-            <span class="ao-status-badge" [ngClass]="getStatusBadgeClass(appelOffre?.statut)">
-              {{ getStatusLabel(appelOffre?.statut) }}
-            </span>
-          </h6>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="so-kv">
+            <div class="so-k">{{ __("appel_offres.description")}}</div>
+            <div class="so-v"><span class="bold" [innerHTML]="appelOffre?.description"></span></div>
+        </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="so-kv">
+                <div class="so-k">{{ __("appel_offres.date_publication")}}</div>
+                <div class="so-v">{{appelOffre?.date_publication | date: 'dd/MM/yyyy HH:mm'  }}</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="so-kv">
+                <div class="so-k">{{ __("appel_offres.date_limite_soumission")}}</div>
+                <div class="so-v">{{  appelOffre?.date_limite_soumission | date: 'dd/MM/yyyy HH:mm'  }}</div>
+            </div>
+        </div>
     </div>
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <div class="so-kv">
+          <div class="so-k">{{ __("appel_offres.statut")}}</div>
+          <div class="so-v"> <span class="ao-status-badge" [ngClass]="getStatusBadgeClass(appelOffre?.statut)">
+            {{ getStatusLabel(appelOffre?.statut) }}
+          </span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
   </mat-tab>
 
   <mat-tab label="{{ __('appel_offres.lignes') }}">

@@ -23,7 +23,7 @@ export class SoumissionService {
   }
 
   RejeterSoumission(id: number): Observable<{ data: soumission } | soumission> {
-    return this.httpService.delete<{ data: soumission } | soumission>(`${environment.soumission}/${id}`);
+    return this.httpService.put<{ data: soumission } | soumission>(`${environment.soumission}/${id}/annuler`, '');
   }
 
   public normalizeStatusKey(statut: string | null | undefined): string {
