@@ -611,7 +611,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
   get nextStatusLabel(): string {
     const key = this.getNextStatusKey(this.appelOffre?.statut);
-    return key ? this.__(`appel_offres.status.${key}`) : '';
+    return key ;
   }
 
   canGoNextStatus(): boolean {
@@ -631,8 +631,14 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   }
 
   getStatusBadgeClass(statut: any): string {
-    const key = this.normalizeStatusKey(statut);
-    return key ? `ao-status-${key}` : 'ao-status-brouillon';
+
+    console.log(statut, "test")
+    
+    return statut ? `ao-status-${statut}` : 'ao-status-BROUILLON';
+  }
+
+  getLibelle(statut){
+    return this.__(`appel_offres.status.btn_${statut}`);
   }
 
   goNextStatus(): void {
@@ -719,16 +725,16 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
   }
 
   private getNextStatusKey(statut: any): string {
-    const key = this.normalizeStatusKey(statut);
-    switch (key) {
-      case 'brouillon':
-        return 'publier';
-      case 'publier':
-        return 'en_attente_evaluation';
-      case 'en_attente_evaluation':
-        return 'attribuer';
-      case 'attribuer':
-        return 'clos';
+    //const key = this.normalizeStatusKey(statut);
+    switch (statut) {
+      case 'BROUILLON':
+        return 'PUBLIE';
+      case 'PUBLIE':
+        return 'EN_ATTENTE_EVALUATION';
+      case 'EN_ATTENTE_EVALUATION':
+        return 'ATTRIBUE';
+      case 'ATTRIBUE':
+        return 'CLOS';
       default:
         return '';
     }

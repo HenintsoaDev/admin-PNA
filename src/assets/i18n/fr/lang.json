@@ -485,7 +485,12 @@
             "clos": "Clos",
             "CLOS": "Clos",
             "ANNULE": "Annulé",
-            "annule": "Annulé"
+            "annule": "Annulé",
+            "btn_BROUILLON": "Brouillon",
+            "btn_PUBLIE": "Publier",
+            "btn_EN_ATTENTE_EVALUATION": "Mettre en attente",
+            "btn_ATTRIBUE": "Attribuer",
+            "btn_CLOS": "Mettre en cloture"
         }
     },
     "soumissions":{
