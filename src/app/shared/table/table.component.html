@@ -55,9 +55,7 @@
         <tbody *ngIf="donneeAfficher.length != 0 && !isLoading">
           <tr *ngFor="let row of donneeAfficher" class="ng-star-inserted"> 
             <td *ngFor="let cell of row; let i = index" 
-                [ngStyle]=" i === row.length - 1  
-                ? {'text-align': 'center'} 
-                : verifAlignText(cell)"  
+                [ngStyle]="verifAlignText(cell)"  
               >
 
                 <!-- Si cell n'est pas un tableau, afficher le donnée -->

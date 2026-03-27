@@ -83,7 +83,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     { name: 'titre', type: 'text' },
     { name: 'date_publication', type: 'date' },
     { name: 'date_limite_soumission', type: 'date' },
-    { name: 'nombre_soumissions', type: 'text' },
+    { name: 'nombre_soumissions', type: 'number' },
     { name: 'statut', type: 'statut' },
     { name: 'id' }
   ];
@@ -213,30 +213,49 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     this.resetStep2Draft();
   }
 
+
+
   openModalEditAppelOffre(): void {
-    this.titleModal = this.__('appel_offres.title_edit_modal');
 
-    this.loadDetailsAndSetState(this.idAppelOffre, (data) => {
-      this.appelOffre = data;
-      this.currentStep = 1;
+    const storedData = localStorage.getItem('data');
+    let result : any;
+    if (storedData) result = JSON.parse(storedData);
 
-      this.initForm();
-      this.appelOffreForm.patchValue({
-        titre: this.appelOffre.titre ?? '',
-        description: this.appelOffre.description ?? '',
-        date_publication: this.toDatetimeLocalValue(this.appelOffre.date_publication ?? ''),
-        date_limite_soumission: this.toDatetimeLocalValue(this.appelOffre.date_limite_soumission ?? '')
+    // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
+    const res = result.data.filter(_ => _.id == this.idAppelOffre);
+    res[0];
+
+
+    if(res[0].statut == 'PUBLIE' || res[0].statut == 'BROUILLON' ){
+      this.titleModal = this.__('appel_offres.title_edit_modal');
+
+      this.loadDetailsAndSetState(this.idAppelOffre, (data) => {
+        this.appelOffre = data;
+        this.currentStep = 1;
+  
+        this.initForm();
+        this.appelOffreForm.patchValue({
+          titre: this.appelOffre.titre ?? '',
+          description: this.appelOffre.description ?? '',
+          date_publication: this.toDatetimeLocalValue(this.appelOffre.date_publication ?? ''),
+          date_limite_soumission: this.toDatetimeLocalValue(this.appelOffre.date_limite_soumission ?? '')
+        });
+        this.lignesDraft = this.appelOffre.lignes ?? [];
+  
+        this.modalRef = this.modalService.show(this.addappeloffre, {
+          class: 'modal-xl',
+          backdrop: 'static',
+          keyboard: false
+        });
+        this.resetStep2Draft();
+        this.initDraftFromExistingLines();
       });
-      this.lignesDraft = this.appelOffre.lignes ?? [];
+    }else{
+      this.toastr.error(this.__('appel_offres.pas_autorise_modif'), this.__('global.error'));
 
-      this.modalRef = this.modalService.show(this.addappeloffre, {
-        class: 'modal-xl',
-        backdrop: 'static',
-        keyboard: false
-      });
-      this.resetStep2Draft();
-      this.initDraftFromExistingLines();
-    });
+    }
+
+   
   }
 
   openModalDetailAppelOffre(): void {

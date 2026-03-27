@@ -471,7 +471,8 @@
         "ligne_specifications": "Spécifications",
         "nombre_soumissions" : "Nombre soumissions",
         "voir_soumissions" : "Voir les soumissions",
-        "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offre",
+        "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offre.",
+        "pas_autorise_modif" : "Vous ne pouvez plus modifier cet appel d'offre.",
         "status":{
             "brouillon": "Brouillon",
             "BROUILLON": "Brouillon",
