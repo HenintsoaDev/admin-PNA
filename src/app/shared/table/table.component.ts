@@ -244,17 +244,21 @@ export class TableComponent extends Translatable {
             
             // 1. Trouver l'icône "home"
             const stateIcon = this.listIcon.find(i => i.icon === 'state');
-
+            console.log("rrooowww", row)
+            console.log("col", col)
             // 2. Mapper tous les autres icônes sauf "state"
             const icons = this.listIcon
-              .filter(i => i.icon !== 'state')
-              .map(i => ({
-                icon: i.icon,
-                action: i.action,
-                tooltip: i.tooltip,
-                autority: i.autority,
-                id: targetId,
-              }));
+            .filter(i =>
+              i.icon !== 'state' &&
+              !(i.action === 'edit' && row.statut !== "PUBLIE" && row.statut !== "BROUILLON")
+            )
+            .map(i => ({
+              icon: i.icon,
+              action: i.action,
+              tooltip: i.tooltip,
+              autority: i.autority,
+              id: targetId,
+            }));
 
               //3. Si col.name !== "id", alors on concatene avec l'icône "state" 
               if(col.name != "id" && col.name != "rowid"){
