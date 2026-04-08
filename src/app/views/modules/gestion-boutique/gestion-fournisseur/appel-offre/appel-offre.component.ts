@@ -97,7 +97,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
     },
     {
       icon: 'edit',
-      action: 'edit',
+      action: 'edit_appel_offre',
       tooltip: this.__('global.tooltip_edit'),
       autority: 'PAC_9'
     },
@@ -174,7 +174,7 @@ export class AppelOffreComponent extends Translatable implements OnInit, OnDestr
 
       this.idAppelOffre = event.data.id;
 
-      if (event.data.action === 'edit') this.openModalEditAppelOffre();
+      if (event.data.action === 'edit_appel_offre') this.openModalEditAppelOffre();
       else if (event.data.action === 'annuler') this.openModalAnnulerAppelOffre();
       else if (event.data.action === 'detail') this.openModalDetailAppelOffre();
       else if (event.data.action === 'voir_soumissions') this.openSoumissions();

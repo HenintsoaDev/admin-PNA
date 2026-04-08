@@ -369,7 +369,7 @@ export class CommandesComponent extends Translatable implements OnInit {
       t[this.__('commande.reference')] = commande.reference;
       t[this.__('commande.structure')] = commande.structure_sanitaire_name;
       t[this.__('commande.montant_total_ttc')] = commande.montant_total_ttc;
-      t[this.__('commande.statut')] = commande.motif;
+      t[this.__('commande.statut')] = this.__(`soumissions.status.${commande.statut}`) ;
 
       return t;
     });
