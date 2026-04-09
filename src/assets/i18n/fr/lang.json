@@ -572,6 +572,7 @@
         "ref_sage" : "Ref.Sage",
         "fournisseur" :"Fournisseur",
         "createur" : "Créer par",
+        "no_historique": "Aucun historique disponible.",
         "delais" :"Délais (j)",
         "status":{
             "BROUILLON": "Brouillon",
