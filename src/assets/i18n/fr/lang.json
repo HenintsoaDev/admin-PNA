@@ -74,6 +74,8 @@
         "generer_action_?": "Souhaitez-vous vraiment générer l'action ? ",
         "valider_?": "Souhaitez-vous vraiment valider ? ",
         "valider_commande_?": "Souhaitez-vous vraiment valider ce commande ? ",
+        "passer_commande_?": "Souhaitez-vous vraiment passer sur cet étape ? ",
+        
         "clique_pour_activer": "Cliquez pour activer",
         "clique_pour_desactiver": "Cliquez pour désactiver",
         "oui_rejeter" :"Oui, rejeter",
@@ -165,7 +167,8 @@
         "oui_annuler" : "Oui, annuler",
         "accusee" : "Accusée",
         "emise" : "Emise",
-        "brouillon" : "Brouillon"
+        "brouillon" : "Brouillon",
+        "accuser" : "Accuser"
     },
 
     "auth": {
@@ -562,7 +565,7 @@
         "statut" :"Statut",
         "mode_import" : "Mode import",
         "produit" : "Nom du produit",
-        "quantite" : "Qualtité",
+        "quantite" : "Quantité",
         "prix_unitaire" :"Prix unitaire",
         "montant" :"Montant",
         "total" : "Montant total",
@@ -579,6 +582,7 @@
             "ATTRIBUE": "Attribué",
             "CLOS": "Clos",
             "ANNULE": "Annulé",
+            "EXPEDIEE": "Expédiée",
             "btn_BROUILLON": "Brouillon",
             "btn_PUBLIE": "Publier",
             "btn_EN_ATTENTE_EVALUATION": "Mettre en évaluation",
@@ -596,7 +600,14 @@
         "ligne_commande" : "Ligne des commandes",
         "ajouter_produit": "Ajouter",
         "jours" : "j",
-        "montant_total" :"Montant total"
+        "montant_total" :"Montant total",
+        "title_breadcrumb_commande_achat" : "Commande d'achat",
+        "nombre_ligne" : "Nombre de ligne",
+        "total_commande" : "Total commande",
+        "astuce": "Ajouter les produits à commander. Le montant total se calcule automatiquement",
+        "par": "Par",
+        "title_edit_achat_modal" : "Modification du commande d'achat",
+        "title_add_achat_modal" : "Ajout du commande d'achat"
 
 
     },

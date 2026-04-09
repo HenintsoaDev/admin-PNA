@@ -3,6 +3,7 @@
 .co-status-ACCUSEE { background: #5cb85c; }
 .co-status-EN_PREPARATION { background: #0B7238; }
 .co-status-ANNULE { background: #d9534f; }
+.co-status-EXPEDIEE { background: #d9534f; }
 
 .co-status-label {
     font-weight: 800;
@@ -180,6 +181,92 @@
   text-align: right;
   white-space: nowrap;
 }
-.mt-30px{
-  //margin-top: 30px;
+
+.mat-alert {
+  padding: 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.mat-alert.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  //border-left: 5px solid #4caf50;
+}
+
+.mat-alert.blue {
+  background-color: #dad9f2;
+  color: #5d57ff;
+  border-left: 5px solid #5d57ff;
+}
+
+.info-center {
+  display: flex;
+  gap: 6px; /* espace propre entre icône et texte */
+}
+
+.co-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 14px rgba(18, 38, 63, 0.12);
+}
+
+.co-dot-BROUILLON { background: #6c757d; }
+.co-dot-EMISE { background: #0B57D0; }
+.co-dot-ACCUSEE { background: #5cb85c; }
+.co-dot-EN_PREPARATION { background: #0B7238; }
+.co-dot-ANNULE { background: #d9534f; }
+.co-dot-EXPEDIEE { background: #d9534f; }
+
+.co-timeline {
+  position: relative;
+  padding-left: 42px;
+}
+
+.co-timeline::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: rgba(15, 23, 42, 0.10);
+  border-radius: 99px;
+}
+
+.co-timeline-item {
+  position: relative;
+  padding: 8px 0 18px;
+}
+
+.co-timeline-item:last-child {
+  padding-bottom: 6px;
+}
+
+.co-timeline-item .so-dot {
+  position: absolute;
+  left: 8px;
+  top: 10px;
+}
+
+.co-timeline-content {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 24px rgba(18, 38, 63, 0.04);
+}
+
+.co-timeline-title {
+  font-weight: 900;
+  color: #0f172a;
+  font-size: 16px;
+}
+
+.co-timeline-meta {
+  margin-top: 4px;
+  color: #94a3b8;
+  font-weight: 700;
 }

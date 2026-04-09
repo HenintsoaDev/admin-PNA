@@ -24,15 +24,17 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
   
   /***************************************** */
-  dateDebut: string = moment().startOf('month').format('YYYY-MM-DD');;
+  dateDebut: string = moment().startOf('month').format('YYYY-MM-DD');
+;
   dateFin: string = moment().endOf('month').format('YYYY-MM-DD');
   endpoint = "";
   header = [
 
 
+    
     {
-      "nomColonne": this.__('commande.date'),
-      "colonneTable": "date_commande",
+      "nomColonne": this.__('commande.reference'),
+      "colonneTable": "reference",
       "table": "commande_achat"
     },
 
@@ -41,19 +43,19 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       "colonneTable": "reference",
       "table": "commande_achat"
     },
-    {
-      "nomColonne": this.__('commande.reference'),
-      "colonneTable": "reference",
-      "table": "commande_achat"
-    },
+  
 
     {
       "nomColonne": this.__('commande.fournisseur'),
-      "colonneTable": "nom",
+      "colonneTable": "raison_sociale",
       "table": "fournisseur"
     },
 
-
+    {
+      "nomColonne": this.__('commande.date'),
+      "colonneTable": "date_commande",
+      "table": "commande_achat"
+    },
     {
       "nomColonne": this.__('commande.montant_total_ttc'),
       "colonneTable": "montant_total_ht",
@@ -81,22 +83,24 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   ]
 
   objetBody = [
+   
     {
-      'name': 'date_commande',
+      'name': 'reference',
       'type': 'text',
     },
     {
       'name': 'reference_sage',
       'type': 'text',
     },
-    {
-      'name': 'reference',
-      'type': 'text',
-    },
+ 
 
 
     {
       'name': 'fournisseur_nom',
+      'type': 'text',
+    },
+    {
+      'name': 'date_commande',
       'type': 'text',
     },
     {
@@ -128,10 +132,16 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       'autority': 'GSC_2',
 
     },
+    {
+      'icon' : 'edit',
+      'action' : 'edit',
+      'tooltip' : this.__('global.tooltip_edit'),
+      'autority' : 'GSC_2'
+    },
 
 
   ]
-  searchGlobal = ['commande_client.date_commande', 'structure_sanitaire.nom','commande_client.reference']
+  searchGlobal = ['commande_achat.date_commande', 'fournisseur.raison_sociale','commande_achat.reference']
 
   /***************************************** */
 
@@ -140,6 +150,8 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   subscription: Subscription;
 
   @ViewChild('detailcommande') detailcommande: TemplateRef<any> | undefined;
+  @ViewChild('addcommande') addcommande: TemplateRef<any> | undefined;
+
   idcommande: number;
   titleModal: string = "";
   modalRef?: BsModalRef;
@@ -183,6 +195,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   lignesDraft: any[] = [];
 
   produit_id: any;
+  listCommande: any;
 
   private productSearchTimer?: any;
   constructor(
@@ -220,7 +233,8 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       if (event.data) {
         this.idcommande = event.data.id;
 
-        if (event.data.action == 'detail') this.openModalcommande();
+        if(event.data.action == 'edit') this.openModalEditCommande();
+        else if (event.data.action == 'detail') this.openModalcommande();
 
         // Nettoyage immédiat de l'event
 
@@ -230,7 +244,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     });
     this.endpoint = environment.baseUrl + '/' + environment.commande_achat;
     /***************************************** */
-
+    this.initForm();
     this.filtreTableau();
   }
 
@@ -252,8 +266,8 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     this.commandeAchatForm = this.fb.group({
       fournisseur_id: ['', Validators.required],
       commentaire: [''],
-      delai_livraison_jours: ['', Validators.required],
-      date_commmande: ['', Validators.required]
+      delai_livraison_jours: [''],
+      date_commande: [null, Validators.required]
     });
   }
   
@@ -285,7 +299,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     this.titleModal = this.__('global.tooltip_detail');
 
     if (this.detailcommande) {
-      //this.recupererDonnee();
+
       this.commande = await this.authService.getSelectList(environment.commande_achat + '/' + this.idcommande, ['titre']);
 
       // Ouverture de modal
@@ -299,11 +313,14 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
    // Ouverture du modal pour l'ajout
    async openModalAdd(template: TemplateRef<any>) {
-    this.titleModal = this.__('utilisateur.title_add_modal');
+    this.titleModal = this.__('commande.title_add_achat_modal');
     this.initForm();
+    this.lignesDraft = [];
+    this.currentStep = 1;
+
     this.actualisationSelectFournisseur();
     this.actualisationSelectProduit();
-    //this.actualisationSelectBureau();
+
     this.modalRef = this.modalService.show(template, {
       class: 'modal-xl',backdrop:"static"
     });
@@ -352,56 +369,79 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   }
 
 
-  onProductQueryChange(value: string): void {
-    this.productQuery = value;
-    this.selectedProduct = null;
-
-    if (this.productSearchTimer) clearTimeout(this.productSearchTimer);
-    this.productSearchTimer = setTimeout(() => {
-      const q = (this.productQuery ?? '').trim();
-      if (q.length < 2) {
-        this.foundProducts = [];
-        return;
-      }
-
-      this.produitService.findProductByName(q, 1, 10).subscribe({
-        next: (res) => {
-          const data = res?.data ?? res;
-          this.foundProducts = data?.data ?? data ?? [];
-        },
-        error: () => {
-          this.foundProducts = [];
-        }
-      });
-    }, 250);
+  getCommandeStatusDotClass(statut: any): string {
+    return statut ? `co-dot-${statut}` : 'so-dot-soumise';
   }
 
-  selectProduct(p: any): void {
-    this.selectedProduct = p;
-    this.productQuery = p?.nom_commercial || p?.dci || p?.code || '';
-    this.productDesignation = p?.nom_commercial || p?.dci || p?.code || '';
-    this.productSpecifications = '';
-    this.foundProducts = [];
+  getHistoriqueUserLabel(h: any): string {
+    const user = h?.nom_utilisateur;
+    return user;
   }
-
 
   // Récuperation des données
-  recupererDonnee() {
+  async recupererDonnee() {
 
-    // Récupérer la liste affichée dans le tableau depuis le localStorage.
-    const storedData = localStorage.getItem('data');
-    let result: any;
-    if (storedData) result = JSON.parse(storedData);
-    this.listAttestations = result.data;
+    let res = await this.authService.getSelectList(environment.commande_achat + '/' + this.idcommande, ['titre']);
 
 
-    // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
-    const res = this.listAttestations.filter(_ => _.id == this.idcommande);
     if (res.length != 0) {
-      this.commande = res[0];
+      this.commande = res;
+
+      this.commandeAchatForm.patchValue({
+        fournisseur_id: this.commande.fournisseur_id,
+        commentaire: this.commande.commentaire,
+        delai_livraison_jours: this.commande.delai_livraison_jours,
+        date_commande: this.commande.date_commande 
+          ? new Date(this.commande.date_commande)
+          : null,
+      });
+
+
+    
+
+
+    if (this.commande?.lignes_commande_achat?.length) {
+
+      this.lignesDraft = []; // reset si besoin
+    
+      this.commande.lignes_commande_achat.forEach((ligne: any) => {
+
+    
+        this.lignesDraft.push({
+          produit_id: ligne.id,
+          quantite: ligne.quantite,
+          produit: ligne.produit, // ou à adapter selon ton API
+          montant: ligne.montant
+        });
+    console.log(this.lignesDraft);
+      });
+    
+    }
+
+
+    
 
     }
   }
+
+  // Ouverture de modal pour modification
+openModalEditCommande() {
+  
+  this.titleModal = this.__('commande.title_edit_achat_modal');
+  
+  if (this.addcommande) {
+
+    this.recupererDonnee();
+    this.actualisationSelectFournisseur();
+    this.actualisationSelectProduit();
+    this.currentStep = 1;
+    this.productPrice = '',
+    this.productQty = 1,
+    this.produit_id = null;
+    // Ouverture de modal
+    this.modalRef = this.modalService.show(this.addcommande, { class: 'modal-lg', backdrop: 'static',keyboard: false });
+  }
+}
 
   async actualisationSelectFournisseur() {
     let fournisseur = await this.authService.getSelectList(environment.liste_fournisseur_active, ['raison_social']);
@@ -449,7 +489,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   valider(type) {
     Swal.fire({
       title: this.__("global.confirmation"),
-      text: this.__("global.valider_commande_?"),
+      text: this.__("global.passer_commande_?"),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: this.__("global.oui_valider"),
@@ -462,7 +502,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.isDisabled = true;
-        this.commandeService.validerCommande(this.idcommande, type).subscribe({
+        this.commandeService.validerCommandeAchat(this.idcommande, type).subscribe({
           next: (res) => {
             if (res['code'] == 201) {
               this.toastr.success(res['msg'], this.__("global.success"));
@@ -553,11 +593,6 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
   addLineDraft(): void {
 
-    console.log(this.produit_id);
-    console.log(this.productQty);
-    console.log(this.productPrice);
-
-
     if (!this.produit_id) return;
     const qty = Number(this.productQty);
     if (!qty || qty <= 0) return;
@@ -604,24 +639,35 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     this.lignesDraft.splice(index, 1);
   }
 
+  getTotalMontantDraft(): number {
+    return this.lignesDraft.reduce((total, ligne) => {
+      return  total + Number(ligne.montant);
+    }, 0);
+  }
+
 
   onSubmit(): void {
-    if (this.commandeAchatForm.invalid) return;
+
+    const formValue = this.commandeAchatForm.value;
 
     const payload: any = {
-      ...this.commandeAchatForm.value,
+      ...formValue,
+      date_commande: formValue.date_commande 
+        ? moment(formValue.date_commande).format('YYYY-MM-DD')
+        : null,
       lignes: this.lignesDraft.map((l): any => ({
         produit_id: l.produit_id,
         quantite: l.quantite,
       }))
     };
+  
 
     const isEdit = !!this.commande?.id;
     const msg = isEdit ? this.__('global.modifier_donnee_?') : this.__('global.enregistrer_donnee_?');
     const msgBtn = isEdit ? this.__('global.oui_modifier') : this.__('global.oui_enregistrer');
 
     console.log(payload);
-   /*  Swal.fire({
+     Swal.fire({
       title: this.__('global.confirmation'),
       text: msg,
       icon: 'warning',
@@ -636,9 +682,9 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     }).then(result => {
       if (!result.isConfirmed) return;
 
-      const req$ = isEdit && this.appelOffre.id
-        ? this.appelOffreService.modifierAppelOffre(this.appelOffre.id, payload)
-        : this.appelOffreService.ajoutAppelOffre(payload);
+      const req$ = isEdit && this.commande.id
+        ? this.commandeService.modifierCommandeAchat(this.commande.id, payload)
+        : this.commandeService.ajoutCommandeAchat(payload);
 
       req$.subscribe({
         next: res => {
@@ -654,7 +700,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
         },
         error: () => {}
       });
-    }); */
+    }); 
   }
 
 
