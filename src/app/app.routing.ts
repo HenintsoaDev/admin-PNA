@@ -44,6 +44,7 @@ const routes: Routes =[
   },
 
 
+
   {
     path: 'ouverture', data: { breadcrumb: 'ouverture.title_breadcrumb' },
   },

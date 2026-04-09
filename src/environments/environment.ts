@@ -47,9 +47,11 @@ export const environment = {
   fournisseur: 'admin/gestion_fournisseurs/fournisseurs',
   appel_offre: 'admin/gestion_fournisseurs/appel-offres',
   soumission: 'admin/gestion_fournisseurs/soumissions',
+  liste_fournisseur_active: 'admin/gestion_fournisseurs/fournisseurs/active',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
+  commande_achat: 'admin/gestion_commandes/commande_achats',
 
   type_profil: 'parametrage/type_profil',
   liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',

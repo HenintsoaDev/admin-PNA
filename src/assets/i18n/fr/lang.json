@@ -162,7 +162,10 @@
         "non_expirer" : "",
         "etat" : "Etat",
         "cancel_appel" : "Annuler cet appel d'offre",
-        "oui_annuler" : "Oui, annuler"
+        "oui_annuler" : "Oui, annuler",
+        "accusee" : "Accusée",
+        "emise" : "Emise",
+        "brouillon" : "Brouillon"
     },
 
     "auth": {
@@ -562,7 +565,40 @@
         "quantite" : "Qualtité",
         "prix_unitaire" :"Prix unitaire",
         "montant" :"Montant",
-        "total" : "Montant total"
+        "total" : "Montant total",
+        "ref_sage" : "Ref.Sage",
+        "fournisseur" :"Fournisseur",
+        "createur" : "Créer par",
+        "delais" :"Délais (j)",
+        "status":{
+            "BROUILLON": "Brouillon",
+            "PUBLIE": "Publié",
+            "EMISE" : "Emise",
+            "ACCUSEE" : "Accusée",
+            "EN_PREPARATION": "En préparation",
+            "ATTRIBUE": "Attribué",
+            "CLOS": "Clos",
+            "ANNULE": "Annulé",
+            "btn_BROUILLON": "Brouillon",
+            "btn_PUBLIE": "Publier",
+            "btn_EN_ATTENTE_EVALUATION": "Mettre en évaluation",
+            "btn_ATTRIBUE": "Attribuer",
+            "btn_CLOS": "Mettre en cloture"
+        },
+        "tab_information": "Information",
+        "tab_lignes": "Lignes",
+        "tab_documents": "Documents",
+        "tab_evaluation": "Évaluation",
+        "tab_historique": "Historique",
+        "add_achat" : "Ajouter une commande d'achat",
+        "date_commande" : "Date commande",
+        "step_info": "Informations",
+        "ligne_commande" : "Ligne des commandes",
+        "ajouter_produit": "Ajouter",
+        "jours" : "j",
+        "montant_total" :"Montant total"
+
+
     },
     "entrepot": {
         "title_breadcrumb": "Lister les entrepots",

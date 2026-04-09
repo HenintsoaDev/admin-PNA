@@ -237,3 +237,12 @@ ngb-pagination {
     padding-right: 0;
     width: 100%;
   }
+
+  .mat-calendar-body-selected {
+    background-color: $primary !important;
+    color: #fff;
+  }
+
+  .mat-button-wrapper{
+    color: $primary !important;
+  }

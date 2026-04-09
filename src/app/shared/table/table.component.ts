@@ -396,11 +396,9 @@ export class TableComponent extends Translatable {
           else if(post[0] == 'COLISAGE') return this.__('global.colisage');
           else if(post[0] == 'RECEPTIONNEE') return this.__('global.receptionnee');
           else if(post[0] == 'EN_TRANSIT') return this.__('global.en_transit');
-
-      } else if(post[1] == 'state') {
-          if(post[0] == 1) return this.__('global.traiter');
-          else if(post[0] == 0) return this.__('global.en_attente_traiter');
-
+          else if(post[0] == 'ACCUSEE') return this.__('global.accusee');
+          else if(post[0] == 'EMISE') return this.__('global.emise');
+          else if(post[0] == 'BROUILLON') return this.__('global.brouillon');
       }else if(post[1] == 'expire') {
           if(post[0] == 0) return this.__('global.non_expirer');
           else if(post[0] == 1) return this.__('global.expirer');
@@ -516,6 +514,8 @@ export class TableComponent extends Translatable {
           
         };
       } else if(post[1] == 'statut') {
+        
+
         if(post[0] == 'EN_ATTENTE_VALIDATION') return {
           'color': 'white',
           'background-color' : '#f0ad4e',
@@ -523,9 +523,17 @@ export class TableComponent extends Translatable {
           'padding': '5px',
           'border-radius': '5px',
         };
-        else if(post[0] == 'VALIDEE') return {
+        else if(post[0] == 'VALIDEE'|| post[0] == 'ACCUSEE') return {
           'color': 'white',
           'background-color' : '#5cb85c',
+          'font-weight' : 'bold',
+          'padding': '5px',
+          'border-radius': '5px',
+          
+        };
+        else if(post[0] == 'BROUILLON') return {
+          'color': 'white',
+          'background-color' : '#6c757d',
           'font-weight' : 'bold',
           'padding': '5px',
           'border-radius': '5px',
@@ -572,7 +580,7 @@ export class TableComponent extends Translatable {
           'padding': '5px',
           'border-radius': '5px',
         };
-        if(post[0] == 'RECEPTIONNEE') return {
+        if(post[0] == 'RECEPTIONNEE' || post[0] == 'EMISE') return {
           'color': 'white',
           'background-color' : '#0B57D0',
           'font-weight' : 'bold',

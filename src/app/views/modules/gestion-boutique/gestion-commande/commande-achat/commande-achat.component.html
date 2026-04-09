@@ -1,0 +1,635 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+
+                        <div class="button-container">
+                            <div class="left-button">
+                                <button class="btn btn-secondary export-btn excel text-white" (click)="exportExcel()">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png"
+                                        alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white" (click)="exportPdf()">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button>
+                            </div>
+                            <div class="right-button">
+                                <button class="btn btn-secondary" *ngIf="autority('GSC_1')" (click)="openModalAdd(addcommande)"> {{ __("commande.add_achat")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-content-center">
+                            <div class="form-group col-2">
+                                <label for="dateFonction">{{ __("commande.from") }}</label>
+                                <mat-form-field appearance="fill" style="width: 100%">
+                                    <input matInput [matDatepicker]="pickerDebut" [(ngModel)]="dateDebut"
+                                        placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerDebut></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="dateFonction">{{ __("commande.to") }}</label>
+                                <mat-form-field appearance="fill" style="width: 100%">
+                                    <input matInput [matDatepicker]="pickerFin" [(ngModel)]="dateFin"
+                                        placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerFin></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-2 align-self-center">
+                                <button class="btn btn-primary" (click)="filtreTableau()" style="width: 100%">
+                                    {{ __("global.filter") }}
+                                </button>
+                            </div>
+                        </div>
+                    
+
+                        <div class="table-responsive">
+                            <app-table [endpoint]="endpoint" [headerTable]="header" [body]="objetBody"
+                                [listIcon]="listIcon" [formSearch]="false" [searchGlobal]="searchGlobal"
+                                [triDescDefault]="'date_commande'">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL détails -->
+<ng-template #detailcommande>
+  <div class="modal-header btn-primary">
+    <h5 class="modal-title" id="myModalLabel"><b>{{ titleModal }}</b></h5>
+    <button type="button" class="close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="commande as c">
+    <mat-tab-group class="so-tabs">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-info-circle mr-2"></i>{{ __('commande.tab_information') }}
+        </ng-template>
+        <br />
+        <div class="so-surface">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="so-kv">
+                <div class="so-k">{{ __('commande.reference') }}</div>
+                <div class="so-v">{{ c.reference || '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('commande.fournisseur') }}</div>
+                <div class="so-v">{{ c.fournisseur_nom || '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('commande.montant') }}</div>
+                <div class="so-v so-v-amount">{{formatNumber (c.montant_total_ht, ' ' ) || '-' }} </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="so-kv">
+                    <div class="so-k">{{ __('commande.ref_sage') }}</div>
+                    <div class="so-v">{{ c.reference_sage || '-' }}</div>
+                </div>
+           
+         
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('commande.date_commande') }}</div>
+                <div class="so-v">{{ c.date_commande ? (c.date_commande | date: 'dd/MM/yyyy HH:mm') : '-' }}</div>
+              </div>
+
+              <div class="so-kv">
+                <div class="so-k">{{ __('commande.delais') }}</div>
+                <div class="so-v">{{ c.delai_livraison_jours || '-' }} {{ __('commande.jours') }}</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="so-kv">
+                    <div class="so-k mb-3">{{ __('commande.statut') }}</div>
+                    <div class="so-v">
+                      <span class="co-status-badge" [ngClass]="getCommandeAchatStatusBadgeClass(c.statut)">
+                        {{ getCommandeAchatStatusLabel(c.statut) }}
+                      </span>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-6">
+                <div class="so-kv">
+                    <div class="so-k">{{ __('commande.createur') }}</div>
+                    <div class="so-v">{{ c.createur_nom_complet || '-' }}</div>
+                </div>
+            </div>
+           
+
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-cube mr-2"></i>{{ __('commande.tab_lignes') }}
+        </ng-template>
+        <br />
+        <mat-accordion>
+                
+            <mat-expansion-panel *ngFor="let ligne_commande of commande.lignes_commande_achat">
+        
+            <mat-expansion-panel-header>
+                <div class="panel-header ">
+        
+                <div class="col name">
+                    <label><b class="fw-800">{{ __("commande.produit")}}</b></label>
+                    <h6><b class="bold">{{ligne_commande.produit.nom_commercial}} ({{ligne_commande.produit.code}})</b></h6>
+                </div>
+                <div class="col qty">
+                    <label><b class="fw-800">{{ __("commande.quantite")}}</b></label>
+                    <h6><b class="bold">{{ligne_commande.quantite}}</b></h6>
+
+                </div>
+                <div class="col price">
+                    <label><b class="fw-800">{{ __("commande.prix_unitaire")}}</b></label>
+                    <h6><b class="bold">{{ formatNumber(ligne_commande.prix_unitaire, ' ') }}</b></h6>
+                </div>
+                <div class="col amount">
+                    <label><b class="fw-800">{{ __("commande.montant")}}</b></label>
+                    <h6><b class="bold">{{  formatNumber(ligne_commande.montant, ' ') }}</b></h6>
+                </div>
+        
+                </div>
+            </mat-expansion-panel-header>
+            <br>
+            <div class="details">
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.dci")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.dci }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
+                                <h6><b class="bold">{{  formatNumber(ligne_commande.produit.prix_unitaire, ' ') }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                     
+                      
+                      
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.conditionnement")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.conditionnement }}</b></h6>
+                            </div>
+                        </td>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.forme }}</b></h6>
+                            </div>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.dosage }}</b></h6>
+                            </div>
+                        </td>
+                     
+                        <td >
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.sous_categorie }}</b></h6>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <div class="alert alert-custom">
+                                <label><b class="fw-800">{{ __("produit.description")}}</b></label>
+                                <h6><b class="bold">{{  ligne_commande.produit.description }}</b></h6>
+                            </div>
+                        </td>
+                       
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+
+                            <div class="row" *ngIf="ligne_commande.produit?.images?.length != 0">
+
+          
+
+                                <div class="col-lg-2 text-center d-flex flex-column align-items-center" *ngFor="let document of ligne_commande.produit.images">
+              
+                                    <img
+                                      [src]="document.url"
+                                      *ngIf="
+                                        document.url.split('.').pop() == 'jpeg' ||
+                                        document.url.split('.').pop() == 'png' ||
+                                        document.url.split('.').pop() == 'jpg' ||
+                                        document.url.split('.').pop() == 'webp' ||
+                                        document.url.split('.').pop() == 'svg'
+                                      "
+                                      style="width: 100px"
+                                    />
+                                  
+                                    <div>
+                                      <i class="fa fa-download fa-2x icon-img"
+                                        style="cursor: pointer;"
+                                         (click)="downloadDirect(document.url)"
+                                         tooltip="{{ __('tooltip.download') }}"></i>
+                                     
+                                    </div>
+            
+                                  </div>
+                            </div>
+                    
+                            <div class="row" *ngIf="produit?.images?.length == 0">
+                              <div class="col-lg-9">
+                                <div class="alert alert-custom">
+                                  <h6>
+                                    <span >{{ __("global.aucun_document") }}</span>
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+
+
+                        </td>
+                    </tr>
+        
+                
+            
+                </table>
+            </div>
+        
+            </mat-expansion-panel>
+
+            <div class="panel-footer total-row">
+
+                <div class="col name">
+                    <b>{{ __("commande.total") }}</b>
+                </div>
+            
+                <div class="col qty"></div>
+            
+                <div class="col price"></div>
+            
+                <div class="col amount">
+                    <b>{{ formatNumber(getTotalMontant(), ' ') }}</b>
+                </div>
+            
+            </div>
+        
+        </mat-accordion>
+        <ng-template #noLines>
+          <p>{{ __('table.aucun_donnee') }}</p>
+        </ng-template>
+      </mat-tab>
+<!-- 
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-paperclip mr-2"></i>{{ __('commande.tab_documents') }}
+        </ng-template>
+        <br />
+        <ng-container *ngIf="getDocuments(s) as docs">
+          <div class="so-doc-count">{{ docs.length }} {{ __('commande.documents_soumis') }}</div>
+
+          <div class="so-doc-list" *ngIf="docs.length; else noDocs">
+            <div class="so-doc-item" *ngFor="let d of docs">
+              <div class="so-doc-left">
+                <div class="so-doc-ico">
+                  <i [class]="getDocIconClass(d.type_document)"></i>
+                </div>
+                <div class="so-doc-name">{{ d.nom_fichier || '-' }}</div>
+              </div>
+
+              <div class="so-doc-mid">
+                <span class="so-doc-type" [ngClass]="getDocTypeClass(d.type_document)">
+                  {{ (d.type_document || '-') | uppercase }}
+                </span>
+                <span class="so-doc-date">
+                  {{ d.date_creation ? (d.date_creation | date: 'dd/MM/yyyy') : '-' }}
+                </span>
+              </div>
+
+              <div class="so-doc-right">
+                <a class="so-doc-download" [href]="d.url" target="_blank" rel="noopener">
+                  <i class="fa fa-download mr-2"></i>{{ __('commande.telecharger') }}
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noDocs>
+            <div class="so-surface">
+              <div class="so-empty">{{ __('commande.no_documents') }}</div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-balance-scale mr-2"></i>{{ __('commande.tab_evaluation') }}
+        </ng-template>
+        <br />
+        <p>{{ __('commande.feature_future') }}</p>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-history mr-2"></i>{{ __('commande.tab_historique') }}
+        </ng-template>
+        <br />
+        <div class="so-timeline" *ngIf="s.historiques?.length; else noHistorique">
+          <div class="so-timeline-item" *ngFor="let h of s.historiques">
+            <div class="so-dot" [ngClass]="getcommandetatusDotClass(h.nouveau_statut)"></div>
+            <div class="so-timeline-content mt-2">
+              <div class="so-timeline-title">{{ h.action || '-' }}</div>
+              <div class="so-timeline-meta">
+               <span *ngIf="h.created_at">
+                 {{ h.created_at ? (h.created_at) : '-' }}
+               </span>
+                <span class="mx-1">•</span>
+                {{ __('commande.par') }} : <span class="so-muted">{{ getHistoriqueUserLabel(h) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noHistorique>
+          <div class="so-surface">
+            <div class="so-empty">{{ __('commande.no_historique') }}</div>
+          </div>
+        </ng-template>
+      </mat-tab> -->
+    </mat-tab-group>
+  </div>
+
+  <div class="modal-footer" *ngIf="soumission as s">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close') }}</button>
+    <button type="button" class="btn btn-danger" (click)="rejectSoumission(s.id)" *ngIf="canReject(s)">
+      {{ __('global.rejeter') }}
+    </button>
+    <button type="button" class="btn btn-warning" (click)="passerEnEvaluation(s.id)" *ngIf="canPasserEnEvaluation(s)">
+      {{ __('commande.passer_en_evaluation') }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="validateSoumission(s.id)" *ngIf="canValidate(s)">
+      {{ __('global.accept') }}
+    </button>
+  </div>
+</ng-template>
+
+<!-- MODAL ajout/modification -->
+<ng-template #addcommande>
+	<div class="modal-header btn-primary">
+		<h5 class="modal-title" id="myModalLabel"><b>{{ titleModal }}</b></h5>
+		<button type="button" class="close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<!-- status and next step button -->
+		<div class="ao-statusbar" [ngClass]="{ 'd-none': !commande?.id, 'd-block': !!commande?.id }">
+			<div class="d-flex align-items-center justify-content-between flex-wrap">
+				<div class="d-flex align-items-center flex-wrap">
+					<span class="ao-status-label">{{ __('commande.statut') }}:</span>
+					<!-- <span class="ao-status-badge" [ngClass]="getStatusBadgeClass(appelOffre?.statut)">
+						{{ getStatusLabel(appelOffre?.statut) }}
+					</span> -->
+				</div>
+
+				 <!-- <div class="d-flex align-items-center flex-wrap">
+					<button type="button" class="btn btn-sm btn-outline-danger ao-next-status-btn mr-2"
+						(click)="annulerAppelOffre()" [disabled]="isStatusChanging || !canAnnulerAppelOffre()">
+						<i class="fa fa-times mr-1"></i>
+						{{ __('commande.annuler') }}
+					</button>
+					<button type="button" class="btn btn-sm btn-outline-primary ao-next-status-btn"
+						(click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()">
+						<i class="fa fa-arrow-right mr-1"></i>
+						{{ __('commande.next_status') }}
+						<span *ngIf="nextStatusLabel">: <b>{{ nextStatusLabel }}</b></span>
+					</button>
+				</div>  -->
+			</div>
+		</div>
+
+		<form [formGroup]="commandeAchatForm">
+					<div class="ao-steps">
+						<div class="ao-step"
+							role="button"
+							tabindex="0"
+							[class.active]="currentStep === 1"
+							(click)="goToStep(1)">
+							1. {{ __('commande.step_info') }}
+						</div>
+						<div class="ao-step"
+							role="button"
+							tabindex="0"
+							[class.active]="currentStep === 2"
+							(click)="goToStep(2)">
+							2. {{ __('commande.ligne_commande') }}
+						</div>
+					</div>
+
+					<!-- Étape 1 : informations -->
+					<div [ngClass]="{ 'd-none': currentStep !== 1, 'd-block': currentStep === 1 }">
+				
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group"> 
+                                <mat-form-field appearance="fill" style="  margin-top: 39px !important;">
+                                    <mat-label>{{ __('commande.fournisseur')}}</mat-label>
+                                    <mat-select name="fournisseur_id" formControlName="fournisseur_id" >
+                                      <!-- Champ de recherche -->
+                                      <mat-option>
+                                        <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                      </mat-option>
+                                  
+                                      <!-- Affichage des options filtrées -->
+                                      <mat-option *ngFor="let fournisseur of filteredFournisseurs" [value]="fournisseur.id"> {{ fournisseur.raison_sociale }} <b>({{ fournisseur.code}})</b>  </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+            
+                            
+                        </div>
+                        <div class="col-lg-6">
+                        
+                            <div class="form-group">
+                                <label for="dateFonction">{{ __("commande.date_commande") }}</label>
+                                <mat-form-field appearance="fill" style="width: 100%">
+                                    <input matInput [matDatepicker]="pickerFin" name="date_fin" formControlName="date_commande"
+                                        placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerFin></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                       
+					          </div>
+                
+                    <div class="row">
+                       
+                        <div class="col-lg-6">
+							<div class="form-group">
+							<mat-form-field class="w-100">
+								<mat-label>{{ __('commande.delais') }}</mat-label>
+								<input matInput type="text" formControlName="delai_livraison_jours" name="delai_livraison_jours">
+							</mat-form-field>
+                            </div>
+                        </div>
+						<div class="col-lg-12">
+							<div class="form-group">
+                  <mat-form-field class="w-100">
+                      <mat-label>{{ __('commande.commentaire') }}</mat-label>
+                      <textarea matInput rows="4" formControlName="commentaire" name="commentaire"></textarea>
+                  </mat-form-field>
+              </div>
+
+						</div>
+					</div>
+				
+                
+					
+				</div>
+      </form>
+
+					<!-- Étape 2 : produits (à implémenter) -->
+					<div [ngClass]="{ 'd-none': 2 !== currentStep, 'd-block': 2 === currentStep  }">
+						<div class="ao-surface">
+								<div class="row align-items-end">
+									<div class="col-lg-6">
+                      <div class="form-group" > 
+                          <mat-form-field appearance="fill" style="  margin-top: 39px !important;">
+                              <mat-label>{{ __('commande.produit')}}</mat-label>
+                              <mat-select name="produit_id"  [(ngModel)]="produit_id" (selectionChange)="recupererPrix($event.value)">
+                                <!-- Champ de recherche -->
+                                <mat-option>
+                                  <input matInput placeholder="Rechercher..." [formControl]="searchControl" (click)="$event.stopPropagation()" />
+                                </mat-option>
+                            
+                                <!-- Affichage des options filtrées -->
+                                <mat-option *ngFor="let produit of filteredProduits" [value]="produit.id"> {{ produit.code }} - {{ produit.dci }} <b>({{ produit.conditionnement}})</b>  </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-2">
+                      <div class="form-group">
+                          <label class="fw-800">{{ __('commande.quantite') }}:</label>
+                          <input matInput type="number" min="1" [(ngModel)]="productQty"
+                              [ngModelOptions]="{standalone: true}">
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                      <div class="form-group">
+                          <label class="fw-800">{{ __('commande.prix_unitaire') }}:</label>
+                          <input matInput type="number" min="1" readonly [(ngModel)]="productPrice"
+                              [ngModelOptions]="{standalone: true}">
+                      </div>
+                  </div>
+
+                  <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary w-100" (click)="addLineDraft()"
+                      [disabled]="!productPrice">
+                      {{ __('commande.ajouter_produit') }}
+                    </button>
+                  </div>
+								</div>
+
+
+								<div class="table-responsive mt-3" >
+									<table class="table ao-lines-table">
+										<thead class="ao-lines-thead">
+											<tr>
+												<th>{{ __('commande.produit') }}</th>
+												<th class="text-right">{{ __('commande.quantite') }}</th>
+												<th class="text-right">{{ __('commande.montant_total') }}</th>
+												<th style="width: 90px; text-align:center;">{{ __('global.action') }}</th>
+											</tr>
+										</thead>
+										<tbody class="ao-lines-tbody">
+											<tr *ngFor="let l of lignesDraft; let i = index">
+												<td>
+													<div class="ao-product-name">{{ l.produit?.code }} - {{ l.produit?.dci }} ({{ l.produit?.conditionnement }}) </div>
+												</td>
+                        <td>
+													<div class="text-right" *ngIf="l.quantite">{{ l.quantite }}</div>
+                        </td>
+                        <td>
+													<div class="text-right" *ngIf="l.montant">{{ l.montant }}</div>
+                        </td>
+												
+												
+											<td style="text-align:center;">
+												<button type="button" class="btn btn-sm btn-danger" (click)="removeLineDraft(i)">
+													{{ __('global.delete') }}
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div> 
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')
+						}}</button>
+					<button type="button" class="btn btn-primary" *ngIf=" 1 === currentStep" (click)="nextStep()"
+						[disabled]="commandeAchatForm.invalid">
+						{{ __('global.next') }}
+					</button>
+					<button type="button" class="btn btn-secondary" *ngIf="2 === currentStep" (click)="prevStep()">
+						{{ __('global.back') }}
+					</button>
+						<button type="button" (click)="onSubmit()" class="btn btn-primary" *ngIf="2 === currentStep"
+							[disabled]="commandeAchatForm.invalid || !lignesDraft?.length">
+							{{ __('global.save') }}
+						</button>
+				</div>  
+		</div>
+	</ng-template>
+
+
+

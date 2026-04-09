@@ -17,11 +17,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
+import { CommandeAchatComponent } from './commande-achat/commande-achat.component';
 
 
 @NgModule({
   declarations: [
-    CommandesComponent
+    CommandesComponent,
+    CommandeAchatComponent
   ],
   imports: [
     CommonModule,
