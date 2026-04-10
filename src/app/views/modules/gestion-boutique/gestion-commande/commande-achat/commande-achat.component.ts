@@ -380,8 +380,8 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   }
 
   nextStep(): void {
-   /*  this.commandeAchatForm.markAllAsTouched();
-    if (this.commandeAchatForm.invalid) return; */
+     this.commandeAchatForm.markAllAsTouched();
+    if (this.commandeAchatForm.invalid) return;
 
     this.currentStep = 2;
   }
@@ -430,7 +430,8 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
     
         this.lignesDraft.push({
-          produit_id: ligne.id,
+          id: ligne.id,
+          produit_id: ligne.produit.id,
           quantite: ligne.quantite,
           produit: ligne.produit, // ou à adapter selon ton API
           montant: ligne.montant
@@ -657,8 +658,22 @@ openModalEditCommande() {
 
   }
 
-  removeLineDraft(index: number): void {
-    this.lignesDraft.splice(index, 1);
+  removeLineDraft(index: number, ligne: any): void {
+
+    if(ligne.id){
+      this.commandeService.supprimerLigneCommande(ligne.id).subscribe({
+        next: (res) => {
+          if (res['code'] == 205){
+            this.toastr.success(res['msg'], this.__("global.success"));
+            this.lignesDraft.splice(index, 1);
+          }
+          else  this.toastr.error(res['msg'], this.__("global.error"));
+        },
+        error: (err) => { }
+      });
+    }else{
+      this.lignesDraft.splice(index, 1);
+    }
   }
 
   getTotalMontantDraft(): number {

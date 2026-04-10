@@ -50,8 +50,8 @@
                 </div>-->
                 <br>
 
-                <button *ngIf="!loadingLogin" mat-raised-button type="submit" class="btn btn-primary w-100">{{ __('global.login') }}</button>
-                <button *ngIf="loadingLogin" mat-raised-button type="submit" class="btn btn-primary w-100">
+                <button *ngIf="!loadingLogin"  type="submit" class="btn btn-primary w-100">{{ __('global.login') }}</button>
+                <button *ngIf="loadingLogin"  type="submit" class="btn btn-primary w-100">
                     <img src="assets/img/loading-spinner-button.gif" width="25px">
                 </button>
             </form>

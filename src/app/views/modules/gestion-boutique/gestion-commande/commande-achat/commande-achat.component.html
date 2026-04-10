@@ -427,10 +427,11 @@
     <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
     <button type="button" *ngIf="commande.statut == 'BROUILLON' && autority('GSC_6')" [disabled]="isDisabled"
         class="btn btn-primary" (click)="valider('EMISE')">{{ __('global.emise')}}</button>
-        <button type="button" *ngIf="commande.statut == 'EMISE' && autority('GSC_6')" [disabled]="isDisabled"
-        class="btn btn-primary" (click)="valider('ACCUSEE')">{{ __('global.accuser')}}</button>
+      
+        <button type="button" *ngIf="commande.statut == 'EXPEDIEE' && autority('GSC_6')" [disabled]="isDisabled"
+        class="btn btn-primary" (click)="valider('RECEPTIONNEE')">{{ __('global.receptionner')}}</button>
 
-    <button type="button" class="btn" style="background-color: #a03c00;" (click)="closeModal()">{{ __('global.cancel')}}</button>
+    <button type="button" class="btn" *ngIf="commande.statut == 'BROUILLON' || commande.statut == 'EMISE'" style="background-color: #a03c00;" (click)="valider('ANNULER')">{{ __('global.cancel')}}</button>
 </div>
 
 
@@ -485,6 +486,7 @@
 							role="button"
 							tabindex="0"
 							[class.active]="currentStep === 2"
+              [class.disabled]="currentStep === 1 && commandeAchatForm?.invalid"
 							(click)="goToStep(2)">
 							2. {{ __('commande.ligne_commande') }}
 						</div>
@@ -515,7 +517,7 @@
                         <div class="col-lg-6">
                         
                             <div class="form-group">
-                                <label for="dateFonction">{{ __("commande.date_commande") }}</label>
+                                <label for="dateFonction">{{ __("commande.date_commande") }} *</label>
                                 <mat-form-field appearance="fill" style="width: 100%">
                                     <input matInput [matDatepicker]="pickerFin" name="date_fin" formControlName="date_commande"
                                         placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
@@ -530,22 +532,22 @@
                     <div class="row">
                        
                         <div class="col-lg-6">
-							<div class="form-group">
-							<mat-form-field class="w-100">
-								<mat-label>{{ __('commande.delais') }}</mat-label>
-								<input matInput type="text" formControlName="delai_livraison_jours" name="delai_livraison_jours">
-							</mat-form-field>
-                            </div>
+                          <div class="form-group">
+                          <mat-form-field class="w-100">
+                            <mat-label>{{ __('commande.delais') }}</mat-label>
+                            <input matInput type="text" formControlName="delai_livraison_jours" name="delai_livraison_jours">
+                          </mat-form-field>
+                                        </div>
                         </div>
-						<div class="col-lg-12">
-							<div class="form-group">
-                  <mat-form-field class="w-100">
-                      <mat-label>{{ __('commande.commentaire') }}</mat-label>
-                      <textarea matInput rows="4" formControlName="commentaire" name="commentaire"></textarea>
-                  </mat-form-field>
-              </div>
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                              <mat-form-field class="w-100">
+                                  <mat-label>{{ __('commande.commentaire') }}</mat-label>
+                                  <textarea matInput rows="4" formControlName="commentaire" name="commentaire"></textarea>
+                              </mat-form-field>
+                          </div>
 
-						</div>
+                        </div>
 					</div>
 				
                 
@@ -570,7 +572,7 @@
 								<div class="row align-items-center">
 									<div class="col-lg-6">
                       <div class="form-group" > 
-                          <mat-form-field appearance="fill" style="  margin-top: 39px !important;">
+                          <mat-form-field appearance="fill" >
                               <mat-label>{{ __('commande.produit')}}</mat-label>
                               <mat-select name="produit_id"  [(ngModel)]="produit_id" (selectionChange)="recupererPrix($event.value)">
                                 <!-- Champ de recherche -->
@@ -587,16 +589,20 @@
 
                   <div class="col-lg-2">
                       <div class="form-group">
-                          <label class="fw-800">{{ __('commande.quantite') }}:</label>
-                          <input matInput type="number" min="1" [(ngModel)]="productQty"
-                              [ngModelOptions]="{standalone: true}">
+                          
+                          <mat-form-field appearance="fill" style="width: 100%">
+                            <mat-label>{{ __('commande.quantite') }}:</mat-label>
+                            <input matInput type="number" min="1" [(ngModel)]="productQty" name="quantite">
+                          </mat-form-field>
                       </div>
                   </div>
                   <div class="col-lg-2">
                       <div class="form-group">
-                          <label class="fw-800">{{ __('commande.prix_unitaire') }}:</label>
-                          <input matInput type="number" min="1" readonly [(ngModel)]="productPrice"
-                              [ngModelOptions]="{standalone: true}">
+                          <mat-form-field appearance="fill" style="width: 100%">
+                            <mat-label>{{ __('commande.prix_unitaire') }}:</mat-label>
+
+                            <input matInput type="text" readonly [(ngModel)]="productPrice" name="delai_livraison_jours">
+                          </mat-form-field>
                       </div>
                   </div>
 
@@ -639,7 +645,7 @@
 												
 												
 											<td style="text-align:center;">
-												<button type="button" class="btn btn-sm btn-danger" (click)="removeLineDraft(i)">
+												<button type="button" class="btn btn-sm btn-danger" (click)="removeLineDraft(i, l)">
 													{{ __('global.delete') }}
 												</button>
 											</td>

@@ -33,16 +33,13 @@ export class CommandeService {
     } 
     
     validerCommandeAchat(idCompte, type): Observable<any> {
-        return this.httpService.put<any>(environment.commande_achat + '/' + idCompte + '/state/' + type, '').pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
+        return this.httpService.put<any>(environment.commande_achat + '/' + idCompte + '/state/' + type, '');
     }
 
- 
+    supprimerLigneCommande(id): Observable<any> {
+        return this.httpService.delete<any>(environment.commande_achat + '/ligne/' + id,);
+    }
+
    
 
 }
