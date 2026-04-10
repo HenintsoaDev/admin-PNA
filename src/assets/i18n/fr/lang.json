@@ -168,7 +168,9 @@
         "accusee" : "Accusée",
         "emise" : "Emise",
         "brouillon" : "Brouillon",
-        "accuser" : "Accuser"
+        "accuser" : "Accuser",
+        "btn_emise": "Emettre"
+
     },
 
     "auth": {
@@ -609,7 +611,8 @@
         "astuce": "Ajouter les produits à commander. Le montant total se calcule automatiquement",
         "par": "Par",
         "title_edit_achat_modal" : "Modification d'une commande d'achat",
-        "title_add_achat_modal" : "Ajout d'une commande d'achat"
+        "title_add_achat_modal" : "Ajout d'une commande d'achat",
+        "existe_commande" : "Ce produit est déjà présent dans la commande."
 
 
     },

@@ -339,7 +339,9 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     this.initForm();
     this.lignesDraft = [];
     this.currentStep = 1;
-
+    this.productPrice = '',
+    this.productQty = 1,
+    this.produit_id = null;
     this.actualisationSelectFournisseur();
     this.actualisationSelectProduit();
 
@@ -630,7 +632,7 @@ openModalEditCommande() {
     const existing = this.lignesDraft.find(l => l.produit_id === this.produit_id);
     console.log(existing);
     if (existing) {
-      this.toastr.error("Ce produit est déja dans le panier", this.__("global.error"));
+      this.toastr.error(this.__("commande.existe_commande"), this.__("global.error"));
       return;
     } else {
 

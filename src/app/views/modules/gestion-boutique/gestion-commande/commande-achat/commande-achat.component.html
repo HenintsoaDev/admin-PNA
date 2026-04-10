@@ -426,7 +426,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
     <button type="button" *ngIf="commande.statut == 'BROUILLON' && autority('GSC_6')" [disabled]="isDisabled"
-        class="btn btn-primary" (click)="valider('EMISE')">{{ __('global.emise')}}</button>
+        class="btn btn-primary" (click)="valider('EMISE')">{{ __('global.btn_emise')}}</button>
       
         <button type="button" *ngIf="commande.statut == 'EXPEDIEE' && autority('GSC_6')" [disabled]="isDisabled"
         class="btn btn-primary" (click)="valider('RECEPTIONNEE')">{{ __('global.receptionner')}}</button>
