@@ -358,7 +358,7 @@
         "title_edit_modal": "Modification d'un produit",
         "title_add_modal": "Ajout d'un produit",
         "title_detail_modal" : "Voir les détails",
-        "sous_categorie" : "Sous categorie",
+        "sous_categorie" : "Sous catégorie",
         "categorie" :"Catégorie",
         "famille" :"Famille",
         "forme" : "Forme",
@@ -366,19 +366,19 @@
         "add_produit" : "Ajout d'un produit ",
         "add_image" : "Images des produits",
         "select_image" : "Sélectionner des images",
-        "select_one_image" : "Sélectionner un image",
+        "select_one_image" : "Sélectionner une image",
         "fiche_technique" : "Fiche technique",
         "titre" : "Titre",
-        "selection_fiche" : "Sélectionner le fiche technique"
+        "selection_fiche" : "Sélectionner la fiche technique"
     },
     "region": {
-        "title_breadcrumb": "Lister les regions",
-        "title": "Gestion des regions",
+        "title_breadcrumb": "Lister les régions",
+        "title": "Gestion des régions",
         "nom": "Nom",
         "code": "Code",
-        "add": "Ajouter une region",
-        "title_edit_modal": "Modification d'une region",
-        "title_add_modal": "Ajout d'un region",
+        "add": "Ajouter une région",
+        "title_edit_modal": "Modification d'une région",
+        "title_add_modal": "Ajout d'une région",
         "title_detail_modal" : "Voir les détails"
     },
     "type_structure": {
@@ -388,7 +388,7 @@
         "code": "Code",
         "add": "Ajouter une type structure",
         "title_edit_modal": "Modification d'une type structure",
-        "title_add_modal": "Ajout d'un type structure",
+        "title_add_modal": "Ajout d'une type structure",
         "title_detail_modal" : "Voir les détails"
     },
     "district": {
@@ -400,11 +400,11 @@
         "fax":"Fax",
         "telephone":"N° téléphone",
         "responsable": "Responsable",
-        "add": "Ajouter une district",
-        "title_edit_modal": "Modification d'une district",
+        "add": "Ajouter un district",
+        "title_edit_modal": "Modification d'un district",
         "title_add_modal": "Ajout d'un district",
         "title_detail_modal" : "Voir les détails",
-        "region": "Region"
+        "region": "Région"
     },
     "structure": {
         "title_breadcrumb": "Lister les structures sanitaires",
@@ -420,7 +420,7 @@
         "title_add_modal": "Ajout d'une structure",
         "title_detail_modal" : "Voir les détails",
         "district": "Direction régional",
-        "type" : "Type sanitaire"
+        "type" : "Type structure sanitaire"
     },
     "fournisseur": {
         "title_breadcrumb": "Lister les fournisseurs",
@@ -437,31 +437,31 @@
         "site_web" : "Site web",
         "adresse": "Adresse",
         "registre_commerce" :"Registre commerce",
-        "add": "Ajouter une fournisseur",
-        "title_edit_modal": "Modification d'une fournisseur",
-        "title_add_modal": "Ajout d'une fournisseur",
+        "add": "Ajouter un fournisseur",
+        "title_edit_modal": "Modification d'un fournisseur",
+        "title_add_modal": "Ajout d'un fournisseur",
         "title_detail_modal" : "Voir les détails"
     },
     "appel_offres":{
-        "title_breadcrumb": "Lister les appel d'offres",
-        "add": "Ajouter un appel d'offre",
-        "title_edit_modal": "Modification d'un appel d'offre",
-        "title_add_modal": "Ajout d'un appel d'offre",
-        "title_detail_modal": "Détails de l'appel d'offre",
+        "title_breadcrumb": "Lister les appels d'offres",
+        "add": "Ajouter un appel d'offres",
+        "title_edit_modal": "Modification d'un appel d'offres",
+        "title_add_modal": "Ajout d'un appel d'offres",
+        "title_detail_modal": "Détails de l'appel d'offres",
         "annuler": "Annuler",
-        "annuler_?": "Souhaitez-vous vraiment annuler cet appel d'offre ?",
+        "annuler_?": "Souhaitez-vous vraiment annuler cet appel d'offres ?",
         "lignes": "Lignes",
         "step_info": "Informations",
         "step_produits": "Produits demandés",
         "nombre_lignes": "Nombre de lignes",
-        "ligne_appel_offre": "Ligne de l'appel d'offre",
+        "ligne_appel_offre": "Ligne de l'appel d'offres",
         "step2_placeholder": "Étape 2 (produits) : à implémenter.",
         "produit_search": "Produit",
         "produit_search_placeholder": "Rechercher un produit (nom commercial)...",
         "quantite": "Quantité",
         "ajouter_produit": "Ajouter",
         "reference": "Référence",
-        "reference_ao": "Référence de l'appel d'offre",
+        "reference_ao": "Référence de l'appel d'offres",
         "titre": "Titre",
         "description": "Description",
         "date_publication": "Date publication",
@@ -475,10 +475,10 @@
         "ligne_produit": "Produit",
         "ligne_quantite": "Quantité",
         "ligne_specifications": "Spécifications",
-        "nombre_soumissions" : "Nombre soumissions",
+        "nombre_soumissions" : "Nombre de soumissions",
         "voir_soumissions" : "Voir les soumissions",
-        "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offre.",
-        "pas_autorise_modif" : "Vous ne pouvez plus modifier cet appel d'offre.",
+        "aucun_soumission" : "Aucune soumission n’est liée à cet appel d’offres.",
+        "pas_autorise_modif" : "Vous ne pouvez plus modifier cet appel d'offres.",
         "status":{
             "brouillon": "Brouillon",
             "BROUILLON": "Brouillon",
@@ -488,15 +488,15 @@
             "EN_ATTENTE_EVALUATION": "En attente d'évaluation",
             "attribuer": "Attribué",
             "ATTRIBUE": "Attribué",
-            "clos": "Clos",
+                "clos": "Clos",
             "CLOS": "Clos",
             "ANNULE": "Annulé",
             "annule": "Annulé",
             "btn_BROUILLON": "Brouillon",
             "btn_PUBLIE": "Publier",
-            "btn_EN_ATTENTE_EVALUATION": "Mettre en évaluation",
+            "btn_EN_ATTENTE_EVALUATION": "Évaluer",
             "btn_ATTRIBUE": "Attribuer",
-            "btn_CLOS": "Mettre en cloture"
+            "btn_CLOS": "Clôturer"
         }
     },
     "soumissions":{
@@ -506,7 +506,7 @@
         "date_soumission": "Date soumission",
         "date_creation": "Date création",
         "designation": "Désignation",
-        "appel_offre": "Appel d'offre",
+        "appel_offre": "Appel d'offres",
         "montant": "Montant",
         "delai": "Délai",
         "fournisseur": "Fournisseur",
@@ -523,7 +523,7 @@
         "total":"Montant total",
         "montant_ligne": "Montant ligne",
         "passer_en_evaluation": "Passer en évaluation",
-        "tab_information": "Information",
+        "tab_information": "Informations",
         "tab_lignes": "Lignes",
         "tab_documents": "Documents",
         "tab_evaluation": "Évaluation",
@@ -538,10 +538,10 @@
         "ajouter_document_complementaire": "Ajouter un document complémentaire",
         "no_documents": "Aucun document soumis.",
         "feature_future": "Fonctionnalité à venir.",
-        "ligne_appel_offre": "Ligne appel d'offre"
+        "ligne_appel_offre": "Ligne appel d'offres"
     },
     "commande": {
-        "list_commande": "Liste des comandes",
+        "list_commande": "Liste des commandes",
         "title_breadcrumb": "Lister les commandes",
         "title": "Gestion des commandes",
         "date":"Date",
@@ -549,7 +549,7 @@
         "reference": "Reference",
         "montant_total_ttc": "Montant total TTC",
         "montant_total_ht": "Montant total HT",
-        "mode_impot":"Mode impot",
+        "mode_impot":"Mode impôt",
         "commentaire" : "Commentaire",
         "structure" : "Structure sanitaire",
         "utilisateur" : "Utilisateur",
@@ -591,7 +591,7 @@
             "btn_ATTRIBUE": "Attribuer",
             "btn_CLOS": "Mettre en cloture"
         },
-        "tab_information": "Information",
+        "tab_information": "Informations",
         "tab_lignes": "Lignes",
         "tab_documents": "Documents",
         "tab_evaluation": "Évaluation",
@@ -608,8 +608,8 @@
         "total_commande" : "Total commande",
         "astuce": "Ajouter les produits à commander. Le montant total se calcule automatiquement",
         "par": "Par",
-        "title_edit_achat_modal" : "Modification du commande d'achat",
-        "title_add_achat_modal" : "Ajout du commande d'achat"
+        "title_edit_achat_modal" : "Modification d'une commande d'achat",
+        "title_add_achat_modal" : "Ajout d'une commande d'achat"
 
 
     },
@@ -624,7 +624,7 @@
         "title_edit_modal": "Modification d'un entrepot",
         "title_add_modal": "Ajout d'un entrepot",
         "title_detail_modal" : "Voir les détails",
-        "region" : "Region"
+        "region" : "Région"
     },
     "prix": {
         "title_breadcrumb": "Lister les prix",
@@ -641,7 +641,7 @@
         "title_edit_modal": "Modification d'un prix",
         "title_add_modal": "Ajout d'un prix",
         "title_detail_modal" : "Voir les détails",
-        "type_structure" : "Type sctructure",
+        "type_structure" : "Type structure",
         "search_structure" : "Rechercher le structure sanitaire",
         "search_produit" : "Rechercher le produit",
         "activer_prix": "Activer ce prix personnalisé"
