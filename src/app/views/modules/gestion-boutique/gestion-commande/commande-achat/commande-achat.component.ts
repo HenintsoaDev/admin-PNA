@@ -25,7 +25,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   
   /***************************************** */
   dateDebut: string = moment().startOf('month').format('YYYY-MM-DD');
-;
+
   dateFin: string = moment().endOf('month').format('YYYY-MM-DD');
   endpoint = "";
   header = [
@@ -134,7 +134,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     },
     {
       'icon' : 'edit',
-      'action' : 'edit',
+      'action' : 'edit_commande_achat',
       'tooltip' : this.__('global.tooltip_edit'),
       'autority' : 'GSC_2'
     },
@@ -156,7 +156,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   titleModal: string = "";
   modalRef?: BsModalRef;
   listAttestations: any;
-  commande: any;
+  commande: any = [];
   isDisabled: boolean = false;
 
   index: any = 0;
@@ -197,6 +197,17 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   produit_id: any;
   listCommande: any;
 
+  steps = [
+    { label: 'BROUILLON' },
+    { label: 'EMISE' },
+    { label: 'ACCUSEE' },
+    { label: 'EN_PREPARATION' },
+    { label: 'EXPEDIEE' },
+    { label: 'RECEPTIONNEE' }
+  ];
+  indexStatutCurrent: number;
+
+
   private productSearchTimer?: any;
   constructor(
     private toastr: ToastrService,
@@ -233,7 +244,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       if (event.data) {
         this.idcommande = event.data.id;
 
-        if(event.data.action == 'edit') this.openModalEditCommande();
+        if(event.data.action == 'edit_commande_achat') this.openModalEditCommande();
         else if (event.data.action == 'detail') this.openModalcommande();
 
         // Nettoyage immédiat de l'event
@@ -246,6 +257,9 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     /***************************************** */
     this.initForm();
     this.filtreTableau();
+
+    
+
   }
 
 
@@ -301,6 +315,14 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     if (this.detailcommande) {
 
       this.commande = await this.authService.getSelectList(environment.commande_achat + '/' + this.idcommande, ['titre']);
+
+
+    this.indexStatutCurrent = this.steps.findIndex(
+      step => step.label === this.commande.statut
+    );
+
+    console.log(this.indexStatutCurrent, "index recherche");
+
 
       // Ouverture de modal
       this.modalRef = this.modalService.show(this.detailcommande, {
@@ -701,6 +723,21 @@ openModalEditCommande() {
         error: () => {}
       });
     }); 
+  }
+
+
+
+
+  currentDetailStep = 2; // étape active (index)
+
+  getStepClass(index: number, label: string): string {
+    console.log(this.commande.statut, "statut");
+    console.log(this.indexStatutCurrent,"index stttut");
+    console.log(index, "index");
+    console.log(label, "label");
+    if(label == this.commande.statut) return 'active'
+    if (index < this.indexStatutCurrent) return 'done';
+    return 'todo';
   }
 
 

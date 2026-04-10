@@ -18,6 +18,8 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-routing.module';
 import { CommandeAchatComponent } from './commande-achat/commande-achat.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -42,6 +44,9 @@ import { CommandeAchatComponent } from './commande-achat/commande-achat.componen
     ParametrageRoutingModule,
     MatRadioModule,
     MatExpansionModule,
+    MatStepperModule,
+    MatIconModule,
+    MatButtonModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot() 
   ]

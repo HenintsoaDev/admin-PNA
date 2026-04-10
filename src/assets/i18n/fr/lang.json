@@ -584,6 +584,7 @@
             "CLOS": "Clos",
             "ANNULE": "Annulé",
             "EXPEDIEE": "Expédiée",
+            "RECEPTIONNEE" : "Réceptionnée",
             "btn_BROUILLON": "Brouillon",
             "btn_PUBLIE": "Publier",
             "btn_EN_ATTENTE_EVALUATION": "Mettre en évaluation",

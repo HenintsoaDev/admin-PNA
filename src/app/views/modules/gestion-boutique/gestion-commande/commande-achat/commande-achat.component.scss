@@ -211,6 +211,8 @@
   border-radius: 999px;
   border: 3px solid #ffffff;
   box-shadow: 0 6px 14px rgba(18, 38, 63, 0.12);
+  margin-top: 2px;
+  margin-right: 5px;
 }
 
 .co-dot-BROUILLON { background: #6c757d; }
@@ -238,7 +240,7 @@
 
 .co-timeline-item {
   position: relative;
-  padding: 8px 0 18px;
+  padding: 3px 0 5px;
 }
 
 .co-timeline-item:last-child {
@@ -269,4 +271,54 @@
   margin-top: 4px;
   color: #94a3b8;
   font-weight: 700;
+}
+
+
+//** Stepppp sur detail
+
+.custom-stepper {
+  background: transparent;
+}
+
+.step-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 6px;
+}
+
+/* Étapes validées */
+.step-circle.done {
+  background-color: #2e7d32; /* vert */
+}
+
+/* Étape en cours */
+.step-circle.active {
+  background-color: #3f51b5; /* bleu */
+}
+
+/* Étapes futures */
+.step-circle.todo {
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+/* Texte */
+.step-text {
+  font-size: 12px;
+  text-align: center;
+}
+
+::ng-deep .mat-step-icon {
+  display: none !important;
 }

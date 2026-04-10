@@ -78,6 +78,25 @@
   </div>
 
   <div class="modal-body" *ngIf="commande as c">
+
+    <mat-horizontal-stepper [selectedIndex]="currentDetailStep" class="custom-stepper">
+
+      <mat-step *ngFor="let step of steps; let i = index">
+        <ng-template matStepLabel>
+          <div class="step-label">
+            <div 
+              class="step-circle"
+              [ngClass]="getStepClass(i, step.label)">
+              <mat-icon *ngIf="i < indexStatutCurrent">check</mat-icon>
+              <span *ngIf="i >= indexStatutCurrent">{{ i + 1 }}</span>
+            </div>
+            <div class="step-text">{{ getCommandeAchatStatusLabel(step.label) }}</div>
+          </div>
+        </ng-template>
+      </mat-step>
+    
+    </mat-horizontal-stepper>
+
     <mat-tab-group class="so-tabs">
       <mat-tab>
         <ng-template mat-tab-label>
@@ -380,9 +399,9 @@
         <br />
         <div class="co-timeline" *ngIf="c.historiques?.length; else noHistorique">
           <div class="co-timeline-item" *ngFor="let h of c.historiques">
-            <div class="co-dot" [ngClass]="getCommandeStatusDotClass(h.nouveau_statut)"></div>
+            
             <div class="co-timeline-content mt-2">
-              <div class="co-timeline-title">{{ h.action || '-' }}</div>
+              <div class="co-timeline-title d-flex"> <div class="co-dot" [ngClass]="getCommandeStatusDotClass(h.nouveau_statut)"></div> {{ h.action || '-' }}</div>
               <div class="co-timeline-meta">
                <span *ngIf="h.created_at">
                  {{ h.created_at ? (h.created_at) : '-' }}
@@ -405,13 +424,13 @@
   
 
   <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
     <button type="button" *ngIf="commande.statut == 'BROUILLON' && autority('GSC_6')" [disabled]="isDisabled"
         class="btn btn-primary" (click)="valider('EMISE')">{{ __('global.emise')}}</button>
         <button type="button" *ngIf="commande.statut == 'EMISE' && autority('GSC_6')" [disabled]="isDisabled"
         class="btn btn-primary" (click)="valider('ACCUSEE')">{{ __('global.accuser')}}</button>
 
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+    <button type="button" class="btn" style="background-color: #a03c00;" (click)="closeModal()">{{ __('global.cancel')}}</button>
 </div>
 
 

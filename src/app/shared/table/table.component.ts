@@ -250,7 +250,7 @@ export class TableComponent extends Translatable {
             const icons = this.listIcon
             .filter(i =>
               i.icon !== 'state' &&
-              !(i.action === 'edit_appel_offre' && row.statut !== "PUBLIE" && row.statut !== "BROUILLON")
+              !((i.action === 'edit_appel_offre' || i.action === 'edit_commande_achat')  && row.statut !== "PUBLIE" && row.statut !== "BROUILLON" && row.statut !== "EMISE")
             )
             .map(i => ({
               icon: i.icon,
