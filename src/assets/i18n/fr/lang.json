@@ -170,7 +170,8 @@
         "brouillon" : "Brouillon",
         "accuser" : "Accuser",
         "btn_emise": "Emettre",
-        "motif_annulation" : "Motif d'annulation"
+        "motif_annulation" : "Motif d'annulation",
+        "annulee" : "Annulé"
 
     },
 
@@ -585,7 +586,7 @@
             "EN_PREPARATION": "En préparation",
             "ATTRIBUE": "Attribué",
             "CLOS": "Clos",
-            "ANNULE": "Annulé",
+            "ANNULEE": "Annulé",
             "EXPEDIEE": "Expédiée",
             "RECEPTIONNEE" : "Réceptionnée",
             "btn_BROUILLON": "Brouillon",

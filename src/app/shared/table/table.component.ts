@@ -399,6 +399,8 @@ export class TableComponent extends Translatable {
           else if(post[0] == 'ACCUSEE') return this.__('global.accusee');
           else if(post[0] == 'EMISE') return this.__('global.emise');
           else if(post[0] == 'BROUILLON') return this.__('global.brouillon');
+          else if(post[0] == 'ANNULEE') return this.__('global.annulee');
+          
       }else if(post[1] == 'expire') {
           if(post[0] == 0) return this.__('global.non_expirer');
           else if(post[0] == 1) return this.__('global.expirer');
@@ -565,7 +567,7 @@ export class TableComponent extends Translatable {
         };
 
         
-        else if(post[0] == 'EXPEDIEE') return {
+        else if(post[0] == 'EXPEDIEE' || post[0] == 'ANNULEE') return {
           'color': 'white',
           'background-color' : '#B41D01',
           'font-weight' : 'bold',

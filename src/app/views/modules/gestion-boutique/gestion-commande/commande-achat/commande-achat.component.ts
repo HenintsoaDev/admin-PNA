@@ -507,7 +507,7 @@ openModalEditCommande() {
   valider(type) {
 
     let text = this.__("global.passer_commande_?");
-    if (type === 'ANNULER') {
+    if (type === 'ANNULEE') {
       text = this.__("global.annuler_commande_?")
     }
 
@@ -525,7 +525,7 @@ openModalEditCommande() {
       },
     };
 
-    if (type === 'ANNULER') {
+    if (type === 'ANNULEE') {
       swalOptions.input = 'text';
       swalOptions.inputPlaceholder = this.__("global.motif_annulation");
       swalOptions.inputValidator = (value: string) => {
@@ -546,7 +546,7 @@ openModalEditCommande() {
 
         let datamotif = {};
 
-        if (type === 'ANNULER') datamotif = result.value !== true ? { motif: result.value } : {};
+        if (type === 'ANNULEE') datamotif = result.value !== true ? { motif: result.value } : {};
         
         this.isDisabled = true;
         this.commandeService.validerCommandeAchat(this.idcommande, type, datamotif).subscribe({

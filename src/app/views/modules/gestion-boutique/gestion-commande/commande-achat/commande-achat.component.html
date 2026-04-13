@@ -431,7 +431,7 @@
         <button type="button" *ngIf="commande.statut == 'EXPEDIEE' && autority('GSC_6')" [disabled]="isDisabled"
         class="btn btn-primary" (click)="valider('RECEPTIONNEE')">{{ __('global.receptionner')}}</button>
 
-    <button type="button" class="btn" *ngIf="commande.statut == 'BROUILLON' || commande.statut == 'EMISE'" style="background-color: #a03c00;" (click)="valider('ANNULER')">{{ __('global.cancel')}}</button>
+    <button type="button" class="btn" *ngIf="commande.statut == 'BROUILLON' || commande.statut == 'EMISE'" style="background-color: #a03c00;" (click)="valider('ANNULEE')">{{ __('global.cancel')}}</button>
 </div>
 
 
