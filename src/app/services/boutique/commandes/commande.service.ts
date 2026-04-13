@@ -32,8 +32,8 @@ export class CommandeService {
         return this.httpService.put<any>(`${environment.commande_achat}/${id}`, payload);
     } 
     
-    validerCommandeAchat(idCompte, type): Observable<any> {
-        return this.httpService.put<any>(environment.commande_achat + '/' + idCompte + '/state/' + type, '');
+    validerCommandeAchat(idCompte, type, body: any = ''): Observable<any> {
+        return this.httpService.put<any>(environment.commande_achat + '/' + idCompte + '/state/' + type, body);
     }
 
     supprimerLigneCommande(id): Observable<any> {

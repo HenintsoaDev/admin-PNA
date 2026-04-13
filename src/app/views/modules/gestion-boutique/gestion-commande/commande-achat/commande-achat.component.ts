@@ -288,7 +288,6 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
   filtreTableau() {
 
-    console.log("filterDate");
     const date_debut = moment(this.dateDebut).format('yyyy-MM-DD');
     const date_fin = moment(this.dateFin).format('yyyy-MM-DD');
 
@@ -299,8 +298,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     } else {
       filtreDate = "&where=commande_achat.date_commande|se|" + date_debut + ",commande_achat.date_commande|ie|" + date_fin;
     }
-    console.log(filtreDate);
-    console.log(this.endpoint);
+
     this.passageService.appelURL(filtreDate, this.endpoint);
   }
 
@@ -321,7 +319,6 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       step => step.label === this.commande.statut
     );
 
-    console.log(this.indexStatutCurrent, "index recherche");
 
 
       // Ouverture de modal
@@ -362,7 +359,6 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   }
 
   getCommandeAchatStatusLabel(statut: any): string {
-    console.log(statut);
     return statut ? this.__(`commande.status.${statut}`) : (statut ?? '-');
   }
 
@@ -438,7 +434,6 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
           produit: ligne.produit, // ou à adapter selon ton API
           montant: ligne.montant
         });
-    console.log(this.lignesDraft);
       });
     
     }
@@ -500,9 +495,7 @@ openModalEditCommande() {
 
   recupererPrix(idProduit) {
     let produit = this.filteredProduits.find(_ => _.id == idProduit);
-    
-    console.log(produit);
-  
+      
     if (produit) {
       this.productPrice = produit.prix_unitaire;
       this.produit_id = produit.id;
@@ -512,9 +505,15 @@ openModalEditCommande() {
 
   //Rejet virement
   valider(type) {
-    Swal.fire({
+
+    let text = this.__("global.passer_commande_?");
+    if (type === 'ANNULER') {
+      text = this.__("global.annuler_commande_?")
+    }
+
+    const swalOptions: any = {
       title: this.__("global.confirmation"),
-      text: this.__("global.passer_commande_?"),
+      text: text,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: this.__("global.oui_valider"),
@@ -524,10 +523,33 @@ openModalEditCommande() {
         confirmButton: 'swal-button--confirm-custom',
         cancelButton: 'swal-button--cancel-custom'
       },
-    }).then((result) => {
+    };
+
+    if (type === 'ANNULER') {
+      swalOptions.input = 'text';
+      swalOptions.inputPlaceholder = this.__("global.motif_annulation");
+      swalOptions.inputValidator = (value: string) => {
+        if (!value) {
+          return this.__("global.champ_obligatoire");
+        }
+        return null;
+      };
+    }
+
+
+
+
+    Swal.fire(swalOptions).then((result) => {
+      
+
       if (result.isConfirmed) {
+
+        let datamotif = {};
+
+        if (type === 'ANNULER') datamotif = result.value !== true ? { motif: result.value } : {};
+        
         this.isDisabled = true;
-        this.commandeService.validerCommandeAchat(this.idcommande, type).subscribe({
+        this.commandeService.validerCommandeAchat(this.idcommande, type, datamotif).subscribe({
           next: (res) => {
             if (res['code'] == 201) {
               this.toastr.success(res['msg'], this.__("global.success"));
@@ -630,7 +652,6 @@ openModalEditCommande() {
     
 
     const existing = this.lignesDraft.find(l => l.produit_id === this.produit_id);
-    console.log(existing);
     if (existing) {
       this.toastr.error(this.__("commande.existe_commande"), this.__("global.error"));
       return;
@@ -638,8 +659,6 @@ openModalEditCommande() {
 
       let produit = this.filteredProduits.find(_ => _.id == this.produit_id);
     
-    console.log(produit);
-  
     if (produit) {
       this.lignesDraft.push({
         produit_id: this.produit_id,
@@ -656,7 +675,6 @@ openModalEditCommande() {
     this.productQty = 1;
     this.productPrice = "";
     this.produit_id = null;
-    console.log(this.lignesDraft)
 
   }
 
@@ -705,7 +723,6 @@ openModalEditCommande() {
     const msg = isEdit ? this.__('global.modifier_donnee_?') : this.__('global.enregistrer_donnee_?');
     const msgBtn = isEdit ? this.__('global.oui_modifier') : this.__('global.oui_enregistrer');
 
-    console.log(payload);
      Swal.fire({
       title: this.__('global.confirmation'),
       text: msg,
@@ -748,10 +765,6 @@ openModalEditCommande() {
   currentDetailStep = 2; // étape active (index)
 
   getStepClass(index: number, label: string): string {
-    console.log(this.commande.statut, "statut");
-    console.log(this.indexStatutCurrent,"index stttut");
-    console.log(index, "index");
-    console.log(label, "label");
     if(label == this.commande.statut) return 'active'
     if (index < this.indexStatutCurrent) return 'done';
     return 'todo';

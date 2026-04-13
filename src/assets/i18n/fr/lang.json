@@ -75,7 +75,7 @@
         "valider_?": "Souhaitez-vous vraiment valider ? ",
         "valider_commande_?": "Souhaitez-vous vraiment valider ce commande ? ",
         "passer_commande_?": "Souhaitez-vous vraiment passer sur cet étape ? ",
-        
+        "annuler_commande_?": "Souhaitez-vous vraiment annuler ce commande ? ",
         "clique_pour_activer": "Cliquez pour activer",
         "clique_pour_desactiver": "Cliquez pour désactiver",
         "oui_rejeter" :"Oui, rejeter",
@@ -169,7 +169,8 @@
         "emise" : "Emise",
         "brouillon" : "Brouillon",
         "accuser" : "Accuser",
-        "btn_emise": "Emettre"
+        "btn_emise": "Emettre",
+        "motif_annulation" : "Motif d'annulation"
 
     },
 
