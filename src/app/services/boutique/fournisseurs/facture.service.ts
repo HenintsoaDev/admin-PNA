@@ -60,8 +60,8 @@ export class FactureService {
         );
     }
 
-    receptionnerCommande(idCompte, type, body: any = ''): Observable<any> {
-        return this.httpService.put<any>(environment.facture + '/' + idCompte + '/' + type, body);
+    validerFacture(idCompte, type, body: any = ''): Observable<any> {
+        return this.httpService.put<any>(environment.facture + '/' + idCompte + '/state/' + type, body);
     }
 
    

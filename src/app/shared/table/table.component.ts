@@ -401,6 +401,8 @@ export class TableComponent extends Translatable {
           else if(post[0] == 'BROUILLON') return this.__('global.brouillon');
           else if(post[0] == 'ANNULEE') return this.__('global.annulee');
           else if(post[0] == 'EN_ATTENTE') return this.__('global.en_attente_traiter');
+          else if(post[0] == 'PAYEE') return this.__('global.payee');
+          else if(post[0] == 'REJETEE') return this.__('global.not_valide');
           
       }else if(post[1] == 'expire') {
           if(post[0] == 0) return this.__('global.non_expirer');
@@ -568,7 +570,7 @@ export class TableComponent extends Translatable {
         };
 
         
-        else if(post[0] == 'EXPEDIEE' || post[0] == 'ANNULEE') return {
+        else if(post[0] == 'EXPEDIEE' || post[0] == 'ANNULEE' || post[0] == 'REJETEE') return {
           'color': 'white',
           'background-color' : '#B41D01',
           'font-weight' : 'bold',

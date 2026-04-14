@@ -114,6 +114,75 @@
       
             </mat-tab>
 
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <i class="fa fa-paperclip mr-2"></i>{{ __('soumissions.tab_documents') }}
+                </ng-template>
+                <br />
+                <ng-container *ngIf="getDocuments(facture) as docs">
+                  <div class="so-doc-count">{{ docs.length }} {{ __('soumissions.documents_soumis') }}</div>
+        
+                  <div class="so-doc-list" *ngIf="docs.length; else noDocs">
+                    <div class="so-doc-item" *ngFor="let d of docs">
+                      <div class="so-doc-left">
+                        <div class="so-doc-ico">
+                          <i [class]="getDocIconClass(d.type_document)"></i>
+                        </div>
+                        <div class="so-doc-name">{{ d.nom_fichier || '-' }}</div>
+                      </div>
+        
+                      <div class="so-doc-mid">
+                        <span class="so-doc-type" [ngClass]="getDocTypeClass(d.type_document)">
+                          {{ (d.type_document || '-') | uppercase }}
+                        </span>
+                        <span class="so-doc-date">
+                          {{ d.date_creation ? (d.date_creation | date: 'dd/MM/yyyy') : '-' }}
+                        </span>
+                      </div>
+        
+                      <div class="so-doc-right">
+                        <a class="so-doc-download" [href]="d.url" target="_blank" rel="noopener">
+                          <i class="fa fa-download mr-2"></i>{{ __('soumissions.telecharger') }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <ng-template #noDocs>
+                    <div class="so-surface">
+                      <div class="so-empty">{{ __('soumissions.no_documents') }}</div>
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <i class="fa fa-history mr-2"></i>{{ __('commande.tab_historique') }}
+                </ng-template>
+                <br />
+                <div class="co-timeline" *ngIf="facture.historiques?.length; else noHistorique">
+                  <div class="co-timeline-item" *ngFor="let h of facture.historiques">
+                    
+                    <div class="co-timeline-content mt-2">
+                      <div class="co-timeline-title d-flex"> <div class="co-dot" [ngClass]="getCommandeStatusDotClass(h.nouveau_statut)"></div> {{ h.action || '-' }}</div>
+                      <div class="co-timeline-meta">
+                       <span *ngIf="h.created_at">
+                         {{ h.created_at ? (h.created_at) : '-' }}
+                       </span>
+                        <span class="mx-1">•</span>
+                        {{ __('commande.par') }} : <span class="so-muted">{{ getHistoriqueUserLabel(h) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noHistorique>
+                  <div class="so-surface">
+                    <div class="so-empty">{{ __('commande.no_historique') }}</div>
+                  </div>
+                </ng-template>
+              </mat-tab> 
+
 
             <!-- <mat-tab label="Liste des catégories">
                 <br />
@@ -139,6 +208,10 @@
       
 
         <div class="modal-footer">
+            <button type="button" *ngIf="facture.statut == 'EN_ATTENTE' && autority('GSF_1')"  [disabled]="isDisabled"
+            class="btn " style="background-color: #a03c00;"  (click)="valider('REJETEE')">{{ __('global.rejeter')}}</button>
+            <button type="button" *ngIf="facture.statut == 'EN_ATTENTE' && autority('GSF_1')"  [disabled]="isDisabled"
+            class="btn " style="background-color: green;" (click)="valider('VALIDEE')">{{ __('global.valider')}}</button>
             <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
         </div>
        

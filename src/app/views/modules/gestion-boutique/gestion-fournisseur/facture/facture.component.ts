@@ -11,6 +11,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
 import { FactureService } from 'app/services/boutique/fournisseurs/facture.service';
 import formatNumber from 'number-handler'
+import { soumission, soumissionPj } from 'shared/interfaces/soumission';
 
 @Component({
   selector: 'app-facture',
@@ -136,6 +137,7 @@ export class FactureComponent extends Translatable implements OnInit {
 
     idfacture : number;
     titleModal: string = "";
+  isDisabled: boolean;
 
   
     constructor(private fb: FormBuilder,  
@@ -331,6 +333,45 @@ export class FactureComponent extends Translatable implements OnInit {
         this.modalRef = this.modalService.show(this.addfacture, { class: 'modal-lg', backdrop: 'static',keyboard: false });
       }
     }
+
+    getCommandeStatusDotClass(statut: any): string {
+      return statut ? `co-dot-${statut}` : 'so-dot-soumise';
+    }
+
+    getHistoriqueUserLabel(h: any): string {
+      const user = h?.nom_utilisateur;
+      return user;
+    }
+
+    getDocuments(facture: any | null): any[] {
+      return (facture?.piecesJointe ?? []) as any[];
+    }
+
+    getDocTypeClass(typeDocument: any): string {
+      const t = String(typeDocument ?? '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '_');
+  
+      if (t.includes('tech')) return 'so-doc-type-technique';
+      if (t.includes('fin')) return 'so-doc-type-financier';
+      if (t.includes('admin')) return 'so-doc-type-administratif';
+      return 'so-doc-type-neutral';
+    }
+
+    getDocIconClass(typeDocument: any): string {
+      const t = String(typeDocument ?? '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '_');
+  
+      if (t.includes('tech')) return 'fa fa-book';
+      if (t.includes('fin')) return 'fa fa-money';
+      if (t.includes('admin')) return 'fa fa-paperclip';
+      return 'fa fa-file';
+    }
   
     // Detail d'un modal
     async openModalDetailfacture() {
@@ -341,7 +382,10 @@ export class FactureComponent extends Translatable implements OnInit {
       if (this.detailfacture) {
   
   
-        this.recupererDonnee();
+        let res = await this.authService.getSelectList(environment.facture + '/' + this.idfacture, ['titre']);
+        if (res.length != 0) {
+          this.facture = res;
+        }
   
   
   
@@ -492,6 +536,72 @@ export class FactureComponent extends Translatable implements OnInit {
     getStatusLabel(statut: any): string {
       return statut ? this.__(`facture.status.${statut}`) : (statut ?? '-');
     }
+
+    //Rejet virement
+  valider(type) {
+
+    let text = this.__("global.valider_facture_?");
+    let btn = this.__("global.oui_valider");
+    if (type === 'REJETEE') {
+      text = this.__("global.rejeter_facture_?");
+      btn = this.__("global.oui_rejeter")
+    }
+
+    const swalOptions: any = {
+      title: this.__("global.confirmation"),
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: btn,
+      cancelButtonText: this.__("global.cancel"),
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: 'swal-button--confirm-custom',
+        cancelButton: 'swal-button--cancel-custom'
+      },
+    };
+
+    if (type === 'REJETEE') {
+      swalOptions.input = 'text';
+      swalOptions.inputPlaceholder = this.__("global.motif_rejeter");
+      swalOptions.inputValidator = (value: string) => {
+        if (!value) {
+          return this.__("global.champ_obligatoire");
+        }
+        return null;
+      };
+    }
+
+
+
+
+    Swal.fire(swalOptions).then((result) => {
+      
+
+      if (result.isConfirmed) {
+
+        let datamotif = {};
+
+        if (type === 'REJETEE') datamotif = result.value !== true ? { motif: result.value } : {};
+       
+        this.isDisabled = true;
+        this.factureService.validerFacture(this.idfacture, type, datamotif).subscribe({
+          next: (res) => {
+            if (res['code'] == 201) {
+              this.toastr.success(res['msg'], this.__("global.success"));
+              this.actualisationTableau();
+              this.closeModal();
+            }
+            else {
+              this.toastr.error(res['msg'], this.__("global.error"));
+              this.isDisabled = false;
+            }
+          },
+          error: (err) => { }
+        });
+      }
+    });
+  }
   
 
 }
