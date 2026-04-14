@@ -380,6 +380,8 @@ export class FactureComponent extends Translatable implements OnInit {
       this.titleModal = this.__('facture.title_detail_modal');
   
       if (this.detailfacture) {
+
+        this.isDisabled = false;
   
   
         let res = await this.authService.getSelectList(environment.facture + '/' + this.idfacture, ['titre']);

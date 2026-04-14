@@ -176,7 +176,8 @@
         "motif_annulation" : "Motif d'annulation",
         "annulee" : "Annulé",
         "payee" : "Payée",
-        "btn_payer" : "Payer"
+        "btn_payer" : "Payer",
+        "motif_rejeter" : "Motif"
 
     },
 
