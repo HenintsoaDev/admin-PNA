@@ -684,6 +684,27 @@
         },
         "detail" :"Détails",
         "info_suivi" : "Informations de Suivi"
+    },
+    "facture": {
+        "montant_ht" :"Montant HT",
+        "montant_ttc" : "Montant TTC",
+        "numero" : "N° facture",
+        "date_facture" : "Date facture",
+        "fournisseur" :"Fournisseur",
+        "commande":"Commande",
+        "title_breadcrumb": "Lister les factures",
+        "title": "Gestion des factures",
+        "add": "Ajouter une facture",
+        "statut" :"Statut",
+        "title_detail_modal" :"Voir les détails",
+        "status":{
+    
+            "EN_ATTENTE" : "En attente",
+            "VALIDEE": "Validée",
+            "PAYEE": "Payée"
+        
+        }
+
     }
 
 }

@@ -1,0 +1,19 @@
+.status-EN_ATTENTE { background: #f0ad4e; }
+.status-VALIDEE { background: #5cb85c; }
+.status-PAYEE { background: #0B57D0; }
+
+  
+.status-label {
+    font-weight: 800;
+    margin-right: 8px;
+    color: #334155;
+}
+
+.status-badge {
+    color: #ffffff;
+    font-weight: 800;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}

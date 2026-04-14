@@ -257,3 +257,17 @@ export class livraison {
 
 
 }
+
+
+export class facture {
+    id: number ;
+    date_facture: string ;
+    montant_ht: string ;
+    montant_tva: string ;
+    montant_ttc: string;
+    statut_paiement: string ;
+    commande_achat_id: number | null ;
+    state: number | null ;
+    fournisseur_id: number | null;
+
+}

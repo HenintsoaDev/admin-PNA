@@ -400,6 +400,7 @@ export class TableComponent extends Translatable {
           else if(post[0] == 'EMISE') return this.__('global.emise');
           else if(post[0] == 'BROUILLON') return this.__('global.brouillon');
           else if(post[0] == 'ANNULEE') return this.__('global.annulee');
+          else if(post[0] == 'EN_ATTENTE') return this.__('global.en_attente_traiter');
           
       }else if(post[1] == 'expire') {
           if(post[0] == 0) return this.__('global.non_expirer');
@@ -518,7 +519,7 @@ export class TableComponent extends Translatable {
       } else if(post[1] == 'statut') {
         
 
-        if(post[0] == 'EN_ATTENTE_VALIDATION') return {
+        if(post[0] == 'EN_ATTENTE_VALIDATION' || post[0] == "EN_ATTENTE")  return {
           'color': 'white',
           'background-color' : '#f0ad4e',
           'font-weight' : 'bold',
@@ -582,7 +583,7 @@ export class TableComponent extends Translatable {
           'padding': '5px',
           'border-radius': '5px',
         };
-        if(post[0] == 'RECEPTIONNEE' || post[0] == 'EMISE') return {
+        if(post[0] == 'RECEPTIONNEE' || post[0] == 'EMISE' || post[0] == 'PAYEE') return {
           'color': 'white',
           'background-color' : '#0B57D0',
           'font-weight' : 'bold',

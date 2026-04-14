@@ -1,17 +1,17 @@
 <div class="main-content">
     <div class="container-fluid">
-        <div class="row">
+          <!--<div class="row">
             <div class="col-md-12">
                 <div class="card card-plain">
                     <div class="card-header card-header-primary">
                         <div class="button-container">
                             <div class="left-buttons">
-                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                               <button class="btn btn-secondary export-btn excel text-white">
                                     {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
                                 </button>
                                 <button class="btn btn-secondary export-btn pdf text-white">
                                     {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
-                                </button> -->
+                                </button>
                             </div>
                             <div class="right-button">
                                 <button *ngIf="autority('GSF_2')" class="btn btn-secondary" (click)="openModalAdd(addfacture)"> {{ __("facture.add")}}</button>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -31,6 +31,7 @@
                                 [headerTable]="header"
                                 [body]="objetBody"
                                 [listIcon]="listIcon"
+                                [formSearch]="false"
                                 [searchGlobal]="searchGlobal">
                             </app-table>
                         </div>
@@ -69,51 +70,41 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="so-kv">
-                            <div class="so-k">{{ __("facture.code")}}</div>
-                            <div class="so-v">{{ facture.code  }}</div>
+                            <div class="so-k">{{ __("facture.numero")}}</div>
+                            <div class="so-v">{{ facture.numero  }}</div>
                         </div>
                         <div class="so-kv">
-                            <div class="so-k">{{ __("facture.email")}}</div>
-                            <div class="so-v">{{ facture.email  }}</div>
+                            <div class="so-k">{{ __("facture.commande")}}</div>
+                            <div class="so-v">{{ facture.commande_reference  }}</div>
                         </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.montant_ht")}}</div>
+                            <div class="so-v">{{ formatNumber(facture.montant_ht, ' ')  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k mb-3">{{ __('commande.statut') }}</div>
+                            <div class="so-v">
+                              <span class="status-badge" [ngClass]="getStatusBadgeClass(facture.statut)">
+                                {{ getStatusLabel(facture.statut) }}
+                              </span>
+                            </div>
+                          </div>
                       
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.adresse")}}</div>
-                            <div class="so-v">{{ facture.adresse  }}</div>
-                        </div>
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.ville")}}</div>
-                            <div class="so-v">{{ facture.ville  }}</div>
-                        </div>
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.site_web")}}</div>
-                            <div class="so-v">{{  facture?.site_web  }}</div>
-                        </div>
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.ninea")}}</div>
-                            <div class="so-v">{{  facture?.ninea  }}</div>
-                        </div>
+                  
+                      
                     </div>
                     <div class="col-md-6">
                         <div class="so-kv">
-                            <div class="so-k">{{ __("facture.raison_sociale")}}</div>
-                            <div class="so-v">{{ facture.raison_sociale  }}</div>
+                            <div class="so-k">{{ __("facture.date_facture")}}</div>
+                            <div class="so-v">{{ facture.date_facture  }}</div>
                         </div>
                         <div class="so-kv">
-                            <div class="so-k">{{ __("facture.telephone")}}</div>
-                            <div class="so-v">{{ facture.telephone  }}</div>
+                            <div class="so-k">{{ __("facture.fournisseur")}}</div>
+                            <div class="so-v">{{ facture.fournisseur_nom  }}</div>
                         </div>
                         <div class="so-kv">
-                            <div class="so-k">{{ __("facture.fax")}}</div>
-                            <div class="so-v">{{ facture.fax  }}</div>
-                        </div>
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.pays")}}</div>
-                            <div class="so-v">{{  facture?.pays  }}</div>
-                        </div>
-                        <div class="so-kv">
-                            <div class="so-k">{{ __("facture.registre_commerce")}}</div>
-                            <div class="so-v">{{  facture?.registre_commerce  }}</div>
+                            <div class="so-k">{{ __("facture.montant_ttc")}}</div>
+                            <div class="so-v">{{ formatNumber(facture.montant_ttc, ' ')  }}</div>
                         </div>
                       
                     </div>

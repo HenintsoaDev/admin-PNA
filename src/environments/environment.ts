@@ -50,6 +50,7 @@ export const environment = {
   soumission: 'admin/gestion_fournisseurs/soumissions',
   liste_fournisseur_active: 'admin/gestion_fournisseurs/fournisseurs/active',
   livraison: 'admin/gestion_fournisseurs/livraison_fournisseurs',
+  facture: 'admin/gestion_fournisseurs/facture_fournisseurs',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
