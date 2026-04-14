@@ -21,6 +21,10 @@ import { AppelOffreComponent } from './appel-offre/appel-offre.component';
 import { SoumissionsComponent } from './soumissions/soumissions.component';
 import { QuillModule } from 'ngx-quill';
 import { AppelOffreDetailComponent } from './appel-offre-detail/appel-offre-detail.component';
+import { LivraisonComponent } from './livraison/livraison.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { FactureComponent } from './facture/facture.component';
 
 
 @NgModule({
@@ -28,7 +32,9 @@ import { AppelOffreDetailComponent } from './appel-offre-detail/appel-offre-deta
     FournisseursComponent,
     AppelOffreComponent,
     SoumissionsComponent,
-    AppelOffreDetailComponent
+    AppelOffreDetailComponent,
+    LivraisonComponent,
+    FactureComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +53,9 @@ import { AppelOffreDetailComponent } from './appel-offre-detail/appel-offre-deta
     ParametrageRoutingModule,
     MatRadioModule,
     MatExpansionModule,
+    MatStepperModule,
+    MatIconModule,
+    MatButtonModule,
     ModalModule.forRoot(),
     QuillModule,
     ToastrModule.forRoot()  ]

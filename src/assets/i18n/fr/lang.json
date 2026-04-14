@@ -170,6 +170,7 @@
         "brouillon" : "Brouillon",
         "accuser" : "Accuser",
         "btn_emise": "Emettre",
+        "btn_receptionner" : "Réceptionner",
         "motif_annulation" : "Motif d'annulation",
         "annulee" : "Annulé"
 
@@ -650,6 +651,39 @@
         "search_structure" : "Rechercher le structure sanitaire",
         "search_produit" : "Rechercher le produit",
         "activer_prix": "Activer ce prix personnalisé"
+    },
+    "livraison": {
+        "title_breadcrumb": "Lister les livraisons",
+        "title": "Gestion des livraisons",
+        "fournisseur":"Fournisseur",
+        "commande" : "Commande",
+        "add" : "Ajout des livraisons",
+        "reference" :"Reference",
+        "numero_suivi" : "N° suivie",
+        "date_expedition" : "Date expedition",
+        "date_livraison_prevue" : "Date prévu",
+        "entrepot" :"Entrepot",
+        "title_detail_modal" : "Voir les détails",
+        "date_effective" : "Date éffective",
+        "transporteur" : "Transporteur",
+        "commentaire" :"Commentaire",
+        "quantite_livree" : "Qté livrée",
+        "lot" : "Lot",
+        "quantite" :"Quantité",
+        "prix_unitaire" : "Prix unitaire",
+        "status":{
+    
+            "LIVREE" : "Livrée",
+            "PREPARATION": "En préparation",
+            "ATTRIBUE": "Attribué",
+            "COLISAGE": "Colisage",
+            "EN_TRANSIT": "En transit",
+            "EXPEDIEE": "Expédiée",
+            "RECEPTIONNEE" : "Réceptionnée"
+        
+        },
+        "detail" :"Détails",
+        "info_suivi" : "Informations de Suivi"
     }
 
 }

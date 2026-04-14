@@ -240,3 +240,20 @@ export class prix {
     check_prix: any;
 
 }
+
+export class livraison {
+    id: number ;
+    date_expedition: string ;
+    date_livraison_prevue: string ;
+    date_livraison_effective: string ;
+    transporteur: string;
+    numero_suivi: string ;
+    commentaire: string ;
+    commande_achat_id: number | null ;
+    entrepot_id: number | null ;
+    check_prix: any;
+    state: number | null ;
+    statut!: string;
+
+
+}

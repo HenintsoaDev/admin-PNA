@@ -1,0 +1,312 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <!--  <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> -->
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('GSF_2')" class="btn btn-secondary" (click)="openModalAdd(addfacture)"> {{ __("facture.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailfacture>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du facture">
+              <br />
+
+
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.code")}}</div>
+                            <div class="so-v">{{ facture.code  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.email")}}</div>
+                            <div class="so-v">{{ facture.email  }}</div>
+                        </div>
+                      
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.adresse")}}</div>
+                            <div class="so-v">{{ facture.adresse  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.ville")}}</div>
+                            <div class="so-v">{{ facture.ville  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.site_web")}}</div>
+                            <div class="so-v">{{  facture?.site_web  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.ninea")}}</div>
+                            <div class="so-v">{{  facture?.ninea  }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.raison_sociale")}}</div>
+                            <div class="so-v">{{ facture.raison_sociale  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.telephone")}}</div>
+                            <div class="so-v">{{ facture.telephone  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.fax")}}</div>
+                            <div class="so-v">{{ facture.fax  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.pays")}}</div>
+                            <div class="so-v">{{  facture?.pays  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.registre_commerce")}}</div>
+                            <div class="so-v">{{  facture?.registre_commerce  }}</div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+      
+            </mat-tab>
+
+
+            <!-- <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab> -->
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addfacture>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="factureForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.code')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('facture.code')}}" formControlName="code" name="code">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.raison_sociale')}}</mat-label>
+                                <input matInput type="text" placeholder="{{ __('facture.raison_sociale')}}" formControlName="raison_sociale" name="raison_sociale">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.email')}}</mat-label>
+                                <input matInput type="email"  placeholder="{{ __('facture.email')}}" formControlName="email" name="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __('facture.telephone')}}</label>
+
+
+                            <ngx-intl-tel-input
+                            formControlName="telephone"
+                            [preferredCountries]="['sn','mg']"
+            
+                            [enableAutoCountrySelect]="true"
+                            [enablePlaceholder]="true">
+                          </ngx-intl-tel-input>
+
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.adresse')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.adresse')}}" formControlName="adresse" name="adresse">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.fax')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('facture.fax')}}" formControlName="fax" name="fax">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.ville')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.ville')}}" formControlName="ville" name="ville">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.pays')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('facture.pays')}}" formControlName="pays" name="pays">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.site_web')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.site_web')}}" formControlName="site_web" name="site_web">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.registre_commerce')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('facture.registre_commerce')}}" formControlName="registre_commerce" name="registre_commerce">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.ninea')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('utilisateur.ninea')}}" formControlName="ninea" name="ninea">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                   
+                </div>
+              
+             
+
+               
+
+                
+
+                
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!facture.id" [disabled]="factureForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="facture.id" [disabled]="factureForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

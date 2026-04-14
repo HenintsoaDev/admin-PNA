@@ -37,6 +37,7 @@ export const environment = {
   profilage: 'admin/parametrages/profilage',
   structure: 'admin/parametrages/structure_sanitaires',
   entrepot: 'admin/parametrages/entrepots',
+  liste_entrepot_active: 'admin/parametrages/entrepots/active',
 
   //** Gestion utilisateurs */
   utilisateur: 'admin/gestion_utilisateurs/utilisateurs',
@@ -48,10 +49,12 @@ export const environment = {
   appel_offre: 'admin/gestion_fournisseurs/appel-offres',
   soumission: 'admin/gestion_fournisseurs/soumissions',
   liste_fournisseur_active: 'admin/gestion_fournisseurs/fournisseurs/active',
+  livraison: 'admin/gestion_fournisseurs/livraison_fournisseurs',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
   commande_achat: 'admin/gestion_commandes/commande_achats',
+  liste_commande_achat_active: 'admin/gestion_commandes/commande_achats/active',
 
   type_profil: 'parametrage/type_profil',
   liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',
