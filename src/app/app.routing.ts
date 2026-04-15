@@ -43,6 +43,11 @@ const routes: Routes =[
     loadChildren: () => import('./views/modules/gestion-boutique/gestion-commande/gestion-commande.module').then(m => m.GestionCommandeModule)
   },
 
+  {
+    path: 'admin', data: { breadcrumb: 'famille.title_gestion_produit_breadcrumb' },
+    loadChildren: () => import('./views/modules/tableau-bord/tableau-bord.module').then(m => m.TableauBordModule)
+  },
+
 
 
   {

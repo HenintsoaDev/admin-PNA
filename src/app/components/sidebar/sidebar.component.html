@@ -34,6 +34,11 @@
                         <i class="material-icons c-icon">person</i><span class="sidebar-normal" style="font-size: 12px;" > {{ __("login.my_profile")}}</span>
                     </a>
                 </li>
+                <li [class]="currentRoute == '/my-profil' ? 'nav-item active' : 'nav-item'">
+                    <a routerLink="/tab/dashboard" class="nav-link text-white">
+                        <i class="material-icons c-icon">person</i><span class="sidebar-normal" style="font-size: 12px;" > {{ __("login.tab")}}</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="javascript:void(0)" (click)="goToLogin()" class="nav-link text-white">
                         <i class="material-icons">logout</i><span class="sidebar-normal" style="font-size: 12px;">{{ __("global.logout")}}</span>

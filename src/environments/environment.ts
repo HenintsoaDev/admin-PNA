@@ -20,7 +20,7 @@ export const environment = {
   authoritySousModule: 'authority_sousModule',
   exportPdf: BASE_URL + "/export_to/pdf",
   exportExcel: BASE_URL + "/export_to/excel",
- 
+  dashboard: 'admin/dashboard',
 
   //** Parametrage */
   module: 'admin/parametrages/modules',
@@ -38,6 +38,9 @@ export const environment = {
   structure: 'admin/parametrages/structure_sanitaires',
   entrepot: 'admin/parametrages/entrepots',
   liste_entrepot_active: 'admin/parametrages/entrepots/active',
+  generateroute: 'admin/parametrage/generateroute',
+  appendroute: 'admin/parametrage/updateRoute',
+  action: 'admin/parametrages/actions',
 
   //** Gestion utilisateurs */
   utilisateur: 'admin/gestion_utilisateurs/utilisateurs',
@@ -57,23 +60,7 @@ export const environment = {
   commande_achat: 'admin/gestion_commandes/commande_achats',
   liste_commande_achat_active: 'admin/gestion_commandes/commande_achats/active',
 
-  type_profil: 'parametrage/type_profil',
-  liste_type_profil_active: 'parametrage/consult/type_profil/liste_type_profil_active',
-  liste_type_bureau_active: 'parametrage/consult/type_bureau/type_de_bureaux_active',
-  regenerer_mdp: 'parametrage/user/regenerer_password',
-  action: 'admin/parametrages/actions',
-  appendroute: 'parametrage/settings/appendroute',
-  generateroute: 'admin/parametrage/generateroute',
-  service: 'parametrage/service',
-  utilisateur_api_numherit: 'parametrage/user_api_numherit',
-  liste_utilisateur_active: 'parametrage/consult/user/allActiveUser',
-  regenerer_mdp_user_api: 'parametrage/user_api_numherit/regenerer_password',
-
-  liste_bureau_active: 'gestion_bureau/agence/active',
-  currentCodeCountry: 'sn',
-  formatTelephone: '7X XXX XX XX',
-  dialCode: '221',
-
+ 
   //** Gestion des produits */
   famille: 'admin/gestion_produits/familles',
   liste_famille_active: 'admin/gestion_produits/familles/active',
@@ -87,6 +74,11 @@ export const environment = {
   images_produits: 'admin/images_produits',
   fiche_techniques: 'admin/gestion_produits/fiche_techniques',
   prix: 'admin/gestion_produits/prix_personnalises',
-  liste_produit_active: 'admin/gestion_produits/produits/active'
+  liste_produit_active: 'admin/gestion_produits/produits/active',
+
+
+  currentCodeCountry: 'sn',
+  formatTelephone: '7X XXX XX XX',
+  dialCode: '221',
 
 };

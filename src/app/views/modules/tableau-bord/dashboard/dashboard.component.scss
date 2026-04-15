@@ -1,0 +1,156 @@
+:host{
+    display:block;
+    padding:16px;
+    font-family:Inter,Arial,sans-serif
+}
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px
+}
+.stat{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:9px;
+    border-radius:16px
+}
+
+.icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:#eef2ff
+}
+.green{
+    background:#e8f5e9
+}
+.red{
+    background:#ffebee
+}
+.blue{
+    background:#e3f2fd
+}
+.yellow{
+    background:#fff8e1
+}
+.stat h2{
+    margin:0;
+    font-size:18px;
+    font-weight: bold;
+}
+.stat p{
+    margin:0;
+    color:#6b7280
+}
+.charts-grid,.bottom-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:12px;
+    margin-top:12px
+}
+.panel{
+    border-radius:18px;
+    padding:10px
+}
+.large{
+    height:500px
+}
+.side{
+    height:500px
+}
+
+.panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px
+}
+.trend{
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:12px
+}
+h3{
+    margin:0;
+    font-size:18px
+}
+.legend{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+.legend b{
+    margin-left:auto
+}
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%
+}
+table{
+    width:100%
+}
+.alert{
+    padding:10px 0
+}
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px
+}
+
+.barOption{
+    height: 350px !important;
+}
+.doughnutData{
+    height: 200px !important;
+    width: 200px !important;
+}
+.head_card{
+    border-bottom: 1px solid green;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    gap: 8px;
+    padding: 6px 0;
+  }
+
+  .titre{
+    font-size: 14px;
+    font-style: revert;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+
+
+  .status-EN_ATTENTE_VALIDATION { background: #f0ad4e; }
+  .status-VALIDEE { background: #5cb85c; }
+  .status-PAYEE { background: #0B57D0; }
+  .status-REJETEE { background: #B41D01; }
+
+.status-label {
+    font-weight: 800;
+    margin-right: 8px;
+    color: #334155;
+}
+
+.status-badge {
+    color: #ffffff;
+    font-weight: 800;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}
+
+@media (max-width: 1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-grid,.bottom-grid{grid-template-columns:1fr}}
+@media (max-width: 700px){.stats-grid{grid-template-columns:1fr}}

@@ -3,7 +3,8 @@
         "title": "SEN-PNA",
         "title-espace-admin": "Plateforme Administration",
         "title-welcom": "SEN-PNA",
-        "title-numherit": "NUMHERIT"
+        "title-numherit": "NUMHERIT",
+        "title-dashboard": "Vue d'ensemble de la plateforme SEN-PNA"
     },
     "menu": {
         "home": "Accueil",
@@ -177,7 +178,22 @@
         "annulee" : "Annulé",
         "payee" : "Payée",
         "btn_payer" : "Payer",
-        "motif_rejeter" : "Motif"
+        "motif_rejeter" : "Motif",
+        "BROUILLON": "Brouillon",
+        "PUBLIE": "Publié",
+        "EMISE" : "Emise",
+        "ACCUSEE" : "Accusée",
+        "EN_PREPARATION": "En préparation",
+        "ATTRIBUE": "Attribué",
+        "CLOS": "Clos",
+        "ANNULEE": "Annulé",
+        "EXPEDIEE": "Expédiée",
+        "RECEPTIONNEE" : "Réceptionnée",
+        "EN_ATTENTE_VALIDATION":"En attente de validation",
+        "VALIDEE" :"Validée",
+        "COLISAGE":"Colisage",
+        "LIVREE":"Livrée",
+        "EN_TRANSIT":"En transit"
 
     },
 
@@ -707,10 +723,21 @@
             "EN_ATTENTE" : "En attente",
             "VALIDEE": "Validée",
             "PAYEE": "Payée",
-            "REJETEE": "Réjeté"
+            "REJETEE": "Réjeté",
+            "EN_ATTENTE_VALIDATION" : "En attente de validation"
         
         }
 
+    },
+    "dashboard": {
+        "commande_par_mois" : "Commande du client par mois",
+        "produit_actif" : "Produits actifs",
+        "commande_mois" : "Commandes ce mois",
+        "fournisseur_actif" :"Fournisseurs actifs",
+        "livraison_encours" : "Livraisons en cours",
+        "facture_en_attente" : "Factures en attente",
+        "structure" : "Structures sanitaires",
+        "commande_recent" : "Commandes récentes"
     }
 
 }

@@ -4,7 +4,6 @@ import { ActionComponent } from './action/action.component';
 import { ModuleComponent } from './module/module.component';
 import { ProfilsComponent } from '../gestion-comptes/profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
-import { TypeProfilComponent } from './type-profil/type-profil.component';
 import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur.component';
 import { RegionComponent } from './region/region.component';
 import { TypeStructureComponent } from './type-structure/type-structure.component';
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'modules', component: ModuleComponent, data: { breadcrumb: 'module.title_breadcrumb' } },
   { path: 'sous_modules', component: SousModuleComponent, data: { breadcrumb: 'sous_module.title_breadcrumb' } },
   { path: 'profil', component: ProfilsComponent, data: { breadcrumb: 'profil.title_breadcrumb' } },
-  { path: 'type_profil', component: TypeProfilComponent, data: { breadcrumb: 'type_profil.title_breadcrumb' } },
   { path: 'actions', component: ActionComponent, data: { breadcrumb: 'action.title_breadcrumb' } },
   { path: 'regions', component: RegionComponent, data: { breadcrumb: 'region.title_breadcrumb' } },
   { path: 'type_structures', component: TypeStructureComponent, data: { breadcrumb: 'type_structure.title_breadcrumb' } },

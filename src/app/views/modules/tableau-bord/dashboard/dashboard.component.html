@@ -1,0 +1,98 @@
+<div class="page" style="margin-bottom: 35px;">
+
+  <span style="font-weight: bold; font-size: 30px;"><b > Bonjour, {{user.info?.nom }} {{user.info?.prenom }}</b> </span>
+  <br>
+  <span style="font-size: 14px; text-transform:capitalize;">{{ dateJ }} - {{ __("app.title-dashboard")}}</span>
+
+    <div class="stats-grid mt-3" >
+      <mat-card class="stat" *ngFor="let s of stats">
+        <div class="icon" [class]="s.color"><mat-icon>{{s.icon}}</mat-icon></div>
+        <div><h2>{{  dashboard[s.value] }}</h2><span style="font-size: 12px;">{{ getLabel(s.label)}}</span></div>
+      </mat-card>
+    </div>
+  
+    <div class="charts-grid" >
+      <mat-card class="panel large" *ngIf="dashboard.stats_commande_client_par_mois">
+
+        <div
+            class="head_card"
+            >
+            <div class="d-flex">
+              <mat-icon style="color: green;">bar_chart</mat-icon>
+              <span class="titre">{{ __("dashboard.commande_par_mois")}} ({{annee}})</span>
+            </div>
+            <!-- <span class="trend">+12%</span> -->
+
+        </div>
+                
+        <canvas baseChart class="barOption" [data]="barData" [options]="barOptions" [type]="'bar'"></canvas>
+      </mat-card>
+  
+      <mat-card class="panel side" *ngIf="dashboard.data_par_statut">
+        <div
+            class="head_card"
+            >
+            <div class="d-flex">
+              <mat-icon style="color: green;">pie_chart</mat-icon>
+              <span class="titre">Répartition statuts</span>
+            </div>
+
+        </div>
+        <div class="d-flex" style="justify-content: center;">
+          <canvas baseChart class="doughnutData"  [data]="doughnutData" [type]="'doughnut'"></canvas>
+
+        </div>
+        <div class="legend" *ngFor="let l of legends">
+          <span class="dot" [style.background]="l.color"></span>{{l.label}} <b>{{l.value}}</b>
+        </div>
+      </mat-card>
+    </div>
+  
+    <div class="bottom-grid">
+      <mat-card class="panel" *ngIf="dashboard.commandes_client_recent">
+        <div
+            class="head_card"
+            >
+            <div class="d-flex">
+              <mat-icon style="color: green;">access_time</mat-icon>
+              <span class="titre">{{ __("dashboard.commande_recent")}}</span>
+            </div>
+            <span> <mat-icon style="color: green;  font-size: 30px; cursor: pointer;" (click)="goToComande()">arrow_right_alt</mat-icon></span>
+
+
+        </div>
+
+        <table mat-table [dataSource]="dashboard.commandes_client_recent">
+          <ng-container matColumnDef="ref"><th mat-header-cell *matHeaderCellDef class="text-center">{{ __("commande.reference")}} </th><td mat-cell *matCellDef="let e" class="text-center"> <b style="font-weight: bold; color: #2eab67;">{{e.reference}}</b> </td></ng-container>
+          <ng-container matColumnDef="structure"><th mat-header-cell *matHeaderCellDef class="text-center">{{ __("commande.structure")}} </th><td mat-cell *matCellDef="let e" class="text-center">{{e.structure_sanitaire_name}}</td></ng-container>
+          <ng-container matColumnDef="montant"><th mat-header-cell *matHeaderCellDef class="text-right">{{ __("commande.montant")}} </th><td mat-cell *matCellDef="let e" class="text-right">{{ formatNumber(e.montant_total_ttc, ' ')}}</td></ng-container>
+          <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef class="text-center">{{ __("commande.statut")}} </th><td mat-cell *matCellDef="let e" class="text-center">
+            <span class="status-badge" [ngClass]="getCommandeAchatStatusBadgeClass(e.statut)">
+              {{ getCommandeAchatStatusLabel(e.statut) }}
+            </span>
+          </td></ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayed"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayed"></tr>
+        </table>
+      </mat-card>
+  
+      <!-- <mat-card class="panel">
+        <div
+            class="head_card"
+            >
+            <div class="d-flex">
+              <mat-icon style="color: green;">warning
+              </mat-icon>
+              <span class="titre">Alertes Stock</span>
+            </div>
+            <mat-icon style="color: green;">keyboard_arrow_right</mat-icon>
+
+        </div>
+        <div class="alert" *ngFor="let a of alerts">
+          <div class="row"><span>{{a.name}}</span><mat-chip>{{a.level}}</mat-chip></div>
+          <mat-progress-bar mode="determinate" [value]="a.progress"></mat-progress-bar>
+          <small>{{a.qty}}</small>
+        </div>
+      </mat-card> -->
+    </div> 
+  </div>

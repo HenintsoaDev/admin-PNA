@@ -6,7 +6,6 @@ import { UtilisateurComponent } from '../gestion-comptes/utilisateur/utilisateur
 import { ModuleComponent } from './module/module.component';
 import { ProfilsComponent } from '../gestion-comptes/profils/profils.component';
 import { SousModuleComponent } from './sous-module/sous-module.component';
-import { TypeProfilComponent } from './type-profil/type-profil.component';
 import { ActionComponent } from './action/action.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -32,7 +31,6 @@ import { EntrepotComponent } from './entrepot/entrepot.component';
   declarations: [
     ModuleComponent,
     SousModuleComponent,
-    TypeProfilComponent,
     ActionComponent,
     RegionComponent,
     TypeStructureComponent,
