@@ -281,7 +281,7 @@
 			<button type="button" 
 			class="btn btn-light" (click)="annulerAppelOffre()" *ngIf="appelOffre?.statut !== 'ANNULE' && appelOffre?.statut !== 'CLOS'" >{{ __('global.cancel')}}</button>
 			<button type="button" 
-			class="btn " [ngClass]="getStatusBadgeClass(nextStatusLabel)" (click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()" *ngIf="nextStatusLabel" ><span > <b>{{ getLibelle(nextStatusLabel) }}</b></span></button>
+			class="btn " [ngClass]="getStatusBadgeClass(nextStatusLabel)" (click)="goNextStatus()" [disabled]="isStatusChanging || !canGoNextStatus()" *ngIf="nextStatusLabel && appelOffre.nombre_soumissions != 0" ><span > <b>{{ getLibelle(nextStatusLabel) }}</b></span></button>
 
 			
 			<button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.close')}}</button>

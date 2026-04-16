@@ -36,8 +36,8 @@ export class DashboardComponent extends Translatable implements OnInit {
   doughnutData = {}
   barOptions = { responsive:true, maintainAspectRatio:false };
 
-  dateJ: string = moment().startOf('month').format('dddd DD MMMM YYYY');
-  annee: string = moment().startOf('month').format('YYYY');
+  dateJ: string = moment().format('dddd DD MMMM YYYY');  
+  annee: string = moment().format('YYYY');
   dashboard: any = [];
   public user: Auth = new Auth();
   
