@@ -52,13 +52,14 @@ export const environment = {
   appel_offre: 'admin/gestion_fournisseurs/appel-offres',
   soumission: 'admin/gestion_fournisseurs/soumissions',
   liste_fournisseur_active: 'admin/gestion_fournisseurs/fournisseurs/active',
-  livraison: 'admin/gestion_fournisseurs/livraison_fournisseurs',
+  livraison_fournisseur: 'admin/gestion_fournisseurs/livraison_fournisseurs',
   facture: 'admin/gestion_fournisseurs/facture_fournisseurs',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
   commande_achat: 'admin/gestion_commandes/commande_achats',
   liste_commande_achat_active: 'admin/gestion_commandes/commande_achats/active',
+  livraison_client: 'admin/gestion_commandes/livraison_client',
 
  
   //** Gestion des produits */

@@ -20,12 +20,14 @@ import { ParametrageRoutingModule } from '../../adm/parametrage/parametrage-rout
 import { CommandeAchatComponent } from './commande-achat/commande-achat.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
+import { LivraisonClientComponent } from './livraison-client/livraison-client.component';
 
 
 @NgModule({
   declarations: [
     CommandesComponent,
-    CommandeAchatComponent
+    CommandeAchatComponent,
+    LivraisonClientComponent
   ],
   imports: [
     CommonModule,

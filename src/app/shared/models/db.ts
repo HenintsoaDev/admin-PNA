@@ -254,6 +254,7 @@ export class livraison {
     check_prix: any;
     state: number | null ;
     statut!: string;
+    lignes: any;
 
 
 }

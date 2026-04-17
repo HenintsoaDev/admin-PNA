@@ -1,0 +1,655 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                                <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button> 
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('GSF_2')" class="btn btn-secondary" (click)="openModalAdd(addlivraison)"> {{ __("livraison.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [formSearch]="false"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addlivraison>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="livraisonForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __("livraison.date_expedition") }}</label>
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input matInput [matDatepicker]="pickerDebut" name="date_debut" formControlName="date_expedition"
+                                    placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                                <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerDebut></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                      
+                    </div>
+                    <div class="col-lg-6">
+                        
+                        <div class="form-group">
+                            <label for="dateFonction">{{ __("livraison.date_livraison_prevue") }}</label>
+                            <mat-form-field appearance="fill" style="width: 100%">
+                                <input matInput [matDatepicker]="pickerFin" name="date_livraison_prevue" formControlName="date_livraison_prevue"
+                                    placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                                <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerFin></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('livraison.transporteur')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('livraison.transporteur')}}" formControlName="transporteur" name="transporteur">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('livraison.numero_suivi')}}</mat-label>
+                                <input matInput type="text" placeholder="{{ __('livraison.numero_suivi')}}" formControlName="numero_suivi" name="numero_suivi">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('livraison.commande')}}</mat-label>
+                                <mat-select  name="commande_achat_id" formControlName="commande_achat_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlCommandes" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let commande of filteredCommandes" [value]="commande.id"> {{ commande.reference }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+        
+                        
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('livraison.entrepot')}}</mat-label>
+                                <mat-select  name="entrepot_id" formControlName="entrepot_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlEntrepots" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let entrepot of filteredEntrepots" [value]="entrepot.id"> {{ entrepot.nom }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('livraison.commentaire')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('livraison.commentaire')}}" formControlName="commentaire" name="commentaire">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                  
+                </div>
+
+               
+
+               
+              
+             
+
+               
+
+                
+
+                
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!livraison.id" [disabled]="livraisonForm.invalid">{{ __('global.save')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="livraison.id" [disabled]="livraisonForm.invalid">{{ __('global.edit')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detaillivraison>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <mat-horizontal-stepper [selectedIndex]="currentDetailStep" class="custom-stepper">
+
+            <mat-step *ngFor="let step of steps; let i = index">
+              <ng-template matStepLabel>
+                <div class="step-label">
+                  <div 
+                    class="step-circle"
+                    [ngClass]="getStepClass(i, step.label)">
+                    <mat-icon style=" align-content: center;
+                    font-size: 16px; text-align: center;">{{step.icon }}</mat-icon>
+                  </div>
+                  <div class="step-text">{{ getStatusLabel(step.label) }}</div>
+                </div>
+              </ng-template>
+            </mat-step>
+          
+          </mat-horizontal-stepper>
+
+
+        <mat-tab-group *ngIf="!showFormExpedie">
+            <mat-tab >
+                <ng-template mat-tab-label>
+                    <i class="fa fa-cube mr-2"></i>Information du livraison
+                  </ng-template>
+              <br />
+
+
+              <div class="so-surface mb-2">
+
+                <div
+                    class="head_card"
+                    style="padding: 10px 16px; display: flex; align-items: center; gap: 8px;"
+                    >
+                    <mat-icon style="color: green;">local_shipping</mat-icon>
+                    <label style="margin: 0;">{{ __("livraison.detail") }}</label>
+                </div>
+                <div class="row" style="padding: 16px;">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.reference")}}</div>
+                            <div class="so-v">{{ livraison.reference  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.date_expedition")}}</div>
+                            <div class="so-v">{{ livraison.date_expedition | date : 'dd/MM/YYYY'  }}</div>
+                        </div>
+                      
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.date_effective")}}</div>
+                            <div class="so-v">{{ livraison.date_livraison_effective  | date : 'dd/MM/YYYY'   }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.client")}}</div>
+                            <div class="so-v">{{ livraison.nom_client  }}</div>
+                        </div>
+
+                        
+                   
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.commande")}}</div>
+                            <div class="so-v">{{ livraison.commande_reference  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.date_livraison_prevue")}}</div>
+                            <div class="so-v">{{ livraison.date_livraison_prevue  | date : 'dd/MM/YYYY' }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.entrepot")}}</div>
+                            <div class="so-v">{{ livraison.entrepot_name  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k mb-3">{{ __('commande.statut') }}</div>
+                            <div class="so-v">
+                              <span class="status-badge" [ngClass]="getStatusBadgeClass(livraison.statut)">
+                                {{ getStatusLabel(livraison.statut) }}
+                              </span>
+                            </div>
+                          </div>
+                      
+                      
+                    </div>
+                </div>
+            </div>
+
+            <div class="so-surface mb-2">
+                <div
+                    class="head_card"
+                    style="padding: 10px 16px; display: flex; align-items: center; gap: 8px;"
+                    >
+                    <mat-icon style="color: green;">location_on</mat-icon>
+                    <label style="margin: 0;">{{ __("livraison.info_suivi") }}</label>
+                </div>
+                <div class="row" style="padding: 16px;">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.transporteur")}}</div>
+                            <div class="so-v">{{ livraison.transporteur  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.commentaire")}}</div>
+                            <div class="so-v">{{ livraison.commentaire  }}</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("livraison.numero_suivi")}}</div>
+                            <div class="so-v">{{ livraison.numero_suivi  }}</div>
+                        </div>
+                      
+                   
+                    </div>
+                    
+                </div>
+            </div>
+
+      
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <i class="fa fa-cube mr-2"></i>{{ __('commande.tab_lignes') }}
+                </ng-template>
+                <br />
+                <mat-accordion>
+                        
+                    <mat-expansion-panel *ngFor="let ligne of livraison.lignes">
+                
+                    <mat-expansion-panel-header>
+                        <div class="panel-header ">
+                
+                        <div class="col name">
+                            <label><b class="fw-800">{{ __("commande.produit")}}</b></label>
+                            <h6><b class="bold">{{ligne.lot?.produit?.nom_commercial}} ({{ligne.lot?.produit?.code}})</b></h6>
+                        </div>
+                        <div class="col name">
+                            <label><b class="fw-800">{{ __("livraison.lot")}}</b></label>
+                            <h6><b class="bold">{{ligne.lot?.numero_lot}} </b></h6>
+                        </div>
+                        <div class="col qty">
+                            <label><b class="fw-800">{{ __("livraison.quantite")}}</b></label>
+                            <h6><b class="bold">{{ligne.lot?.quantite}}</b></h6>
+        
+                        </div>
+                        <div class="col qty_livree">
+                            <label><b class="fw-800">{{ __("livraison.quantite_livree")}}</b></label>
+                            <h6><b class="bold">{{ligne.quantite_livree}}</b></h6>
+        
+                        </div>
+                        <div class="col price">
+                            <label><b class="fw-800">{{ __("livraison.prix_unitaire")}}</b></label>
+                            <h6><b class="bold">{{ formatNumber(ligne.lot?.produit?.prix_unitaire, ' ') }}</b></h6>
+                        </div>
+                       
+                
+                        </div>
+                    </mat-expansion-panel-header>
+                    <br>
+                    <div class="details">
+                        <table style="width: 100%;">
+        
+                            <tr>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.dci")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit.dci }}</b></h6>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
+                                        <h6><b class="bold">{{  formatNumber(ligne.lot?.produit.prix_unitaire, ' ') }}</b></h6>
+                                    </div>
+                                </td>
+                            </tr>
+        
+                            <tr>
+                             
+                              
+                              
+                            </tr>
+        
+                            <tr>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.conditionnement")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit.conditionnement }}</b></h6>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit?.forme?.nom }}</b></h6>
+                                    </div>
+                                </td>
+                               
+                            </tr>
+        
+                            <tr>
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit.dosage }}</b></h6>
+                                    </div>
+                                </td>
+                             
+                                <td >
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit.sous_categorie?.nom }}</b></h6>
+                                    </div>
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td colspan="2">
+                                    <div class="alert alert-custom">
+                                        <label><b class="fw-800">{{ __("produit.description")}}</b></label>
+                                        <h6><b class="bold">{{  ligne.lot?.produit.description }}</b></h6>
+                                    </div>
+                                </td>
+                               
+                            </tr>
+        
+                            <tr>
+                                <td colspan="2">
+        
+                                    <div class="row" *ngIf="ligne.lot?.produit?.images?.length != 0">
+        
+                  
+        
+                                        <div class="col-lg-2 text-center d-flex flex-column align-items-center" *ngFor="let document of ligne.lot?.produit?.images">
+                      
+                                            <img
+                                              [src]="document.url"
+                                              *ngIf="
+                                                document.url.split('.').pop() == 'jpeg' ||
+                                                document.url.split('.').pop() == 'png' ||
+                                                document.url.split('.').pop() == 'jpg' ||
+                                                document.url.split('.').pop() == 'webp' ||
+                                                document.url.split('.').pop() == 'svg'
+                                              "
+                                              style="width: 100px"
+                                            />
+                                          
+                                            <div>
+                                              <i class="fa fa-download fa-2x icon-img"
+                                                style="cursor: pointer;"
+                                                 (click)="downloadDirect(document.url)"
+                                                 tooltip="{{ __('tooltip.download') }}"></i>
+                                             
+                                            </div>
+                    
+                                          </div>
+                                    </div>
+                            
+                                    <div class="row" *ngIf="produit?.images?.length == 0">
+                                      <div class="col-lg-9">
+                                        <div class="alert alert-custom">
+                                          <h6>
+                                            <span >{{ __("global.aucun_document") }}</span>
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </div>
+        
+        
+        
+        
+        
+                                </td>
+                            </tr>
+                
+                        
+                    
+                        </table>
+                    </div>
+                
+                    </mat-expansion-panel>
+        
+                    <!-- <div class="panel-footer total-row">
+        
+                        <div class="col name">
+                            <b>{{ __("commande.total") }}</b>
+                        </div>
+                    
+                        <div class="col qty"></div>
+                    
+                        <div class="col price"></div>
+                    
+                        <div class="col amount">
+                            <b>{{ formatNumber(getTotalMontant(), ' ') }}</b>
+                        </div>
+                    
+                    </div> -->
+                
+                </mat-accordion>
+                <ng-template #noLines>
+                  <p>{{ __('table.aucun_donnee') }}</p>
+                </ng-template>
+              </mat-tab>
+
+
+            <!-- <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab> -->
+      
+                   
+          </mat-tab-group>
+
+
+
+        <div class="so-surface mb-2" *ngIf="showFormExpedie">
+
+            <div class="head_card" style="padding: 10px 16px; display: flex; align-items: center; gap: 8px;" >
+                <mat-icon style="color: green;">local_shipping</mat-icon>
+                <label style="margin: 0;">{{ __("livraison.avis_expedition") }}</label>
+            </div>
+
+            <div class="row" style="padding: 16px 16px 0px 16px;">
+                            
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="w-100">
+                        <mat-label>{{ __('livraison.transporteur') }}</mat-label>
+                        <input matInput type="text" [(ngModel)]="transporteur"  name="transporteur">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <mat-form-field class="w-100">
+                        <mat-label>{{ __('livraison.numero_suivi') }}</mat-label>
+                        <input matInput type="text"  [(ngModel)]="numero_suivi"  name="numero_suivi">
+                        </mat-form-field>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="row" style="padding: 0 16px;">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="dateFonction">{{ __("livraison.date_expedition") }}</label>
+                        <mat-form-field appearance="fill" style="width: 100%">
+                            <input matInput [matDatepicker]="pickerDebut" name="date_debut" [(ngModel)]="date_expedition" 
+                                placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                            <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDebut></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                
+                </div>
+                <div class="col-lg-6">
+                    
+                    <div class="form-group">
+                        <label for="dateFonction">{{ __("livraison.date_livraison_prevue") }}</label>
+                        <mat-form-field appearance="fill" style="width: 100%">
+                            <input matInput [matDatepicker]="pickerFin" name="date_fin" [(ngModel)]="date_livraison_prevue" 
+                                placeholder="{{ __('global.select_date') }}" (focus)="pickerFin.open()" />
+                            <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerFin></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"  style="padding: 0 16px;">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                      <mat-form-field class="w-100">
+                          <mat-label>{{ __('commande.commentaire') }}</mat-label>
+                          <textarea matInput rows="4"  [(ngModel)]="commentaire" name="commentaire"></textarea>
+                      </mat-form-field>
+                  </div>
+
+                </div>
+                      </div>
+            
+            <table class="table ao-lines-table">
+
+                <thead class="ao-lines-thead">
+                    <tr>
+                        <th >{{ __('livraison.produit') }}</th>
+                        <th class="text-center">{{ __('livraison.quantite') }}</th>
+                        <th class="text-center">{{ __('livraison.quantite_livree') }}</th>
+                    </tr>
+                </thead>
+                
+                <tbody class="ao-lines-tbody">
+                    <tr *ngFor="let ligne of livraison.lignes">
+                        <td class="ao-product-name align-middle">
+                            {{ ligne.lot?.produit?.nom_commercial }}
+                            ({{ ligne.lot?.produit?.code }})
+                        </td>
+                
+                        <td class="text-center align-middle">
+                            {{ ligne.lot?.quantite }}
+                        </td>
+                
+                        <td class="text-center" style="width: 250px;">
+                            <div class="form-group">
+                                <input
+                                    type="number"
+                                    class="form-control text-center"
+                                    [(ngModel)]="ligne.quantite_livree"
+                                    name="qte{{ligne.id}}"
+                                    [max]="ligne.lot?.quantite"
+                                    min="0"
+                                >
+                
+                                <small
+                                    class="text-danger"
+                                    *ngIf="ligne.quantite_livree > ligne.lot?.quantite"
+                                >
+                                {{ __('livraison.msg_qte')}} {{ ligne.lot?.quantite }}
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            
+          
+        </div>
+                   
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" [disabled]="isDisabled" *ngIf="livraison.statut == 'EN_PREPARATION' && !showFormExpedie"
+            class="btn " style="background-color: #B41D01;" (click)="changeExpediee()">{{ __('global.passer_expedier')}}</button>
+            <button type="button" [disabled]="hasQuantiteInvalide() || !date_expedition || !transporteur || !numero_suivi " *ngIf="showFormExpedie"
+            class="btn " style="background-color: #B41D01;" (click)="valider('EXPEDIEE')">{{ __('global.expedier')}}</button>
+            <button type="button" *ngIf="livraison.statut == 'EXPEDIEE'"
+            class="btn " style="background-color: #000000;" (click)="valider('EN_TRANSIT')">{{ __('global.en_transition')}}</button>
+            <button type="button" *ngIf="livraison.statut == 'EN_TRANSIT'"
+            class="btn " style="background-color: #44BEDF;" (click)="valider('LIVREE')">{{ __('global.livrer')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>

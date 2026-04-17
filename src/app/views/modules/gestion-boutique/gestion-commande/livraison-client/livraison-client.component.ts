@@ -9,15 +9,16 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import { LivraisonFournisseurService } from 'app/services/boutique/fournisseurs/livraison.service';
 import formatNumber from 'number-handler'
+import { LivraisonClientService } from 'app/services/boutique/commandes/livraison.service';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-livraison',
-  templateUrl: './livraison.component.html',
-  styleUrls: ['./livraison.component.scss']
+  selector: 'app-livraison-client',
+  templateUrl: './livraison-client.component.html',
+  styleUrls: ['./livraison-client.component.scss']
 })
-export class LivraisonComponent extends Translatable implements OnInit {
+export class LivraisonClientComponent extends Translatable implements OnInit {
 
   formatNumber: any = formatNumber;
 
@@ -38,9 +39,9 @@ export class LivraisonComponent extends Translatable implements OnInit {
       "table" : "commande_achat"
     },
     {
-      "nomColonne" : this.__('livraison.fournisseur'),
-      "colonneTable" : "raison_sociale",
-      "table" : "fournisseur"
+      "nomColonne" : this.__('livraison.client'),
+      "colonneTable" : "nom",
+      "table" : "utilisateur"
     },
     {
       "nomColonne" : this.__('livraison.entrepot'),
@@ -84,11 +85,11 @@ export class LivraisonComponent extends Translatable implements OnInit {
             'type' : 'text',
           },
           {
-            'name' : 'commande_achat_reference',
+            'name' : 'commande_reference',
             'type' : 'text',
           },
           {
-            'name' : 'fournisseur_nom',
+            'name' : 'nom_client',
             'type' : 'text',
           },
           {
@@ -129,7 +130,7 @@ export class LivraisonComponent extends Translatable implements OnInit {
 
   ]
   
-    searchGlobal = [ 'livraison.reference', 'livraison.date_expedition','livraison.date_livraison_prevue','livraison.numero_suivi', 'commandeAchat.reference', 'commandeAchat.fournisseur.raison_sociale']
+    searchGlobal = [ 'livraison.reference', 'livraison.date_expedition','livraison.date_livraison_prevue','livraison.numero_suivi', 'commandeAchat.reference']
    
     /***************************************** */
   
@@ -158,7 +159,6 @@ export class LivraisonComponent extends Translatable implements OnInit {
 
     steps = [
       { icon : "view_in_ar", label: 'PREPARATION' },
-      { icon : "inventory", label: 'COLISAGE' },
       { icon : "send", label: 'EXPEDIEE' },
       { icon : "arrow_right_alt", label: 'EN_TRANSIT' },
       { icon : "local_shipping", label: 'LIVREE' },
@@ -166,9 +166,17 @@ export class LivraisonComponent extends Translatable implements OnInit {
     ];
   isDisabled: boolean = false;
 
+
+  numero_suivi : string = "";
+  transporteur :string = "";
+  date_expedition :string = "";
+  date_livraison_prevue :string = "";
+  commentaire:string = "";
+  showFormExpedie: boolean = false;
+
     constructor(private fb: FormBuilder,  
                 private toastr: ToastrService, 
-                private livraisonService: LivraisonFournisseurService,     
+                private livraisonService: LivraisonClientService,     
                 private passageService: PassageService,
                 private modalService: BsModalService,
                 private authService : AuthService
@@ -199,7 +207,6 @@ export class LivraisonComponent extends Translatable implements OnInit {
               if(event.data.action == 'edit') this.openModalEditlivraison();
               else if(event.data.action == 'delete') this.openModalDeletelivraison();
               else if(event.data.action == 'detail') this.openModalDetaillivraison();
-              else if(event.data.state == 0 || event.data.state == 1) this.openModalToogleStatelivraison();
       
               // Nettoyage immédiat de l'event
               this.passageService.clear();  // ==> à implémenter dans ton service
@@ -207,7 +214,7 @@ export class LivraisonComponent extends Translatable implements OnInit {
             }
            
       });
-          this.endpoint = environment.baseUrl + '/' + environment.livraison_fournisseur;
+          this.endpoint = environment.baseUrl + '/' + environment.livraison_client;
       /***************************************** */
       
 
@@ -292,20 +299,7 @@ export class LivraisonComponent extends Translatable implements OnInit {
   
               }else{
                 console.log("edit")
-                 this.livraisonService.modifierlivraison(this.livraison).subscribe({
-                  next: (res) => {
-                      if(res['code'] == 201) {
-                        this.toastr.success(res['msg'], this.__("global.success"));
-                        this.actualisationTableau();
-                        this.closeModal();
-                      }
-                      else{
-                          this.toastr.error(res['msg'], this.__("global.error"));
-                      }                
-                    },
-                    error: (err) => {
-                    }
-                }); 
+                 
               }
   
              
@@ -343,10 +337,17 @@ export class LivraisonComponent extends Translatable implements OnInit {
   
       if (this.detaillivraison) {
   
-  
-        let res = await this.authService.getSelectList(environment.livraison_fournisseur + '/' + this.idlivraison, ['titre']);
+        this.showFormExpedie = false;
+
+        let res = await this.authService.getSelectList(environment.livraison_client + '/' + this.idlivraison, ['titre']);
         if (res.length != 0) {
           this.livraison = res;
+
+          this.numero_suivi = this.livraison.numero_suivi;
+          this.transporteur = this.livraison.transporteur;
+          this.commentaire = this.livraison.commentaire;
+          this.date_expedition = moment(this.livraison.date_expedition,   'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD');
+          this.date_livraison_prevue = moment(this.livraison.date_livraison_prevue,   'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD');
         }
 
         this.indexStatutCurrent = this.steps.findIndex(
@@ -444,53 +445,7 @@ export class LivraisonComponent extends Translatable implements OnInit {
 
  
 
-      // Ouverture de modal pour modification
-      openModalToogleStatelivraison() {
-  
-       
-        this.recupererDonnee();
-  
-        Swal.fire({
-          title: this.__("global.confirmation"),
-          text: this.__("global.changer_state_?"),
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: this.__("global.oui_changer"),
-          cancelButtonText: this.__("global.cancel"),
-          allowOutsideClick: false,
-          customClass: {
-              confirmButton: 'swal-button--confirm-custom',
-              cancelButton: 'swal-button--cancel-custom'
-          },
-          }).then((result) => {
-          if (result.isConfirmed) {
-            let state = 0;
-            if(this.livraison.state == 1) state = 0;
-            else state = 1;
-  
-    
-               this.livraisonService.changementStatelivraison(this.livraison, state).subscribe({
-                next: (res) => {
-                    if(res['code'] == 200) {
-                      this.toastr.success(res['msg'], this.__("global.success"));
-                      this.actualisationTableau();
-                    }
-                    else{
-                        this.toastr.error(res['msg'], this.__("global.error"));
-                    }                
-                  },
-                  error: (err) => {
-                  }
-              }); 
-    
-          
-    
-    
-            
-            }
-        });
-    
-      }
+
     
   
   
@@ -569,6 +524,28 @@ export class LivraisonComponent extends Translatable implements OnInit {
   valider(type) {
 
     let text = this.__("global.passer_commande_?");
+    let dataUpdate = {};
+    if(type == "EXPEDIEE"){
+      const dataLigne = {
+        lignes: this.livraison.lignes.map(ligne => ({
+          id: ligne.id,
+          ligne_commande_id: ligne.ligne_commande_id,
+          quantite_livree: ligne.quantite_livree
+        }))
+      };
+  
+      dataUpdate = {
+        "date_expedition": moment(this.date_expedition, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD'),
+        "date_livraison_prevue": moment(this.date_livraison_prevue, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD'),
+        "date_livraison_effective": null,
+        "transporteur": this.transporteur,
+        "numero_suivi": this.numero_suivi,
+        "commentaire": this.commentaire,
+        "lignes": dataLigne.lignes
+      }    
+    }
+  
+
 
 
     const swalOptions: any = {
@@ -585,36 +562,70 @@ export class LivraisonComponent extends Translatable implements OnInit {
       },
     };
 
-    
-
-
-
 
     Swal.fire(swalOptions).then((result) => {
       
 
       if (result.isConfirmed) {
 
-
-        
-        this.isDisabled = true;
-        this.livraisonService.receptionnerCommande(this.idlivraison, type).subscribe({
-          next: (res) => {
-            if (res['code'] == 201) {
-              this.toastr.success(res['msg'], this.__("global.success"));
-              this.actualisationTableau();
-              this.closeModal();
-            }
-            else {
-              this.toastr.error(res['msg'], this.__("global.error"));
-              this.isDisabled = false;
-            }
-          },
-          error: (err) => { }
-        });
+          if(type == "EXPEDIEE"){
+            this.updateLivraison(dataUpdate, type)
+          }else{
+            this.changeStateLivraison(type);
+          }
       }
     });
   }
+
+  changeExpediee(){
+    this.showFormExpedie = true;
+
+  }
+  hasQuantiteInvalide(): boolean {
+    return this.livraison.lignes.some(
+      ligne => ligne.quantite_livree > ligne.lot?.quantite
+    );
+  }
+  
+  updateLivraison(data, type){
+
+    this.livraisonService.modifierlivraison(this.idlivraison, data).subscribe({
+      next: (res) => {
+          if(res['code'] == 201) {
+            this.toastr.success(res['msg'], this.__("global.success"));
+            this.changeStateLivraison(type)
+          }
+          else{
+              this.toastr.error(res['msg'], this.__("global.error"));
+          }                
+        },
+        error: (err) => {
+        }
+    }); 
+  }
+
+
+  changeStateLivraison(type){
+    this.livraisonService.changementStatelivraison(this.idlivraison, type).subscribe({
+      next: (res) => {
+        if (res['code'] == 201) {
+
+            this.toastr.success(res['msg'], this.__("global.success"));
+            this.actualisationTableau();
+            this.closeModal();
+          
+        }
+        else {
+          this.toastr.error(res['msg'], this.__("global.error"));
+          this.isDisabled = false;
+        }
+      },
+      error: (err) => { }
+    });
+  }
+
+
+
 
 
 

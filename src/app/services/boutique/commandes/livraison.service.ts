@@ -12,14 +12,14 @@ import { HttpService } from '../../http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LivraisonFournisseurService {
+export class LivraisonClientService {
 
     constructor(private http: HttpClient, private httpService: HttpService,private  router: Router,private menuService: MenuService) {}
 
 
     ajoutlivraison(credentials: livraison): Observable<any> {
         
-        return this.httpService.post<any>(environment.livraison_fournisseur, credentials).pipe(
+        return this.httpService.post<any>(environment.livraison_client, credentials).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -27,9 +27,9 @@ export class LivraisonFournisseurService {
             })
         );
     }
-    modifierlivraison(credentials: livraison): Observable<any> {
+    modifierlivraison(id, credentials: livraison): Observable<any> {
         
-        return this.httpService.put<any>(environment.livraison_fournisseur + '/' + credentials.id, credentials).pipe(
+        return this.httpService.put<any>(environment.livraison_client + '/' + id, credentials).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -40,7 +40,7 @@ export class LivraisonFournisseurService {
 
     supprimerlivraison(id): Observable<any> {
         
-        return this.httpService.delete<any>(environment.livraison_fournisseur + '/' + id,).pipe(
+        return this.httpService.delete<any>(environment.livraison_client + '/' + id,).pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)
@@ -49,19 +49,9 @@ export class LivraisonFournisseurService {
         );
     }
 
-    changementStatelivraison(data, state): Observable<any> {
-        
-        return this.httpService.put<any>(environment.livraison_fournisseur + '/' + data.id + '/state/' + state , '').pipe(
-            tap(response => {
-                if (response['code'] === 200) {
-                    console.log("response XHR", response)
-                }
-            })
-        );
-    }
 
-    receptionnerCommande(idCompte, type, body: any = ''): Observable<any> {
-        return this.httpService.put<any>(environment.livraison_fournisseur + '/' + idCompte + '/' + type, body);
+    changementStatelivraison(idCompte, type, body: any = ''): Observable<any> {
+        return this.httpService.put<any>(environment.livraison_client + '/' + idCompte + '/state/' + type, body);
     }
 
    

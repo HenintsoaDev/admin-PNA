@@ -193,7 +193,9 @@
         "VALIDEE" :"Validée",
         "COLISAGE":"Colisage",
         "LIVREE":"Livrée",
-        "EN_TRANSIT":"En transit"
+        "EN_TRANSIT":"En transit",
+        "passer_expedier" : "Passer en expedition",
+        "en_transition" : "Mettre en transition"
 
     },
 
@@ -674,7 +676,8 @@
         "activer_prix": "Activer ce prix personnalisé"
     },
     "livraison": {
-        "title_breadcrumb": "Lister les livraisons",
+        "title_breadcrumb": "Lister les livraisons du fournisseur",
+        "title_breadcrumb_client" : "Lister les livraisons du client",
         "title": "Gestion des livraisons",
         "fournisseur":"Fournisseur",
         "commande" : "Commande",
@@ -704,7 +707,11 @@
         
         },
         "detail" :"Détails",
-        "info_suivi" : "Informations de Suivi"
+        "info_suivi" : "Informations de Suivi",
+        "client" : "Client",
+        "avis_expedition" : "Avis d'expédition",
+        "produit":"Nom du produit",
+        "msg_qte" : "La quantité livrée ne doit pas dépasser"
     },
     "facture": {
         "montant_ht" :"Montant HT",
