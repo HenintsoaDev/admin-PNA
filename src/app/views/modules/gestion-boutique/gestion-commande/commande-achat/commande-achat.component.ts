@@ -310,6 +310,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
     this.titleModal = this.__('global.tooltip_detail');
 
+    this.isDisabled = false;
     if (this.detailcommande) {
 
       this.commande = await this.authService.getSelectList(environment.commande_achat + '/' + this.idcommande, ['titre']);
