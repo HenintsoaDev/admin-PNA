@@ -50,79 +50,8 @@
     padding-left: 20px;
   }
 
-.status-COLISAGE { background: #5cb85c; }
-.status-EN_TRANSIT { background: #000000; }
-.status-PREPARATION { background: #0B7238; }
-.status-LIVREE { background: #44BEDF; }
-.status-EXPEDIEE { background: #B41D01; }
-.status-RECEPTIONNEE { background: blue; }
 
-  
-.status-label {
-    font-weight: 800;
-    margin-right: 8px;
-    color: #334155;
-}
-
-.status-badge {
-    color: #ffffff;
-    font-weight: 800;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    letter-spacing: 0.2px;
-}
-
-  //** Stepppp sur detail
-
-.custom-stepper {
-    background: transparent;
-  }
-  
-  .step-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .step-circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-bottom: 6px;
-   
-  }
-  
-  /* Étapes validées */
-  .step-circle.done {
-    background-color: #2e7d32; /* vert */
-  }
-  
-  /* Étape en cours */
-  .step-circle.active {
-    background-color: #3f51b5; /* bleu */
-  }
-  
-  /* Étapes futures */
-  .step-circle.todo {
-    background-color: #e0e0e0;
-    color: #666;
-  }
-  
-  /* Texte */
-  .step-text {
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  ::ng-deep .mat-step-icon {
-    display: none !important;
-  }
-
+ 
   .head_card{
     border-bottom: 1px solid green;
   }
@@ -130,3 +59,13 @@
   .so-surface{
     padding: 0px !important;
   }
+
+  ::ng-deep .mat-step-icon-selected,
+::ng-deep .mat-step-icon-state-number,
+::ng-deep .mat-step-icon-state-edit {
+  display: none !important;
+}
+
+::ng-deep .mat-step-label {
+  margin-left: 0 !important;
+}

@@ -79,6 +79,9 @@
 
   <div class="modal-body" *ngIf="commande as c">
 
+  
+
+
     <mat-horizontal-stepper [selectedIndex]="currentDetailStep" class="custom-stepper">
 
       <mat-step *ngFor="let step of steps; let i = index">
@@ -87,10 +90,10 @@
             <div 
               class="step-circle"
               [ngClass]="getStepClass(i, step.label)">
-              <mat-icon *ngIf="i < indexStatutCurrent">check</mat-icon>
-              <span *ngIf="i >= indexStatutCurrent">{{ i + 1 }}</span>
+              <mat-icon style=" align-content: center;
+              font-size: 16px; text-align: center;">{{step.icon }}</mat-icon>
             </div>
-            <div class="step-text">{{ getCommandeAchatStatusLabel(step.label) }}</div>
+            <div class="step-text">{{ getStatusLabel(step.label) }}</div>
           </div>
         </ng-template>
       </mat-step>
@@ -147,8 +150,8 @@
                 <div class="so-kv">
                     <div class="so-k mb-3">{{ __('commande.statut') }}</div>
                     <div class="so-v">
-                      <span class="co-status-badge" [ngClass]="getCommandeAchatStatusBadgeClass(c.statut)">
-                        {{ getCommandeAchatStatusLabel(c.statut) }}
+                      <span class="status-badge" [ngClass]="getStatusBadgeClass(c.statut)">
+                        {{ getStatusLabel(c.statut) }}
                       </span>
                     </div>
                   </div>
@@ -533,11 +536,11 @@
                        
                         <div class="col-lg-6">
                           <div class="form-group">
-                          <mat-form-field class="w-100">
-                            <mat-label>{{ __('commande.delais') }}</mat-label>
-                            <input matInput type="text" formControlName="delai_livraison_jours" name="delai_livraison_jours">
-                          </mat-form-field>
-                                        </div>
+                            <mat-form-field class="w-100">
+                              <mat-label>{{ __('commande.delais') }}</mat-label>
+                              <input matInput type="text" formControlName="delai_livraison_jours" name="delai_livraison_jours">
+                            </mat-form-field>
+                          </div>
                         </div>
                         <div class="col-lg-12">
                           <div class="form-group">
@@ -548,7 +551,7 @@
                           </div>
 
                         </div>
-					</div>
+					          </div>
 				
                 
 					

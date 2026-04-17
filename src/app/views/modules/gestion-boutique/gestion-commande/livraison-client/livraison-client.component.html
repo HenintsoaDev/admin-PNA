@@ -608,11 +608,9 @@
                             {{ ligne.lot?.quantite }}
                         </td>
                 
-                        <td class="text-center" style="width: 250px;">
-                            <div class="form-group">
-                                <input
+                        <td class="text-center" >
+                                <input style="width: 250px;"
                                     type="number"
-                                    class="form-control text-center"
                                     [(ngModel)]="ligne.quantite_livree"
                                     name="qte{{ligne.id}}"
                                     [max]="ligne.lot?.quantite"
@@ -625,7 +623,6 @@
                                 >
                                 {{ __('livraison.msg_qte')}} {{ ligne.lot?.quantite }}
                                 </small>
-                            </div>
                         </td>
                     </tr>
                 </tbody>

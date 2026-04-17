@@ -1,24 +1,3 @@
-.co-status-BROUILLON { background: #6c757d; }
-.co-status-EMISE { background: #0B57D0; }
-.co-status-ACCUSEE { background: #5cb85c; }
-.co-status-EN_PREPARATION { background: #0B7238; }
-.co-status-ANNULEE { background: #d9534f; }
-.co-status-EXPEDIEE { background: #d9534f; }
-
-.co-status-label {
-    font-weight: 800;
-    margin-right: 8px;
-    color: #334155;
-}
-
-.co-status-badge {
-    color: #ffffff;
-    font-weight: 800;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    letter-spacing: 0.2px;
-}
 
 
 .panel-header{
@@ -274,52 +253,16 @@
   font-weight: 700;
 }
 
-
-//** Stepppp sur detail
-
-.custom-stepper {
-  background: transparent;
-}
-
-.step-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  margin-bottom: 6px;
-}
-
-/* Étapes validées */
-.step-circle.done {
-  background-color: #2e7d32; /* vert */
-}
-
-/* Étape en cours */
-.step-circle.active {
-  background-color: #3f51b5; /* bleu */
-}
-
-/* Étapes futures */
-.step-circle.todo {
-  background-color: #e0e0e0;
-  color: #666;
-}
-
-/* Texte */
-.step-text {
-  font-size: 12px;
-  text-align: center;
-}
-
 ::ng-deep .mat-step-icon {
   display: none !important;
+}
+
+::ng-deep .mat-step-icon-selected,
+::ng-deep .mat-step-icon-state-number,
+::ng-deep .mat-step-icon-state-edit {
+  display: none !important;
+}
+
+::ng-deep .mat-step-label {
+  margin-left: 0 !important;
 }

@@ -199,7 +199,11 @@
         "preparer_commande_?" : "Souhaitez-vous vraiment mettre cette commande en préparation ? ",
         "oui_preparer" : "Oui, préparer",
         "expedier_commande_?" : "Souhaitez-vous vraiment mettre cette commande en expedition ? ",
-        "oui_expedier" : "Oui, expedier"
+        "oui_expedier" : "Oui, expedier",
+        "en_transit_commande_?" : "Souhaitez-vous vraiment mettre cette commande en transition ? ",
+        "oui_mettre_en_transition" : "Oui, mettre en transition",
+        "livree_commande_?" : "Souhaitez-vous vraiment mettre cette commande en livrer ? ",
+        "oui_livrer" : "Oui, livrer"
 
     },
 
@@ -621,7 +625,10 @@
             "btn_PUBLIE": "Publier",
             "btn_EN_ATTENTE_EVALUATION": "Mettre en évaluation",
             "btn_ATTRIBUE": "Attribuer",
-            "btn_CLOS": "Mettre en cloture"
+            "btn_CLOS": "Mettre en cloture",
+            "LIVREE":"Livrée",
+            "PREPARATION" :"En préparation",
+            "EN_TRANSIT" :"En transit"
         },
         "tab_information": "Informations",
         "tab_lignes": "Lignes",
@@ -695,7 +702,7 @@
         "date_effective" : "Date éffective",
         "transporteur" : "Transporteur",
         "commentaire" :"Commentaire",
-        "quantite_livree" : "Qté livrée",
+        "quantite_livree" : "Quantité livrée",
         "lot" : "Lot",
         "quantite" :"Quantité",
         "prix_unitaire" : "Prix unitaire",
@@ -707,7 +714,8 @@
             "COLISAGE": "Colisage",
             "EN_TRANSIT": "En transit",
             "EXPEDIEE": "Expédiée",
-            "RECEPTIONNEE" : "Réceptionnée"
+            "RECEPTIONNEE" : "Réceptionnée",
+            "EN_PREPARATION" :"En préparation"
         
         },
         "detail" :"Détails",

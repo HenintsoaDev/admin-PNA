@@ -197,13 +197,17 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   produit_id: any;
   listCommande: any;
 
+ 
+
   steps = [
-    { label: 'BROUILLON' },
-    { label: 'EMISE' },
-    { label: 'ACCUSEE' },
-    { label: 'EN_PREPARATION' },
-    { label: 'EXPEDIEE' },
-    { label: 'RECEPTIONNEE' }
+    { icon: "home", label: 'BROUILLON' },
+    { icon: "home",label: 'EMISE' },
+    { icon: "home",label: 'ACCUSEE' },
+    { icon : "view_in_ar", label: 'EN_PREPARATION' },
+    { icon : "send", label: 'EXPEDIEE' },
+    { icon : "arrow_right_alt", label: 'EN_TRANSIT' },
+    { icon : "local_shipping", label: 'LIVREE' },
+    { icon : "check",label: 'RECEPTIONNEE' }
   ];
   indexStatutCurrent: number;
 
@@ -320,7 +324,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       step => step.label === this.commande.statut
     );
 
-
+      
 
       // Ouverture de modal
       this.modalRef = this.modalService.show(this.detailcommande, {
@@ -359,14 +363,16 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
     document.body.removeChild(a);
   }
 
-  getCommandeAchatStatusLabel(statut: any): string {
+  
+  getStatusLabel(statut: any): string {
     return statut ? this.__(`commande.status.${statut}`) : (statut ?? '-');
   }
 
-  getCommandeAchatStatusBadgeClass(statut: any): string {
-    return statut ? `co-status-${statut}` : 'co-status-soumise';
+
+
+  getStatusBadgeClass(statut: any): string {
+    return statut ? `status-${statut}` : 'status-soumise';
   }
-  
 
   goToStep(step: number): void {
     if (step === 1) {

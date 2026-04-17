@@ -79,10 +79,30 @@
 
 
 
+        <mat-horizontal-stepper [selectedIndex]="currentDetailStep" class="custom-stepper">
 
+            <mat-step *ngFor="let step of steps; let i = index">
+              <ng-template matStepLabel>
+                <div class="step-label">
+                  <div 
+                    class="step-circle"
+                    [ngClass]="getStepClass(i, step.label)">
+                    <mat-icon style=" align-content: center;
+                    font-size: 16px; text-align: center;">{{step.icon }}</mat-icon>
+                  </div>
+                  <div class="step-text">{{ getStatusLabel(step.label) }}</div>
+                </div>
+              </ng-template>
+            </mat-step>
+          
+          </mat-horizontal-stepper>
 
         <mat-tab-group>
-            <mat-tab label="Informations de la commande">
+            <mat-tab >
+
+                <ng-template mat-tab-label>
+                    <i class="fa fa-cube mr-2"></i>Informations de la commande
+                  </ng-template>
                 <br>
 
 
@@ -127,16 +147,13 @@
                                 <div class="so-v">{{ formatNumber(commande.montant_total_ttc, ' ') || '-' }}</div>
                             </div>
                             <div class="so-kv">
-                                <div class="so-k">{{ __("commande.statut")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'EN_ATTENTE_VALIDATION' ">{{ __("global.en_attente_validation")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'VALIDEE' ">{{ __("global.validee")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'EN_PREPARATION' ">{{ __("global.en_preparation")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'EXPEDIEE' ">{{ __("global.expediee")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'LIVREE' ">{{ __("global.livree")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'COLISAGE' ">{{ __("global.colisage")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'RECEPTIONNEE' ">{{ __("global.receptionnee")}}</div>
-                                <div class="so-v" *ngIf="commande.statut == 'EN_TRANSIT' ">{{ __("global.en_transit")}}</div>
-                            </div>
+                                <div class="so-k mb-3">{{ __('commande.statut') }}</div>
+                                <div class="so-v">
+                                  <span class="status-badge" [ngClass]="getStatusBadgeClass(commande.statut)">
+                                    {{ getStatusLabel(commande.statut) }}
+                                  </span>
+                                </div>
+                              </div>
                            
                         </div>
                     </div>
@@ -148,8 +165,11 @@
 
 
             </mat-tab>
-            <mat-tab label="Produit liée à la commande">
-
+            <mat-tab >
+                
+                <ng-template mat-tab-label>
+                    <i class="fa fa-cube mr-2"></i>Produit liée à la commande
+                  </ng-template>
                 <br>
 
           
@@ -329,18 +349,18 @@
 
         <div class="modal-footer">
             <button type="button" *ngIf="commande.statut == 'EN_ATTENTE_VALIDATION' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('valider')">{{ __('global.valider')}}</button>
+                class="btn btn-primary" style="background-color: #f0ad4e;" (click)="valider('valider')">{{ __('global.valider')}}</button>
                 <button type="button" *ngIf="commande.statut == 'VALIDEE' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('en_preparation')">{{ __('global.en_preparation')}}</button>
+                class="btn btn-primary" style="background-color: #0B7238" (click)="valider('en_preparation')">{{ __('global.en_preparation')}}</button>
 
                 <button type="button" *ngIf="commande.statut == 'EN_PREPARATION' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('expediee')">{{ __('global.expedier')}}</button>
+                class="btn btn-primary" style="background-color: #B41D01" (click)="valider('expediee')">{{ __('global.expedier')}}</button>
                 
                 <button type="button" *ngIf="commande.statut == 'EXPEDIEE' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('en_transit')">{{ __('global.en_transition')}}</button>
+                class="btn btn-primary" style="background-color: #000000" (click)="valider('en_transit')">{{ __('global.en_transition')}}</button>
 
                 <button type="button" *ngIf="commande.statut == 'EN_TRANSIT'" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('livree')">{{ __('global.livrer')}}</button>
+                class="btn btn-primary" style="background-color: #44BEDF" (click)="valider('livree')">{{ __('global.livrer')}}</button>
 
             <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
         </div>

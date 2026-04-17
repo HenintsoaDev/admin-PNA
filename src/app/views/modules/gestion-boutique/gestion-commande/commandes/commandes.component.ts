@@ -141,6 +141,17 @@ export class CommandesComponent extends Translatable implements OnInit {
       price: 25
     }
   ];
+
+
+  steps = [
+    { icon : "view_in_ar", label: 'PREPARATION' },
+    { icon : "send", label: 'EXPEDIEE' },
+    { icon : "arrow_right_alt", label: 'EN_TRANSIT' },
+    { icon : "local_shipping", label: 'LIVREE' },
+    { icon : "check",label: 'RECEPTIONNEE' }
+  ];
+  indexStatutCurrent: number;
+
   constructor(
     private toastr: ToastrService,
     private passageService: PassageService,
@@ -232,6 +243,10 @@ export class CommandesComponent extends Translatable implements OnInit {
       //this.recupererDonnee();
       this.commande = await this.authService.getSelectList(environment.commande + '/' + this.idcommande, ['titre']);
 
+      this.indexStatutCurrent = this.steps.findIndex(
+        step => step.label === this.commande.statut
+      );
+
       // Ouverture de modal
       this.modalRef = this.modalService.show(this.detailcommande, {
         class: 'modal-xl', backdrop: "static"
@@ -286,9 +301,17 @@ export class CommandesComponent extends Translatable implements OnInit {
       text = this.__("global.preparer_commande_?");
       btn = this.__("global.oui_preparer");
     }
-    if(type == "expedie"){
+    if(type == "expediee"){
       text = this.__("global.expedier_commande_?");
       btn = this.__("global.oui_expedier");
+    }
+    if(type == "en_transit"){
+      text = this.__("global.en_transit_commande_?");
+      btn = this.__("global.oui_mettre_en_transition");
+    }
+    if(type == "livree"){
+      text = this.__("global.livree_commande_?");
+      btn = this.__("global.oui_livrer");
     }
 
 
@@ -328,6 +351,20 @@ export class CommandesComponent extends Translatable implements OnInit {
   // Actualisation des données
   actualisationTableau() {
     this.passageService.appelURL('');
+  }
+
+  getStatusLabel(statut: any): string {
+    return statut ? this.__(`livraison.status.${statut}`) : (statut ?? '-');
+  }
+
+  getStepClass(index: number, label: string): string {
+    if(label == this.commande.statut) return 'active'
+    if (index < this.indexStatutCurrent) return 'done';
+    return 'todo';
+  }
+
+  getStatusBadgeClass(statut: any): string {
+    return statut ? `status-${statut}` : 'status-soumise';
   }
 
 

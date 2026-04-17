@@ -42,3 +42,18 @@
   .amount{
     text-align: right;
   }
+
+
+  ::ng-deep .mat-step-icon {
+    display: none !important;
+  }
+  
+  ::ng-deep .mat-step-icon-selected,
+  ::ng-deep .mat-step-icon-state-number,
+  ::ng-deep .mat-step-icon-state-edit {
+    display: none !important;
+  }
+  
+  ::ng-deep .mat-step-label {
+    margin-left: 0 !important;
+  }
