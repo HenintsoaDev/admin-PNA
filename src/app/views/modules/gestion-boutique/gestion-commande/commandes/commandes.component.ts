@@ -227,7 +227,7 @@ export class CommandesComponent extends Translatable implements OnInit {
 
 
     this.titleModal = this.__('global.tooltip_detail');
-
+    this.isDisabled = false;
     if (this.detailcommande) {
       //this.recupererDonnee();
       this.commande = await this.authService.getSelectList(environment.commande + '/' + this.idcommande, ['titre']);
