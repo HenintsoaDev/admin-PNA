@@ -694,9 +694,9 @@
         "commande" : "Commande",
         "add" : "Ajout des livraisons",
         "reference" :"Reference",
-        "numero_suivi" : "N° suivie",
+        "numero_suivi" : "N° suivi",
         "date_expedition" : "Date expedition",
-        "date_livraison_prevue" : "Date prévu",
+        "date_livraison_prevue" : "Date prévue",
         "entrepot" :"Entrepot",
         "title_detail_modal" : "Voir les détails",
         "date_effective" : "Date éffective",
@@ -705,6 +705,7 @@
         "quantite_livree" : "Quantité livrée",
         "lot" : "Lot",
         "quantite" :"Quantité",
+        "commandeé" : "Commandé",
         "prix_unitaire" : "Prix unitaire",
         "status":{
     
@@ -715,7 +716,9 @@
             "EN_TRANSIT": "En transit",
             "EXPEDIEE": "Expédiée",
             "RECEPTIONNEE" : "Réceptionnée",
-            "EN_PREPARATION" :"En préparation"
+            "EN_PREPARATION" :"En préparation",
+            "EN_ATTENTE_VALIDATION":"En attente de validation",
+            "VALIDEE" :"Validée"
         
         },
         "detail" :"Détails",

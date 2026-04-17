@@ -144,7 +144,8 @@ export class CommandesComponent extends Translatable implements OnInit {
 
 
   steps = [
-    { icon : "view_in_ar", label: 'PREPARATION' },
+    { icon : "check", label: 'VALIDEE' },
+    { icon : "view_in_ar", label: 'EN_PREPARATION' },
     { icon : "send", label: 'EXPEDIEE' },
     { icon : "arrow_right_alt", label: 'EN_TRANSIT' },
     { icon : "local_shipping", label: 'LIVREE' },

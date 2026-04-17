@@ -349,7 +349,7 @@
 
         <div class="modal-footer">
             <button type="button" *ngIf="commande.statut == 'EN_ATTENTE_VALIDATION' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" style="background-color: #f0ad4e;" (click)="valider('valider')">{{ __('global.valider')}}</button>
+                class="btn btn-primary" style="background-color: #5cb85c;" (click)="valider('validee')">{{ __('global.valider')}}</button>
                 <button type="button" *ngIf="commande.statut == 'VALIDEE' && autority('GSC_6')" [disabled]="isDisabled"
                 class="btn btn-primary" style="background-color: #0B7238" (click)="valider('en_preparation')">{{ __('global.en_preparation')}}</button>
 
