@@ -279,12 +279,25 @@ export class CommandesComponent extends Translatable implements OnInit {
 
   //Rejet virement
   valider(type) {
+
+    let text = this.__("global.valider_commande_?");
+    let btn = this.__("global.oui_valider");
+    if(type == "en_preparation"){
+      text = this.__("global.preparer_commande_?");
+      btn = this.__("global.oui_preparer");
+    }
+    if(type == "expedie"){
+      text = this.__("global.expedier_commande_?");
+      btn = this.__("global.oui_expedier");
+    }
+
+
     Swal.fire({
       title: this.__("global.confirmation"),
-      text: this.__("global.valider_commande_?"),
+      text: text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.__("global.oui_valider"),
+      confirmButtonText: btn,
       cancelButtonText: this.__("global.cancel"),
       allowOutsideClick: false,
       customClass: {

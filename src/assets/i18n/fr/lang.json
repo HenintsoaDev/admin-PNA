@@ -195,7 +195,11 @@
         "LIVREE":"Livrée",
         "EN_TRANSIT":"En transit",
         "passer_expedier" : "Passer en expedition",
-        "en_transition" : "Mettre en transition"
+        "en_transition" : "Mettre en transition",
+        "preparer_commande_?" : "Souhaitez-vous vraiment mettre cette commande en préparation ? ",
+        "oui_preparer" : "Oui, préparer",
+        "expedier_commande_?" : "Souhaitez-vous vraiment mettre cette commande en expedition ? ",
+        "oui_expedier" : "Oui, expedier"
 
     },
 

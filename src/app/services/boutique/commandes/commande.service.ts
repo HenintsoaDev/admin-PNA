@@ -15,7 +15,7 @@ export class CommandeService {
    
     
     validerCommande(idCompte, type): Observable<any> {
-        return this.httpService.put<any>(environment.commande + '/' + idCompte + '/' + type, '').pipe(
+        return this.httpService.put<any>(environment.commande + '/' + idCompte + '/state/' + type, '').pipe(
             tap(response => {
                 if (response['code'] === 200) {
                     console.log("response XHR", response)

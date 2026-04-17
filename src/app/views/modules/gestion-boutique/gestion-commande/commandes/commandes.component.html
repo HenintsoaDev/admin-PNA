@@ -334,14 +334,17 @@
                 class="btn btn-primary" (click)="valider('en_preparation')">{{ __('global.en_preparation')}}</button>
 
                 <button type="button" *ngIf="commande.statut == 'EN_PREPARATION' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('expedie')">{{ __('global.expedier')}}</button>
+                class="btn btn-primary" (click)="valider('expediee')">{{ __('global.expedier')}}</button>
+                
                 <button type="button" *ngIf="commande.statut == 'EXPEDIEE' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('livrer')">{{ __('global.livrer')}}</button>
-                <button type="button" *ngIf="commande.statut == 'LIVREE' && autority('GSC_6')" [disabled]="isDisabled"
-                class="btn btn-primary" (click)="valider('receptionne')">{{ __('global.receptionne')}}</button>
+                class="btn btn-primary" (click)="valider('en_transit')">{{ __('global.en_transition')}}</button>
+
+                <button type="button" *ngIf="commande.statut == 'EN_TRANSIT'" [disabled]="isDisabled"
+                class="btn btn-primary" (click)="valider('livree')">{{ __('global.livrer')}}</button>
+
             <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
         </div>
-
+ 
 
 
 

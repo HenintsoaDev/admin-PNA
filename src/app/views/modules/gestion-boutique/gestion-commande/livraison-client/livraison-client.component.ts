@@ -130,7 +130,7 @@ export class LivraisonClientComponent extends Translatable implements OnInit {
 
   ]
   
-    searchGlobal = [ 'livraison.reference', 'livraison.date_expedition','livraison.date_livraison_prevue','livraison.numero_suivi', 'commandeClient.reference', "commandeClient.utilisateur.nom"]
+    searchGlobal = [ 'livraison.reference', 'livraison.date_expedition','livraison.date_livraison_prevue','livraison.numero_suivi','entrepot.nom', 'commandeClient.reference']
    
     /***************************************** */
   
