@@ -1,0 +1,218 @@
+::ng-deep .cdk-overlay-container,
+::ng-deep .cdk-overlay-pane {
+    z-index: 2000 !important;
+    /* Assure-toi que c'est supérieur à celui du modal Bootstrap (généralement 1050) */
+}
+
+/****/
+.wrapper {
+    margin-bottom: 20px;
+}
+
+.status-EN_ATTENTE { background: #f0ad4e; }
+.status-VALIDEE { background: #5cb85c; }
+.status-PAYEE { background: #0B57D0; }
+.status-REJETEE { background: #B41D01; }
+
+  
+.status-label {
+    font-weight: 800;
+    margin-right: 8px;
+    color: #334155;
+}
+
+.btn-taux{
+  padding: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+
+}
+
+.status-badge {
+    color: #ffffff;
+    font-weight: 800;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}
+
+
+
+.co-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 6px 14px rgba(18, 38, 63, 0.12);
+    margin-top: 2px;
+    margin-right: 5px;
+  }
+  
+  .co-dot-EN_ATTENTE { background: #f0ad4e; }
+  .co-dot-VALIDEE { background: #5cb85c; }
+  .co-dot-PAYEE { background: #0B57D0; }
+  .co-dot-REJETEE { background: #B41D01; }
+  
+  .co-timeline {
+    position: relative;
+    padding-left: 42px;
+  }
+  
+  .co-timeline::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: rgba(15, 23, 42, 0.10);
+    border-radius: 99px;
+  }
+  
+  .co-timeline-item {
+    position: relative;
+    padding: 3px 0 5px;
+  }
+  
+  .co-timeline-item:last-child {
+    padding-bottom: 6px;
+  }
+  
+  .co-timeline-item .so-dot {
+    position: absolute;
+    left: 8px;
+    top: 10px;
+  }
+  
+  .co-timeline-content {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 10px 24px rgba(18, 38, 63, 0.04);
+  }
+  
+  .co-timeline-title {
+    font-weight: 900;
+    color: #0f172a;
+    font-size: 16px;
+  }
+  
+  .co-timeline-meta {
+    margin-top: 4px;
+    color: #94a3b8;
+    font-weight: 700;
+  }
+  
+
+
+
+.so-doc-count {
+    color: #64748b;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  
+  .so-doc-list {
+    display: grid;
+    gap: 12px;
+  }
+  
+  .so-doc-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  
+  .so-doc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  
+  .so-doc-ico {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1d4ed8;
+  }
+  
+  .so-doc-name {
+    font-weight: 900;
+    color: #0f172a;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 460px;
+    font-size: 15px;
+  }
+  
+  .so-doc-mid {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-left: 14px;
+    margin-right: 14px;
+    color: #64748b;
+    font-weight: 800;
+    white-space: nowrap;
+    font-size: 15px;
+  }
+  
+  .so-doc-type {
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    font-size: 15px;
+  }
+  
+  .so-doc-type-technique { color: #1d4ed8; }
+  .so-doc-type-financier { color: #16a34a; }
+  .so-doc-type-administratif { color: #7c3aed; }
+  .so-doc-type-neutral { color: #64748b; }
+  
+  .so-doc-date {
+    color: #94a3b8;
+    font-size: 15px;
+  }
+  
+  .so-doc-download {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 900;
+    color: #1d4ed8;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .so-doc-download:hover {
+    text-decoration: none;
+    background: #f1f5f9;
+  }
+  
+  .so-doc-add {
+    margin-top: 6px;
+    padding: 18px;
+    border: 2px dashed rgba(148, 163, 184, 0.55);
+    border-radius: 14px;
+    background: rgba(248, 250, 252, 0.7);
+    color: #64748b;
+    font-weight: 900;
+    text-align: center;
+  }
+  

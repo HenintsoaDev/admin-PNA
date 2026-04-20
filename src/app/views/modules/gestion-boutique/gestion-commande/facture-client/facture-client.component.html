@@ -1,0 +1,483 @@
+<div class="main-content">
+    <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-primary">
+                        <div class="button-container">
+                            <div class="left-buttons">
+                               <button class="btn btn-secondary export-btn excel text-white">
+                                    {{ __('global.export_excel') }} <img src="assets/img/icons8-export-excel-48.png" alt="Excel Icon">
+                                </button>
+                                <button class="btn btn-secondary export-btn pdf text-white">
+                                    {{ __('global.export_pdf') }} <img src="assets/img/pdf.jpeg" alt="PDF Icon">
+                                </button>
+                            </div>
+                            <div class="right-button">
+                                <button *ngIf="autority('GSF_2')" class="btn btn-secondary" (click)="openModalAdd(addfacture)"> {{ __("facture.add")}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <app-table
+                                [endpoint]="endpoint"
+                                [headerTable]="header"
+                                [body]="objetBody"
+                                [listIcon]="listIcon"
+                                [formSearch]="false"
+                                [searchGlobal]="searchGlobal">
+                            </app-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #detailfacture>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <mat-tab-group>
+            <mat-tab label="Information du facture">
+              <br />
+
+
+              <div class="so-surface mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.numero")}}</div>
+                            <div class="so-v">{{ facture.numero  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.commande")}}</div>
+                            <div class="so-v">{{ facture.commande_reference  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.montant_ht")}}</div>
+                            <div class="so-v">{{ formatNumber(facture.montant_ht, ' ')  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k mb-3">{{ __('commande.statut') }}</div>
+                            <div class="so-v">
+                              <span class="status-badge" [ngClass]="getStatusBadgeClass(facture.statut)">
+                                {{ getStatusLabel(facture.statut) }}
+                              </span>
+                            </div>
+                          </div>
+                      
+                  
+                      
+                    </div>
+                    <div class="col-md-6">
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.date_facture")}}</div>
+                            <div class="so-v">{{ facture.date_facture  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.client")}}</div>
+                            <div class="so-v">{{ facture.client_nom_complet  }}</div>
+                        </div>
+                        <div class="so-kv">
+                            <div class="so-k">{{ __("facture.montant_ttc")}}</div>
+                            <div class="so-v">{{ formatNumber(facture.montant_ttc, ' ')  }}</div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+      
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <i class="fa fa-paperclip mr-2"></i>{{ __('soumissions.tab_documents') }}
+                </ng-template>
+                <br />
+                <ng-container *ngIf="getDocuments(facture) as docs">
+                  <div class="so-doc-count">{{ docs.length }} {{ __('soumissions.documents_soumis') }}</div>
+        
+                  <div class="so-doc-list" *ngIf="docs.length; else noDocs">
+                    <div class="so-doc-item" *ngFor="let d of docs">
+                      <div class="so-doc-left">
+                        <div class="so-doc-ico">
+                          <i [class]="getDocIconClass(d.type_document)"></i>
+                        </div>
+                        <div class="so-doc-name">{{ d.nom_fichier || '-' }}</div>
+                      </div>
+        
+                      <div class="so-doc-mid">
+                        <span class="so-doc-type" [ngClass]="getDocTypeClass(d.type_document)">
+                          {{ (d.type_document || '-') | uppercase }}
+                        </span>
+                        <span class="so-doc-date">
+                          {{ d.date_creation ? (d.date_creation | date: 'dd/MM/yyyy') : '-' }}
+                        </span>
+                      </div>
+        
+                      <div class="so-doc-right">
+                        <a class="so-doc-download" [href]="d.url" target="_blank" rel="noopener">
+                          <i class="fa fa-download mr-2"></i>{{ __('soumissions.telecharger') }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <ng-template #noDocs>
+                    <div class="so-surface">
+                      <div class="so-empty">{{ __('soumissions.no_documents') }}</div>
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  <i class="fa fa-history mr-2"></i>{{ __('commande.tab_historique') }}
+                </ng-template>
+                <br />
+                <div class="co-timeline" *ngIf="facture.historiques?.length; else noHistorique">
+                  <div class="co-timeline-item" *ngFor="let h of facture.historiques">
+                    
+                    <div class="co-timeline-content mt-2">
+                      <div class="co-timeline-title d-flex"> <div class="co-dot" [ngClass]="getCommandeStatusDotClass(h.nouveau_statut)"></div> {{ h.action || '-' }}</div>
+                      <div class="co-timeline-meta">
+                       <span *ngIf="h.created_at">
+                         {{ h.created_at ? (h.created_at) : '-' }}
+                       </span>
+                        <span class="mx-1">•</span>
+                        {{ __('commande.par') }} : <span class="so-muted">{{ getHistoriqueUserLabel(h) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noHistorique>
+                  <div class="so-surface">
+                    <div class="so-empty">{{ __('commande.no_historique') }}</div>
+                  </div>
+                </ng-template>
+              </mat-tab> 
+
+
+            <!-- <mat-tab label="Liste des catégories">
+                <br />
+        
+                <div class="categories-container">
+                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
+                      <b class="gras">{{ categorie.code }}</b><br>
+                      {{ categorie.nom }}
+                
+                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
+                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
+                          {{ sous.code }} - {{ sous.nom }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </mat-tab> -->
+      
+                   
+          </mat-tab-group>
+
+
+      
+
+        <div class="modal-footer">
+            <button type="button" *ngIf="facture.statut == 'EN_ATTENTE' && autority('GSF_1')"  [disabled]="isDisabled"
+            class="btn " style="background-color: #a03c00;"  (click)="valider('REJETEE')">{{ __('global.rejeter')}}</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+        </div>
+       
+    </div>
+</ng-template>
+
+
+
+<!-- MODAL -->
+ <!-- Modal avec Material Design -->
+ <ng-template #addfacture>
+    <div class="modal-header btn-primary">
+        <h5 class="modal-title" id="myModalLabel"><b> {{ titleModal }}</b></h5>
+        <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="factureForm" (ngSubmit)="addFactureClient()">
+            <div class="modal-body">
+
+               
+              <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group"> 
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{ __('facture.type_structure')}}</mat-label>
+                            <mat-select  (selectionChange)="recupererSanitaire($event)" name="type_sanitaire_id" formControlName="type_sanitaire_id" >
+                              <!-- Champ de recherche -->
+                              <mat-option>
+                                <input matInput placeholder="Rechercher..." [formControl]="searchControlType" (click)="$event.stopPropagation()" />
+                              </mat-option>
+                          
+                              <!-- Affichage des options filtrées -->
+                              <mat-option *ngFor="let type of filteredTypes" [value]="type.id"> {{ type.nom }} </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+    
+                    
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group"> 
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{ __('facture.structure')}}</mat-label>
+                            <mat-select (selectionChange)="recupererCommande($event)" name="structure_id" formControlName="structure_id" >
+                              <!-- Champ de recherche -->
+                              <mat-option>
+                                <input matInput placeholder="Rechercher..." [formControl]="searchControlStructure" (click)="$event.stopPropagation()" />
+                              </mat-option>
+                          
+                              <!-- Affichage des options filtrées -->
+                              <mat-option *ngFor="let structure of filteredStructures" [value]="structure.id"> {{ structure.nom }} </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+
+                <div class="row">
+                    
+                    <div class="col-lg-6">
+                        <div class="form-group" style="margin-top: 39px;"> 
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ __('facture.commande')}}</mat-label>
+                                <mat-select name="commande_client_id" formControlName="commande_client_id" >
+                                  <!-- Champ de recherche -->
+                                  <mat-option>
+                                    <input matInput placeholder="Rechercher..." [formControl]="searchControlCommande" (click)="$event.stopPropagation()" />
+                                  </mat-option>
+                              
+                                  <!-- Affichage des options filtrées -->
+                                  <mat-option *ngFor="let commande of filteredCommandes" [value]="commande.id"> {{ commande.reference }} </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                          <label for="dateFonction">{{ __("facture.date_facture") }}</label>
+                          <mat-form-field appearance="fill" style="width: 100%">
+                              <input matInput [matDatepicker]="pickerDebut" name="date_facture" formControlName="date_facture"
+                                  placeholder="{{ __('global.select_date') }}" (focus)="pickerDebut.open()" />
+                              <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+                              <mat-datepicker #pickerDebut></mat-datepicker>
+                          </mat-form-field>
+                      </div>
+                    
+                  </div>
+
+                
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.montant_ht')}}</mat-label>
+                                <input matInput type="text"  placeholder="{{ __('facture.montant_ht')}}" (input)="calculTTC()"  oninput="this.value = this.value.replace(/[^0-9]/g, '')" formControlName="montant_ht" name="montant_ht">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>{{ __('facture.montant_tva')}}</mat-label>
+                                    <div style="  text-align: center;">
+
+                                      <span 
+                                              color="warn"
+                                              class="btn-taux"
+                                              (click)="diminuerTaux()">
+                                          -
+                                      </span>
+                      
+                                      <input matInput
+                                            type="text"
+                                            formControlName="montant_tva"
+                                            readonly
+                                            style="text-align:center; width:70px;">
+                      
+                                      <span 
+                                              class="btn-taux"
+                                              color="primary"
+                                              (click)="augmenterTaux()">
+                                          +
+                                      </span>
+                      
+                                    </div>                            
+                                </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                          <mat-form-field>
+                              <mat-label>{{ __('facture.montant_ttc')}}</mat-label>
+                              <input matInput type="text"   placeholder="{{ __('facture.montant_ttc')}}"  readonly oninput="this.value = this.value.replace(/[^0-9]/g, '')"  formControlName="montant_ttc" name="montant_ttc">
+                          </mat-form-field>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                 
+
+                  
+                </div>
+
+                <div class="row">
+                 
+
+                  <div class="col-lg-6">
+                            <!-- Documents Section -->
+                          <div class="text-primary mb-3">
+                          <input  type="file" #fileInputPdf (change)="onFilesPdfSelected($event)" accept="application/pdf" style="display: none;" />
+                          
+                          <div class="d-flex align-items-center gap-3">
+                              <div class="row">
+                                  <div class="col-lg-8">
+                                      <label class="form-label text-primary small mb-2">{{__('facture.selection_fiche')}}</label>
+                                      <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFilesPdf.length === 1" (click)="fileInputPdf.click()">
+                                          <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                                      </button>
+                                  </div>
+
+                                  <div class="col-lg-4">
+                                    <div *ngIf="uploadedFilesPdf.length > 0" class="d-flex flex-wrap gap-3">
+
+                                        <div *ngFor="let f of uploadedFilesPdf" class="position-relative">
+              
+                                          <!-- PDF ICON -->
+                                          <div class="d-flex flex-column align-items-center justify-content-center" style=" height: 120px;" >
+                                            <i class="fa fa-file-pdf-o text-danger" style="font-size: 48px;"></i>
+                                            <small class="text-center mt-2">{{ f.name }}</small>
+                                          </div>
+                                        
+                                          <!-- REMOVE ICON -->
+                                          <i
+                                            class="fa fa-times-circle text-danger position-absolute"
+                                            style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                                            (click)="removeFilePdf(f)">
+                                          </i>
+                                        
+                                        </div>
+                                  
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                      </div>
+                 </div>
+
+                 <div class="col-lg-6">
+                              <!-- Documents Section -->
+                            <div class="text-primary mb-3">
+                            <input  type="file" #fileInput (change)="onFilesSelected($event)" accept=".jpg,.jpeg,.png,.webp,.pdf" style="display: none;" />
+                            
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <label class="form-label text-primary small mb-2">{{__('facture.selection_autre_document')}}</label>
+                                        <button type="button" class="btn btn-outline-primary"  [disabled]="uploadedFiles.length === 1" (click)="fileInput.click()">
+                                            <i class="fa fa-plus me-2"></i> {{ __('global.add') }}
+                                        </button>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                      <div *ngIf="uploadedFiles.length > 0" class="d-flex flex-wrap gap-3">
+
+                                          <div *ngFor="let f of uploadedFiles" class="position-relative">
+                
+                                              <!-- PDF ICON -->
+                                            <div class="d-flex flex-column align-items-center justify-content-center" style=" height: 120px;" *ngIf="!f.preview">
+                                              <i class="fa fa-file-pdf-o text-danger" style="font-size: 48px;"></i>
+                                              <small class="text-center mt-2">{{ f.name }}</small>
+                                            </div>
+
+                                              <!-- IMAGE PREVIEW -->
+                                            <img *ngIf="f.preview"
+                                            [src]="f.preview"
+                                            class="rounded border"
+                                            style="width: 120px; height: 120px; object-fit: cover;" />
+                                    
+                                          
+                                            <!-- REMOVE ICON -->
+                                            <i
+                                              class="fa fa-times-circle text-danger position-absolute"
+                                              style="top: -6px; right: -6px; cursor: pointer; font-size: 20px;"
+                                              (click)="removeFile(f)">
+                                            </i>
+                                          
+                                          </div>
+                                    
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                  </div>
+
+
+                </div>
+
+                  
+
+
+              
+
+              
+             
+
+               
+
+                
+
+                
+               
+               
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
+                <button type="submit" class="btn btn-primary" *ngIf="!facture.id" [disabled]="factureForm.invalid">{{ __('global.save')}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

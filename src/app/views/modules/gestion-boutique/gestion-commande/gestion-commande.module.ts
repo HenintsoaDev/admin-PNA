@@ -21,13 +21,15 @@ import { CommandeAchatComponent } from './commande-achat/commande-achat.componen
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { LivraisonClientComponent } from './livraison-client/livraison-client.component';
+import { FactureClientComponent } from './facture-client/facture-client.component';
 
 
 @NgModule({
   declarations: [
     CommandesComponent,
     CommandeAchatComponent,
-    LivraisonClientComponent
+    LivraisonClientComponent,
+    FactureClientComponent
   ],
   imports: [
     CommonModule,

@@ -53,15 +53,17 @@ export const environment = {
   soumission: 'admin/gestion_fournisseurs/soumissions',
   liste_fournisseur_active: 'admin/gestion_fournisseurs/fournisseurs/active',
   livraison_fournisseur: 'admin/gestion_fournisseurs/livraison_fournisseurs',
-  facture: 'admin/gestion_fournisseurs/facture_fournisseurs',
+  facture_fournisseur: 'admin/gestion_fournisseurs/facture_fournisseurs',
 
   //** Gestion des commandes */
   commande: 'admin/gestion_commandes/commandes',
   commande_achat: 'admin/gestion_commandes/commande_achats',
   liste_commande_achat_active: 'admin/gestion_commandes/commande_achats/active',
   livraison_client: 'admin/gestion_commandes/livraison_client',
+  facture_client: 'admin/gestion_commandes/facture_clients',
+  liste_commande_active: 'admin/gestion_commandes/commandes/active',
 
- 
+  
   //** Gestion des produits */
   famille: 'admin/gestion_produits/familles',
   liste_famille_active: 'admin/gestion_produits/familles/active',
