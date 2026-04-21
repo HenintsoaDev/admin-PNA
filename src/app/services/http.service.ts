@@ -26,6 +26,16 @@ export class HttpService {
         return this.http.get<T>(`${environment.baseUrl}/${endpoint}`, valuesys.httpAuthOptions() );
     }
 
+    getBlob(endpoint: string): Observable<Blob> {
+        return this.http.get(
+          `${environment.baseUrl}/${endpoint}`,
+          {
+            ...valuesys.httpAuthOptions(),
+            responseType: 'blob'
+          }
+        );
+    }
+
     post<T>(endpoint: string, data: any): Observable<T> {
         return this.http.post<T>(`${environment.baseUrl}/${endpoint}`, data, valuesys.httpAuthOptions() );
     }

@@ -139,6 +139,14 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
       'autority' : 'GSC_2'
     },
 
+    {
+      'icon' : 'download',
+      'action' : 'generate',
+      'tooltip' : this.__('global.tooltip_generate_bon_commande'),
+      'autority' : 'GSC_2',
+  
+    },
+
 
   ]
   searchGlobal = ['commande_achat.date_commande', 'fournisseur.raison_sociale','commande_achat.reference']
@@ -250,6 +258,7 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
         if(event.data.action == 'edit_commande_achat') this.openModalEditCommande();
         else if (event.data.action == 'detail') this.openModalcommande();
+        else if(event.data.action == 'generate') this.generateBonCommande();
 
         // Nettoyage immédiat de l'event
 
@@ -290,6 +299,27 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
   }
   
 
+  async generateBonCommande(){
+
+    this.commandeService.generateBonCommande(this.idcommande).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+    
+        const a = document.createElement('a');
+        a.href = fileURL;
+        a.download = 'bon_commandes.pdf';
+        a.click();
+    
+        window.URL.revokeObjectURL(fileURL);
+      },
+        error: (err) => {
+          this.toastr.error('Impossible de télécharger le PDF');
+        }
+    }); 
+
+
+
+  }
   filtreTableau() {
 
     const date_debut = moment(this.dateDebut).format('yyyy-MM-DD');

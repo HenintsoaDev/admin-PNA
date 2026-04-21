@@ -123,6 +123,7 @@
         "tooltip_delete": "Suppression",
         "tooltip_detail": "Voir les détails",
         "tooltip_lier": "Lier à un compte",
+        "tooltip_generate_bon_commande" : "Générer bon de commmande",
         "le": "le",
         "valider": "Valider",
         "reject": "Rejeter",
@@ -756,7 +757,8 @@
         "selection_fiche" : "Joindre du document",
         "selection_autre_document" : "Pièce joint suplementaire",
         "type_structure":"Type structure",
-        "structure" :"Structure sanitaire"
+        "structure" :"Structure sanitaire",
+        "list_facture" : "Liste des factures"
 
 
 

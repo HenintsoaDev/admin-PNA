@@ -23,6 +23,12 @@ export class FactureClientService {
         return this.httpService.put<any>(environment.facture_client + '/' + idCompte + '/state/' + type, body);
     }
 
+    generateFacture(idfacture: number): Observable<Blob> {
+      return this.httpService.getBlob(
+        `${environment.facture_client}/${idfacture}/generate-facture`
+      );
+    }
+
     ajoutFactureClient(credentials: any): Observable<any> {
       return this.httpService.post<any>(environment.facture_client, credentials);
   }

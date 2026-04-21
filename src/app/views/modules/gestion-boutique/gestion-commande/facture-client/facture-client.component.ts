@@ -9,7 +9,6 @@ import { Translatable } from 'shared/constants/Translatable';
 import Swal from 'sweetalert2';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'app/services/auth.service';
-import {  } from 'app/services/boutique/fournisseurs/facture_fournisseur.service';
 import formatNumber from 'number-handler'
 import { FactureClientService } from 'app/services/boutique/commandes/facture_client.service';
 import moment from 'moment';
@@ -33,7 +32,7 @@ header = [
   {
     "nomColonne" : this.__('facture.numero'),
     "colonneTable" : "numero",
-    "table" : "facture_fournisseur"
+    "table" : "facture_client"
   },
   {
     "nomColonne" : this.__('facture.client'),
@@ -48,23 +47,23 @@ header = [
   {
     "nomColonne" : this.__('facture.date_facture'),
     "colonneTable" : "date_facture",
-    "table" : "facture_fournisseur"
+    "table" : "facture_client"
   },
 
   {
     "nomColonne" : this.__('facture.montant_ht'),
     "colonneTable" : "montant_ht",
-    "table" : "facture_fournisseur"
+    "table" : "facture_client"
   },
   {
     "nomColonne" : this.__('facture.montant_ttc'),
     "colonneTable" : "montant_ht",
-    "table" : "facture_fournisseur"
+    "table" : "facture_client"
   },
   {
     "nomColonne": this.__('facture.statut'),
     "colonneTable": "statut",
-    "table": "facture_fournisseur"
+    "table": "facture_client"
   },
   
   {
@@ -119,9 +118,10 @@ listIcon = [
 
   },
 
+
 ]
 
-  searchGlobal = [ 'facture_fournisseur.numero', 'facture_fournisseur.date_facture','facture_fournisseur.montant_ht','facture_fournisseur.montant_ttc', 'commandeAchat.reference', 'fournisseur.raison_sociale']
+  searchGlobal = [ 'facture_client.numero', 'facture_client.date_facture','facture_client.montant_ht','facture_client.montant_ttc', 'commandeAchat.reference', 'fournisseur.raison_sociale']
 
   /***************************************** */
 
@@ -492,13 +492,15 @@ subscription: Subscription;
     this.facture = new facture();
     this.initForm();
     this.actualisationSelectType();
+    this.uploadedFiles = [];
+    this.uploadedFilesPdf = [];
     this.modalRef = this.modalService.show(template, {
       class: 'modal-lg',
       backdrop: 'static',
       keyboard: false
     });
   }
-
+  
 
   async actualisationSelectType(){
     let type_structure = await this.authService.getSelectList(environment.liste_type_structure_active,['nom']);
@@ -666,5 +668,57 @@ valider(type) {
     }
   });
 }
+
+
+
+  async exportExcel() {
+    const storedData = localStorage.getItem('data');
+    let result: any;
+    if (storedData) result = JSON.parse(storedData);
+
+    let title = this.__("facture.list_facture") ;
+
+    this.authService.exportExcel(this.print(result.data), title).then(
+      (response: any) => {
+        const a = document.createElement("a");
+        a.href = response.data;
+        a.download = `${this.__("facture.list_facture")}.xlsx`;
+        a.click();
+      },
+      (error: any) => { console.log(error) }
+    );
+  }
+
+  async exportPdf() {
+    const storedData = localStorage.getItem('data');
+    let result: any;
+    if (storedData) result = JSON.parse(storedData);
+
+
+
+    let title = this.__("facture.list_facture") ;
+
+    this.authService.exportPdf(this.print(result.data), title).then(
+      (response: any) => { },
+      (error: any) => { console.log(error) }
+    );
+  }
+
+  print(factures: any[]) {
+    const tab = factures.map((facture: any, index: number) => {
+      const t: any = {};
+      t[this.__('facture.numero')] = facture.numero;
+      t[this.__('facture.client')] = facture.client_nom_complet;
+      t[this.__('facture.commande')] = facture.commande_reference;
+      t[this.__('facture.date_facture')] = facture.date_facture;
+      t[this.__('facture.montant_ht')] = facture.montant_ht;
+      t[this.__('facture.montant_ttc')] = facture.montant_ttc;
+      t[this.__('facture.statut')] = this.getStatusLabel(facture.statut);
+
+      return t;
+    });
+
+    return tab;
+  }
 
 }

@@ -105,6 +105,14 @@ export class CommandesComponent extends Translatable implements OnInit {
       'autority': 'GSC_2',
 
     },
+    {
+      'icon' : 'download',
+      'action' : 'generate',
+      'tooltip' : this.__('global.tooltip_generate_bon_commande'),
+      'autority' : 'GSC_2',
+  
+    },
+    
 
 
   ]
@@ -185,6 +193,7 @@ export class CommandesComponent extends Translatable implements OnInit {
         this.idcommande = event.data.id;
 
         if (event.data.action == 'detail') this.openModalcommande();
+        else if(event.data.action == 'generate') this.generateFacture();
 
         // Nettoyage immédiat de l'event
 
@@ -232,6 +241,28 @@ export class CommandesComponent extends Translatable implements OnInit {
     this.passageService.appelURL(filtreDate, this.endpoint);
   }
 
+
+  async generateFacture(){
+
+    this.commandeService.generateBonCommande(this.idcommande).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = window.URL.createObjectURL(blob);
+    
+        const a = document.createElement('a');
+        a.href = fileURL;
+        a.download = 'bon_commandes.pdf';
+        a.click();
+    
+        window.URL.revokeObjectURL(fileURL);
+      },
+        error: (err) => {
+          this.toastr.error('Impossible de télécharger le PDF');
+        }
+    }); 
+
+
+
+  }
  
 
   // Detail d'un modal

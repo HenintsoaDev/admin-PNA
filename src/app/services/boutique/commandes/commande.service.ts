@@ -40,6 +40,12 @@ export class CommandeService {
         return this.httpService.delete<any>(environment.commande_achat + '/ligne/' + id,);
     }
 
+    generateBonCommande(idCommande: number): Observable<Blob> {
+        return this.httpService.getBlob(
+          `${environment.commande_achat}/${idCommande}/generate-bon-commande`
+        );
+      }
+
    
 
 }
