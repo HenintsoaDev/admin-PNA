@@ -301,13 +301,23 @@ export class CommandeAchatComponent extends Translatable implements OnInit {
 
   async generateBonCommande(){
 
+
+    const storedData = localStorage.getItem('data');
+    let result : any;
+    if (storedData) result = JSON.parse(storedData);
+  
+    // Filtrer le tableau par rapport à l'ID et afficher le résultat dans le formulaire.
+    const res = result.data.filter(_ => _.id == this.idcommande);
+    let commande = res[0];
+    
+
     this.commandeService.generateBonCommande(this.idcommande).subscribe({
       next: (blob: Blob) => {
         const fileURL = window.URL.createObjectURL(blob);
     
         const a = document.createElement('a');
         a.href = fileURL;
-        a.download = 'bon_commandes.pdf';
+        a.download = 'bon_commande-' + commande.reference+ '.pdf';
         a.click();
     
         window.URL.revokeObjectURL(fileURL);
