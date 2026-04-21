@@ -518,7 +518,7 @@ subscription: Subscription;
 
     let endpointCommande = "";
 
-    if (idStructure != null) endpointCommande = environment.liste_commande_active + "?where=structure_sanitaire_id|e|" + idStructure;
+    if (idStructure != null) endpointCommande = environment.liste_commande_active + "?where=commande_client.structure_sanitaire_id|e|" + idStructure;
     else endpointCommande = environment.liste_commande_active;
 
     
