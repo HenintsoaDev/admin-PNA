@@ -328,17 +328,10 @@
                 
                         <div class="col name">
                             <label><b class="fw-800">{{ __("commande.produit")}}</b></label>
-                            <h6><b class="bold">{{ligne.lot?.produit?.nom_commercial}} ({{ligne.lot?.produit?.code}})</b></h6>
+                            <h6><b class="bold">{{ligne.ligne_commande?.produit?.nom_commercial}} ({{ligne.ligne_commande?.produit?.code}})</b></h6>
                         </div>
-                        <div class="col name">
-                            <label><b class="fw-800">{{ __("livraison.lot")}}</b></label>
-                            <h6><b class="bold">{{ligne.lot?.numero_lot}} </b></h6>
-                        </div>
-                        <div class="col qty">
-                            <label><b class="fw-800">{{ __("livraison.quantite")}}</b></label>
-                            <h6><b class="bold">{{ligne.lot?.quantite}}</b></h6>
-        
-                        </div>
+                       
+                      
                         <div class="col qty_livree">
                             <label><b class="fw-800">{{ __("livraison.quantite_livree")}}</b></label>
                             <h6><b class="bold">{{ligne.quantite_livree}}</b></h6>
@@ -346,7 +339,7 @@
                         </div>
                         <div class="col price">
                             <label><b class="fw-800">{{ __("livraison.prix_unitaire")}}</b></label>
-                            <h6><b class="bold">{{ formatNumber(ligne.lot?.produit?.prix_unitaire, ' ') }}</b></h6>
+                            <h6><b class="bold">{{ formatNumber(ligne.ligne_commande?.produit?.prix_unitaire, ' ') }}</b></h6>
                         </div>
                        
                 
@@ -360,13 +353,13 @@
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.dci")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit.dci }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit.dci }}</b></h6>
                                     </div>
                                 </td>
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.prix_unitaire")}}</b></label>
-                                        <h6><b class="bold">{{  formatNumber(ligne.lot?.produit.prix_unitaire, ' ') }}</b></h6>
+                                        <h6><b class="bold">{{  formatNumber(ligne.ligne_commande?.produit.prix_unitaire, ' ') }}</b></h6>
                                     </div>
                                 </td>
                             </tr>
@@ -381,13 +374,13 @@
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.conditionnement")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit.conditionnement }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit.conditionnement }}</b></h6>
                                     </div>
                                 </td>
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.forme")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit?.forme?.nom }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit?.forme?.nom }}</b></h6>
                                     </div>
                                 </td>
                                
@@ -397,14 +390,14 @@
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.dosage")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit.dosage }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit.dosage }}</b></h6>
                                     </div>
                                 </td>
                              
                                 <td >
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.sous_categorie")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit.sous_categorie?.nom }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit.sous_categorie?.nom }}</b></h6>
                                     </div>
                                 </td>
                             </tr>
@@ -413,7 +406,7 @@
                                 <td colspan="2">
                                     <div class="alert alert-custom">
                                         <label><b class="fw-800">{{ __("produit.description")}}</b></label>
-                                        <h6><b class="bold">{{  ligne.lot?.produit.description }}</b></h6>
+                                        <h6><b class="bold">{{  ligne.ligne_commande?.produit.description }}</b></h6>
                                     </div>
                                 </td>
                                
@@ -422,11 +415,11 @@
                             <tr>
                                 <td colspan="2">
         
-                                    <div class="row" *ngIf="ligne.lot?.produit?.images?.length != 0">
+                                    <div class="row" *ngIf="ligne.ligne_commande?.produit?.images?.length != 0">
         
                   
         
-                                        <div class="col-lg-2 text-center d-flex flex-column align-items-center" *ngFor="let document of ligne.lot?.produit?.images">
+                                        <div class="col-lg-2 text-center d-flex flex-column align-items-center" *ngFor="let document of ligne.ligne_commande?.produit?.images">
                       
                                             <img
                                               [src]="document.url"

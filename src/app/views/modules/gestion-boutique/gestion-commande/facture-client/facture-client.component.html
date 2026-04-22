@@ -183,23 +183,6 @@
                 </ng-template>
               </mat-tab> 
 
-
-            <!-- <mat-tab label="Liste des catégories">
-                <br />
-        
-                <div class="categories-container">
-                    <div class="categorie-card" *ngFor="let categorie of famille.categories">
-                      <b class="gras">{{ categorie.code }}</b><br>
-                      {{ categorie.nom }}
-                
-                      <div class="sous-categories" *ngIf="categorie.sous_categories.length > 0">
-                        <div class="sous-categorie" *ngFor="let sous of categorie.sous_categories">
-                          {{ sous.code }} - {{ sous.nom }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </mat-tab> -->
       
                    
           </mat-tab-group>
@@ -208,8 +191,6 @@
       
 
         <div class="modal-footer">
-           <!--  <button type="button" *ngIf="facture.statut == 'EN_ATTENTE' && autority('GSF_1')"  [disabled]="isDisabled"
-            class="btn " style="background-color: #a03c00;"  (click)="valider('REJETEE')">{{ __('global.rejeter')}}</button> -->
             <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ __('global.cancel')}}</button>
         </div>
        
